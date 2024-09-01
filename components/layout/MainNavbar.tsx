@@ -9,10 +9,26 @@ import {
   IconSelectArrows,
   IconUser,
 } from '../icons/Icons';
+import { useMotionValueEvent, useScroll } from 'framer-motion';
+import { useState } from 'react';
 
 const MainNavbar: React.FC = () => {
+  const [fillBackground, setFillBackground] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    if (latest > 200) {
+      setFillBackground(true);
+    } else {
+      setFillBackground(false);
+    }
+  });
   return (
-    <nav className="px-[10%] w-full h-[110px] py-5 flex items-center justify-between fixed top-0 left-0 ">
+    <nav
+      className={`px-[10%] w-full h-[110px] py-5 z-10 flex items-center justify-between fixed top-0 left-0 duration-300 ${
+        fillBackground ? 'bg-white' : null
+      }`}
+    >
       {/* left section */}
       <section className="flex items-center">
         {/* logo */}
@@ -60,13 +76,13 @@ const MainNavbar: React.FC = () => {
         <button>
           <IconHeart />
         </button>
-        {/* <button className="flex items-center gap-5">
+        <button className="flex items-center gap-5">
           <IconUser />
           <p>Sandro</p>
-        </button> */}
-        <button className="bg-primary-red py-2 px-10 text-white font-semibold rounded-3xl">
-          JOIN
         </button>
+        {/* <button className="bg-primary-red py-2 px-10 text-white font-semibold rounded-3xl">
+          JOIN
+        </button> */}
       </section>
     </nav>
   );
