@@ -11,3 +11,5 @@ export { IconTruck } from './IconTruck';
 export { IconWallet } from './IconWallet';
 export { IconHeadset } from './IconHeadset';
 export { IconCard } from './IconCard';
+export { IconStar } from './IconStar';
+export { IconEye } from './IconEye';
