@@ -5,11 +5,13 @@ import Services from './Services';
 
 const Landing: React.FC = () => {
   return (
-    <div className="px-[10%]">
-      <Hero />
-      <Services />
-      <BestSellers />
-      {/* <FlashSales /> */}
+    <div>
+      <section className="px-[10%]">
+        <Hero />
+        <Services />
+        <BestSellers />
+      </section>
+      <FlashSales />
     </div>
   );
 };

@@ -5,14 +5,14 @@ import Image from 'next/image';
 
 const BestSellers: React.FC = () => {
   return (
-    <div className="py-20 pt-40 h-[80vh] flex flex-col items-center">
+    <div className="py-20 pt-40 flex flex-col items-center">
       <h1 className="text-4xl mb-10 font-medium text-primary-black">
         Best Seller Products
       </h1>
       <p className="text-base mb-20 font-medium text-primary-gray">
         Check our best seller products on Elma website right now
       </p>
-      <ul className="relative flex flex-wrap gap-48 justify-center py-20">
+      <ul className="relative mb-5 flex flex-wrap gap-48 justify-center py-20 pb-40">
         {DUMMY_BEST_SELLERS.map((product, index) => (
           <li
             key={index}
@@ -62,6 +62,9 @@ const BestSellers: React.FC = () => {
           </li>
         ))}
       </ul>
+      <button className="px-12 py-2 rounded-sm bg-primary-purple text-base font-regular text-white">
+        Discover More!
+      </button>
     </div>
   );
 };
