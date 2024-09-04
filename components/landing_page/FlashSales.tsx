@@ -57,7 +57,7 @@ const FlashSales: React.FC = () => {
         className="w-full h-[450px]"
       />
       <div className="relative py-40 flex flex-col justify-center items-center overflow-hidden bg-black_to_purple text-white">
-        <div className="mb-40 text-center w-1/3">
+        <div className="mb-40 text-center w-[40%]">
           <h1 className="text-[56px] mb-5 text-white font-bold uppercase">
             🚨 Flash Sales 🚨
           </h1>
@@ -102,7 +102,7 @@ const FlashSales: React.FC = () => {
                   className={`${
                     index % 2 !== 0
                       ? 'translate-x-36'
-                      : '-translate-x-36 !max-h-[340px] w-auto'
+                      : '-translate-x-36 !h-[340px] w-auto'
                   }`}
                 />
                 <div

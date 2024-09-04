@@ -1,6 +1,8 @@
 import BestSellers from './BestSellers';
+import Categories from './Categories';
 import FlashSales from './FlashSales';
 import Hero from './Hero';
+import ProductsList from './ProductsList';
 import Services from './Services';
 
 const Landing: React.FC = () => {
@@ -12,6 +14,10 @@ const Landing: React.FC = () => {
         <BestSellers />
       </section>
       <FlashSales />
+      <section className="px-[10%]">
+        <Categories />
+        <ProductsList />
+      </section>
     </div>
   );
 };

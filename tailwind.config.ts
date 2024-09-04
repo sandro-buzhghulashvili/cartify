@@ -29,6 +29,7 @@ const config: Config = {
         'ligher-blue': 'rgba(71, 193, 191, 0.5)',
         'primary-purple': '#43467F',
         'primary-indigo': '#5C6AC4',
+        'primary-blue': '#006FBB',
       },
       boxShadow: {
         'flash-sale-shadow': '#47C1BF 0px 7px 29px 0px;',

@@ -1,5 +1,5 @@
 import { IconCart, IconEye, IconHeart, IconStar } from '../icons/Icons';
-import { DUMMY_BEST_SELLERS } from './BEST_SELLERS';
+import { DUMMY_BEST_SELLERS } from './DUMMY_DATA';
 
 import Image from 'next/image';
 
