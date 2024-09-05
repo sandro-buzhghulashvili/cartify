@@ -1,5 +1,5 @@
 import { formatNumber } from '@/helpers/number_helpers';
-import { DUMMY_CATEGORIES } from './DUMMY_DATA';
+import { DUMMY_CATEGORIES } from '@/helpers/DUMMY_DATA';
 
 const Categories: React.FC = () => {
   return (

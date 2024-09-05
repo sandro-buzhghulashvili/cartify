@@ -1,10 +1,9 @@
 import Image from 'next/image';
-import { DUMMY_PRODUCTS_LIST } from './DUMMY_DATA';
+import { DUMMY_PRODUCTS_LIST } from '@/helpers/DUMMY_DATA';
 import { IconStar, IconChevronRight } from '../icons/Icons';
 import Link from 'next/link';
 
 const ProductsList: React.FC = () => {
-  console.log(DUMMY_PRODUCTS_LIST);
   return (
     <div className="py-20 mb-32">
       <section className="flex justify-between items-center">

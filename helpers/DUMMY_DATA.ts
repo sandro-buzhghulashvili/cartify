@@ -5,7 +5,7 @@ import {
   IconTop,
   IconGamepad,
   IconBasketball,
-} from '../icons/Icons';
+} from '@/components/icons/Icons';
 
 interface Product {
   seller: string;
@@ -168,5 +168,26 @@ export const DUMMY_PRODUCTS_LIST = [
         image: '/jacket_thumb.png',
       },
     ],
+  },
+];
+
+export const DUMMY_TRENDING_COMPANIES = [
+  {
+    image: '/trending_companies/asus.png',
+  },
+  {
+    image: '/trending_companies/xiaomi.png',
+  },
+  {
+    image: '/trending_companies/samsung.png',
+  },
+  {
+    image: '/trending_companies/sony.png',
+  },
+  {
+    image: '/trending_companies/wacom.png',
+  },
+  {
+    image: '/trending_companies/apple.png',
   },
 ];

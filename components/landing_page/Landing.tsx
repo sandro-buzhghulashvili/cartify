@@ -1,9 +1,11 @@
+import InfiniteSlider from '../shared/infinite_slider/InfiniteSlider';
 import BestSellers from './BestSellers';
 import Categories from './Categories';
 import FlashSales from './FlashSales';
 import Hero from './Hero';
 import ProductsList from './ProductsList';
 import Services from './Services';
+import TrendingCompanies from './TrendingCompanies';
 
 const Landing: React.FC = () => {
   return (
@@ -17,6 +19,7 @@ const Landing: React.FC = () => {
       <section className="px-[10%]">
         <Categories />
         <ProductsList />
+        <TrendingCompanies />
       </section>
     </div>
   );

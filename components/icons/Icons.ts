@@ -20,3 +20,8 @@ export { IconTop } from './IconTop';
 export { IconGamepad } from './IconGamepad';
 export { IconBasketball } from './IconBasketball';
 export { IconChevronRight } from './IconChevronRight';
+export { IconFacebook } from './IconFacebook';
+export { IconTwitter } from './IconTwitter';
+export { IconLinkedin } from './IconLinkedin';
+export { IconInstagram } from './IconInstagram';
+export { IconGithub } from './IconGithub';

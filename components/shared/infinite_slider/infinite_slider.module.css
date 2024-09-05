@@ -1,0 +1,23 @@
+.sliders {
+  display: inline-block;
+  white-space: nowrap;
+  animation: slide 8s infinite linear;
+}
+
+.main_slider:hover .sliders {
+  animation-play-state: paused;
+}
+
+.sliders .slider {
+  display: inline-block;
+  margin: 0 40px;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
