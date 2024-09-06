@@ -17,7 +17,7 @@ const MainNavbar: React.FC = () => {
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
-    if (latest > 200) {
+    if (latest > 50) {
       setFillBackground(true);
     } else {
       setFillBackground(false);
@@ -47,7 +47,7 @@ const MainNavbar: React.FC = () => {
         {/* filter bar */}
         <div className="flex items-center ml-20">
           <input
-            className="max-w-[300px] text-sm py-2 px-5 rounded-3xl border-none focus:outline-none placeholder:text-primary-gray"
+            className="min-w-[350px] text-sm py-2 px-5 rounded-3xl border-none focus:outline-none placeholder:text-primary-gray"
             type="text"
             placeholder="Search something"
           />
@@ -76,13 +76,16 @@ const MainNavbar: React.FC = () => {
         <button>
           <IconHeart />
         </button>
-        <button className="flex items-center gap-5">
+        <Link href="/signin" className="flex items-center gap-5">
           <IconUser />
-          <p>Sandro</p>
-        </button>
-        {/* <button className="bg-primary-red py-2 px-10 text-white font-semibold rounded-3xl">
+          <p>Sign in</p>
+        </Link>
+        {/* <Link
+          href="/signup"
+          className="bg-primary-red py-2 px-10 text-white font-semibold rounded-3xl"
+        >
           JOIN
-        </button> */}
+        </Link> */}
       </section>
     </nav>
   );

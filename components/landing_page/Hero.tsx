@@ -2,6 +2,7 @@
 
 import Lottie from 'lottie-react';
 import HeroAnimation from '@/components/lotties/ecommerce.json';
+import Link from 'next/link';
 
 const Hero: React.FC = () => {
   return (
@@ -23,9 +24,12 @@ const Hero: React.FC = () => {
           easier than ever.
         </p>
         <div className="flex items-center gap-10">
-          <button className="px-4 rounded-sm bg-primary-purple py-3 text-base font-regular text-white">
+          <Link
+            href="/signup"
+            className="px-4 rounded-sm bg-primary-purple py-3 text-base font-regular text-white"
+          >
             Get Started
-          </button>
+          </Link>
           <button className="px-4 py-3 rounded-sm border-[1px] border-primary-purple text-primary-indigo">
             Learn More
           </button>

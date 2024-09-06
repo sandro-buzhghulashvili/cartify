@@ -25,3 +25,4 @@ export { IconTwitter } from './IconTwitter';
 export { IconLinkedin } from './IconLinkedin';
 export { IconInstagram } from './IconInstagram';
 export { IconGithub } from './IconGithub';
+export { IconGoogle } from './IconGoogle';

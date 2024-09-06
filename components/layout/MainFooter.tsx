@@ -10,7 +10,7 @@ import {
 
 const MainFooter: React.FC = () => {
   return (
-    <footer className="px-[10%] py-[60px]">
+    <footer className="px-[10%] py-[60px] !absolute bottom-0 w-full left-0 right-0 mx-auto">
       <div className="flex justify-between items-start mb-20">
         <Link href="/" className="flex items-center gap-2">
           <Image
