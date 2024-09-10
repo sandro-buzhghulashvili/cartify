@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const userSchema = z
+export const clientAuthorizationSchema = z
   .object({
     name: z.string().min(1, { message: 'Please type your name' }),
     email: z.string().email({ message: 'Invalid email address' }),
@@ -26,4 +26,4 @@ export const userSchema = z
     path: ['phoneNumberExtension'],
   });
 
-export type UserType = z.infer<typeof userSchema>;
+export type ClientAuthorizationType = z.infer<typeof clientAuthorizationSchema>;

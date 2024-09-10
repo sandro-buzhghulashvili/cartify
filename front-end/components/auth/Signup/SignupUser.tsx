@@ -5,7 +5,10 @@ import {
   IconGoogle,
 } from '@/components/icons/Icons';
 import InputGroup from '@/components/shared/inputs/InputGroup';
-import { userSchema, UserType } from '@/schemas/UserSchema';
+import {
+  clientAuthorizationSchema,
+  ClientAuthorizationType,
+} from '@/schemas/ClientAuthorizationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -23,11 +26,11 @@ const SignupUser: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserType>({
-    resolver: zodResolver(userSchema),
+  } = useForm<ClientAuthorizationType>({
+    resolver: zodResolver(clientAuthorizationSchema),
   });
 
-  const onSubmit: SubmitHandler<UserType> = (data) => {
+  const onSubmit: SubmitHandler<ClientAuthorizationType> = (data) => {
     console.log('Form Data:', data);
   };
   return (
@@ -66,26 +69,30 @@ const SignupUser: React.FC = () => {
           </button>
         </div>
         <div className="flex items-center justify-between">
-          <InputGroup
-            label="Your name"
-            id="name"
-            type="text"
-            placeholder="Type your name"
-            labelStyles="text-sm text-primary-black mb-2 font-normal"
-            register={register('name')}
-            error={errors.name}
-            className="px-5 py-2 text-base outline-none text-primary-black"
-          />
-          <InputGroup
-            label="Email"
-            id="email"
-            type="text"
-            placeholder="name@mail.com"
-            labelStyles="text-sm text-primary-black mb-2 font-normal"
-            register={register('email')}
-            error={errors.email}
-            className="px-5 py-2 text-base outline-none text-primary-black"
-          />
+          <div className="w-1/2">
+            <InputGroup
+              label="Your name"
+              id="name"
+              type="text"
+              placeholder="Type your name"
+              labelStyles="text-sm text-primary-black mb-2 font-normal"
+              register={register('name')}
+              error={errors.name}
+              className="px-5 py-2 text-base outline-none text-primary-black"
+            />
+          </div>
+          <div className="w-1/2">
+            <InputGroup
+              label="Email"
+              id="email"
+              type="text"
+              placeholder="name@mail.com"
+              labelStyles="text-sm text-primary-black mb-2 font-normal"
+              register={register('email')}
+              error={errors.email}
+              className="px-5 py-2 text-base outline-none text-primary-black"
+            />
+          </div>
         </div>
         <div className="flex flex-col">
           <label
@@ -121,26 +128,30 @@ const SignupUser: React.FC = () => {
           )}
         </div>
         <div className="flex items-center justify-between">
-          <InputGroup
-            label="Password"
-            id="password"
-            type="password"
-            placeholder="Type your password"
-            labelStyles="text-sm text-primary-black mb-2 font-normal"
-            register={register('password')}
-            error={errors.password}
-            className="px-5 py-2 text-base outline-none text-primary-black"
-          />
-          <InputGroup
-            label="Repeat password"
-            id="confirm_password"
-            type="password"
-            placeholder="Repeat password"
-            labelStyles="text-sm text-primary-black mb-2 font-normal"
-            register={register('confirmPassword')}
-            error={errors.confirmPassword}
-            className="px-5 py-2 text-base outline-none text-primary-black"
-          />
+          <div className=" w-1/2">
+            <InputGroup
+              label="Password"
+              id="password"
+              type="password"
+              placeholder="Type your password"
+              labelStyles="text-sm text-primary-black mb-2 font-normal"
+              register={register('password')}
+              error={errors.password}
+              className="px-5 py-2 text-base outline-none text-primary-black"
+            />
+          </div>
+          <div className=" w-1/2">
+            <InputGroup
+              label="Repeat password"
+              id="confirm_password"
+              type="password"
+              placeholder="Repeat password"
+              labelStyles="text-sm text-primary-black mb-2 font-normal"
+              register={register('confirmPassword')}
+              error={errors.confirmPassword}
+              className="px-5 py-2 text-base outline-none text-primary-black"
+            />
+          </div>
         </div>
         <button className="w-full rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
           Create Elma account
@@ -177,7 +188,6 @@ const SignupUser: React.FC = () => {
           />
         </SwiperSlide>
         <SwiperSlide className="h-full p-5">
-          {' '}
           <Image
             src="/auth_thumb.png"
             alt="flash sale item"

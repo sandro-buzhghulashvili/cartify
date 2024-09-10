@@ -21,7 +21,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   ...props
 }) => {
   return (
-    <div className="flex flex-col w-1/2">
+    <div className="flex flex-col w-full">
       <label htmlFor={id} className={labelStyles}>
         {label}
       </label>
