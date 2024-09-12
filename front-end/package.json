@@ -17,6 +17,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-lottie": "^1.2.4",
+    "react-select": "^5.8.0",
     "swiper": "^11.1.12",
     "zod": "^3.23.8"
   },

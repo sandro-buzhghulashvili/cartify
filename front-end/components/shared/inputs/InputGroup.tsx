@@ -8,6 +8,7 @@ interface InputGroupProps extends React.ComponentPropsWithoutRef<'input'> {
   labelStyles: string;
   register: UseFormRegisterReturn;
   error?: FieldError;
+  errorStyles?: string;
 }
 
 const InputGroup: React.FC<InputGroupProps> = ({
@@ -18,6 +19,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   type,
   placeholder,
   error,
+  errorStyles,
   ...props
 }) => {
   return (
@@ -33,7 +35,11 @@ const InputGroup: React.FC<InputGroupProps> = ({
         {...props}
       />
       {error && (
-        <p className="max-w-[200px] px-5 text-sm font-medium text-red-600">
+        <p
+          className={`max-w-[200px] px-5 text-sm font-medium text-red-600 ${
+            errorStyles ? errorStyles : null
+          }`}
+        >
           {error.message}
         </p>
       )}
