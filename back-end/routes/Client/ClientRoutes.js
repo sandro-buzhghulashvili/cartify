@@ -1,8 +1,7 @@
 import express from 'express';
+import { signupClient } from '../../controllers/Client/clientController.js';
 const router = express.Router();
 
-router.get('/client-signup', (req, res) => {
-  res.send('tested');
-});
+router.post('/client-signup', signupClient);
 
 export default router;
