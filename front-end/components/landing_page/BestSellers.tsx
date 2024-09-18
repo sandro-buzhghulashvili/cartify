@@ -12,7 +12,7 @@ const BestSellers: React.FC = () => {
       <p className="text-base mb-20 font-medium text-primary-gray">
         Check our best seller products on Elma website right now
       </p>
-      <ul className="relative mb-5 flex flex-wrap gap-48 justify-center py-20 pb-40">
+      <ul className="relative mb-5 flex flex-wrap gap-x-40 gap-y-32 justify-center py-20 pb-40">
         {DUMMY_BEST_SELLERS.map((product, index) => (
           <li
             key={index}

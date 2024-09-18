@@ -1,18 +1,19 @@
-import { hashPassword, validateClient } from "./clientValidation.js";
-import Client from "../../models/Client.js";
-import { generateVerificationCode } from "../../utils/generateVerificationCode.js";
-import { generateTokenAndSetCookie } from "../../utils/generateTokenAndSetCookie.js";
+import { hashPassword, validateClient } from './clientValidation.js';
+import Client from '../../models/Client.js';
+import { generateVerificationCode } from '../../utils/generateVerificationCode.js';
+import { generateTokenAndSetCookie } from '../../utils/generateTokenAndSetCookie.js';
+import { sendVerificationEmail } from '../../mailtrap/emails.js';
 
 export const signupClient = async (req, res) => {
   try {
-    const dummy_body = {
-      name: "John doe",
-      email: "john.doe@example.com",
-      phoneNumberExtension: "+123",
-      phoneNumber: "123456789",
-      password: "password123",
-      confirmPassword: "password123",
-    };
+    // const dummy_body = {
+    //   name: 'John doe',
+    //   email: 'john.doe@example.com',
+    //   phoneNumberExtension: '+123',
+    //   phoneNumber: '123456789',
+    //   password: 'password123',
+    //   confirmPassword: 'password123',
+    // };
     const response = validateClient(req.body);
 
     if (response.success) {
@@ -24,7 +25,7 @@ export const signupClient = async (req, res) => {
       if (userAlreadyExists) {
         return res
           .status(400)
-          .json({ message: "User already exists", success: false });
+          .json({ message: 'User already exists', success: false });
       }
 
       const hashedPassword = await hashPassword(password);
@@ -40,11 +41,15 @@ export const signupClient = async (req, res) => {
       await client.save();
 
       //jwt
-      generateTokenAndSetCookie(res, client._id);
+      const token = generateTokenAndSetCookie(res, client._id);
+
+      // at this stage I don't have my domain :D
+      // await sendVerificationEmail(client.email, verificationCode);
 
       res.status(201).json({
         success: true,
-        message: "Client successfully created",
+        message: 'Client successfully created',
+        token: token,
         user: {
           ...client,
           password: null,
@@ -56,6 +61,6 @@ export const signupClient = async (req, res) => {
   } catch (error) {
     res
       .status(400)
-      .json({ success: false, message: error.message || "Could not register" });
+      .json({ success: false, message: error.message || 'Could not register' });
   }
 };

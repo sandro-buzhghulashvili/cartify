@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter, Rubik } from 'next/font/google';
 import './globals.css';
 import MainLayout from '@/components/layout/MainLayout';
+import QueryProvider from '@/providers/queryProvider';
+import { AuthContextProvider } from '@/contexts/AuthContext';
 
 const rubik = Rubik({ subsets: ['latin'] });
 
@@ -18,7 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={rubik.className}>
-        <MainLayout>{children}</MainLayout>
+        <QueryProvider>
+          <AuthContextProvider>
+            <MainLayout>{children}</MainLayout>
+          </AuthContextProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -64,6 +64,20 @@ export const DUMMY_BEST_SELLERS: Product[] = [
     rating: 4.4,
     image: '/product_img.png',
   },
+  {
+    seller: 'Fitness Gear',
+    title: 'Fitbit Charge 5',
+    price: 149,
+    rating: 4.4,
+    image: '/product_img.png',
+  },
+  {
+    seller: 'Fitness Gear',
+    title: 'Fitbit Charge 5',
+    price: 149,
+    rating: 4.4,
+    image: '/product_img.png',
+  },
 ];
 
 export const DUMMY_CATEGORIES: Category[] = [
