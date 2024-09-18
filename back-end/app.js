@@ -3,10 +3,12 @@ const app = express();
 import dotenv from 'dotenv';
 import clientRouter from './routes/Client/ClientRoutes.js';
 import authRouter from './routes/Auth/AuthRoutes.js';
+import cors from 'cors';
 import { connectDB } from './db/connectDB.js';
 
 dotenv.config();
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', clientRouter);

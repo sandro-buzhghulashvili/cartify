@@ -32,6 +32,10 @@ const clientSchema = new Schema(
     resetPasswordExpiresAt: Date,
     verificationToken: String,
     verificationTokenExpiresAt: Date,
+    userRole: {
+      type: String,
+      default: 'client',
+    },
   },
   { timestamps: true } // by that we get createdAt and updatedAt props into document
 );

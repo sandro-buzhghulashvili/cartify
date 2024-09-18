@@ -1,3 +1,5 @@
+'use client';
+
 import { IconChevronRight } from '@/components/icons/IconChevronRight';
 import {
   IconTwitter,
@@ -20,8 +22,24 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 
 import Image from 'next/image';
+import { useMutation } from 'react-query';
+import { registerClient } from '@/api/auth';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const SignupUser: React.FC = () => {
+  const authContext = useAuthContext();
+  const {
+    data: registerFeedback,
+    mutate: registerClientFn,
+    isLoading: registeringClient,
+    error: registerError,
+    isError: registerHasError,
+  } = useMutation({
+    mutationFn: registerClient,
+    onSuccess: (data) => {
+      authContext.login(data);
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -31,6 +49,9 @@ const SignupUser: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<ClientAuthorizationType> = (data) => {
+    registerClientFn({
+      formData: data,
+    });
     console.log('Form Data:', data);
   };
   return (
@@ -153,8 +174,13 @@ const SignupUser: React.FC = () => {
             />
           </div>
         </div>
+        {registerHasError && (
+          <p className="text-sm text-primary-red font-normal">
+            {`${registerError}`}
+          </p>
+        )}
         <button className="w-full rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
-          Create Elma account
+          {registeringClient ? 'Registering ...' : ' Create Elma account'}
         </button>
       </form>
       <Swiper

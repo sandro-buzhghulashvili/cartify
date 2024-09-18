@@ -22,8 +22,24 @@ import {
   clientAuthenticationSchema,
   ClientAuthenticationType,
 } from '@/schemas/ClientAuthentication';
+import { useMutation } from 'react-query';
+import { login } from '@/api/auth';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const SigninUser: React.FC = () => {
+  const authContext = useAuthContext();
+  const {
+    mutate: loginUser,
+    isLoading: logging,
+    isError: loginHasError,
+    error: loginError,
+    data: loginData,
+  } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      authContext.login(data);
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -34,6 +50,9 @@ const SigninUser: React.FC = () => {
 
   const onSubmit: SubmitHandler<ClientAuthenticationType> = (data) => {
     console.log(data);
+    loginUser({
+      userData: data,
+    });
   };
 
   return (
@@ -84,13 +103,18 @@ const SigninUser: React.FC = () => {
         <InputGroup
           id="password"
           label="Password"
-          type="text"
+          type="password"
           placeholder="****"
           labelStyles="text-sm text-primary-black mb-2 font-normal"
           register={register('password')}
           error={errors.password}
           className="px-5 py-2 text-base outline-none text-primary-black"
         />
+        {loginHasError && (
+          <p className="text-sm text-primary-red font-normal">
+            {`${loginError}`}
+          </p>
+        )}
         <button className="w-full rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
           Sign In
         </button>
