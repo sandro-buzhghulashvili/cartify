@@ -9,7 +9,6 @@ const SignUp: React.FC = () => {
   const params = useSearchParams();
   const role = params.get('role');
 
-  console.log(role);
   return (
     <div>
       {role === 'user' ? (

@@ -12,10 +12,13 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import dynamic from 'next/dynamic';
 import { Input } from 'postcss';
 import Link from 'next/link';
+import { useMutation } from 'react-query';
+import { registerCompany } from '@/api/auth';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
-type OptionType = { value: string; label: string }; // Define your option type
+type OptionType = { value: string; label: string };
 
 const options: OptionType[] = [
   { value: 'tech', label: 'Technology' },
@@ -24,6 +27,18 @@ const options: OptionType[] = [
 ];
 
 const SignupCompany: React.FC = () => {
+  const authContext = useAuthContext();
+  const {
+    mutate: registerCompanyFn,
+    isLoading: registering,
+    isError: couldNotRegister,
+    error: registerError,
+  } = useMutation({
+    mutationFn: registerCompany,
+    onSuccess: (data) => {
+      authContext.login(data);
+    },
+  });
   const {
     handleSubmit,
     register,
@@ -35,6 +50,9 @@ const SignupCompany: React.FC = () => {
 
   const onSubmit: SubmitHandler<CompanyAuthorizationType> = (data) => {
     console.log(data);
+    registerCompanyFn({
+      companyData: data,
+    });
     console.log('submitted');
   };
 
@@ -145,10 +163,19 @@ const SignupCompany: React.FC = () => {
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,
-                      borderColor: errors.industryType ? 'red' : 'none',
+                      borderColor: errors.industryType
+                        ? 'red'
+                        : baseStyles.borderColor,
+                    }),
+                    option: (baseStyles, state) => ({
+                      ...baseStyles,
+                      backgroundColor:
+                        state.isFocused || state.isSelected
+                          ? '#43467F'
+                          : baseStyles.backgroundColor, // Set hover color
+                      color: state.isFocused ? 'white' : baseStyles.color, // Optional: set hover text color
                     }),
                   }}
-                  {...field}
                   options={options}
                   onChange={(selectedOption: any) =>
                     field.onChange(selectedOption?.value)
@@ -159,9 +186,11 @@ const SignupCompany: React.FC = () => {
                     ) || null
                   }
                   id="industryType"
+                  // No need to handle ref manually here
                 />
               )}
             />
+
             {errors.industryType && (
               <p className=" px-5 text-sm font-medium text-red-600">
                 {errors.industryType.message}
@@ -179,9 +208,14 @@ const SignupCompany: React.FC = () => {
             className="px-5 py-2 text-base outline-none text-primary-black"
             errorStyles="!max-w-full"
           />
+          {couldNotRegister && (
+            <p className="text-sm text-primary-red font-normal">
+              {`${registerError}`}
+            </p>
+          )}
           <div className="flex items-center justify-between">
             <button className="w-1/2 rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
-              Create your account
+              {registering ? 'Registering company...' : 'Create your account'}
             </button>
             <Link
               href="/signin"

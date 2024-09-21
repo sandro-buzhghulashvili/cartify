@@ -116,7 +116,7 @@ const SigninUser: React.FC = () => {
           </p>
         )}
         <button className="w-full rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
-          Sign In
+          {logging ? 'Logging in ...' : 'Sign In'}
         </button>
       </form>
       <Swiper

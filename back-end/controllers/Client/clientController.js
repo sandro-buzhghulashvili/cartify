@@ -3,6 +3,7 @@ import Client from '../../models/Client.js';
 import { generateVerificationCode } from '../../utils/generateVerificationCode.js';
 import { generateTokenAndSetCookie } from '../../utils/generateTokenAndSetCookie.js';
 import { sendVerificationEmail } from '../../mailtrap/emails.js';
+import Company from '../../models/Company.js';
 
 export const signupClient = async (req, res) => {
   try {
@@ -18,9 +19,10 @@ export const signupClient = async (req, res) => {
 
     if (response.success) {
       const { email, password, username } = response.data;
-      const userAlreadyExists = await Client.findOne({
-        $or: [{ email }, { username }],
-      });
+      const userAlreadyExists =
+        (await Client.findOne({
+          $or: [{ email }, { username }],
+        })) || (await Company.findOne({ email }));
 
       if (userAlreadyExists) {
         return res
@@ -38,6 +40,8 @@ export const signupClient = async (req, res) => {
         verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
       });
 
+      const clientCopy = client.toObject();
+
       await client.save();
 
       //jwt
@@ -51,7 +55,7 @@ export const signupClient = async (req, res) => {
         message: 'Client successfully created',
         token: token,
         user: {
-          ...client,
+          ...clientCopy,
           password: null,
         },
       });

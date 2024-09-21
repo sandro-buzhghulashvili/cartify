@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 
 import Client from '../../models/Client.js';
+import Company from '../../models/Company.js';
 import { validateUser } from './validationHelpers.js';
 import { generateTokenAndSetCookie } from '../../utils/generateTokenAndSetCookie.js';
 
@@ -17,9 +18,16 @@ export const login = async (req, res) => {
       throw new Error(response.error);
     }
 
-    const user = await Client.findOne({
-      $or: [{ email: response.name }, { username: response.name }],
-    });
+    const user =
+      (await Client.findOne({
+        $or: [{ email: response.name }, { username: response.name }],
+      })) ||
+      (await Company.findOne({
+        $or: [{ email: response.name }, { companyName: response.name }],
+      })) ||
+      null;
+
+    console.log(user);
 
     if (user) {
       const passwordIsValid = await bcrypt.compare(
@@ -33,7 +41,17 @@ export const login = async (req, res) => {
         await user.updateOne({
           lastLogin: new Date(),
         });
-        res.status(200).json({ success: true, user, token });
+
+        const userCopy = user.toObject();
+
+        res.status(200).json({
+          success: true,
+          user: {
+            ...userCopy,
+            password: null,
+          },
+          token,
+        });
       } else {
         res.status(400).json({
           success: false,
