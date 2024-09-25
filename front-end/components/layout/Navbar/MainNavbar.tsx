@@ -8,13 +8,18 @@ import {
   IconLoupe,
   IconSelectArrows,
   IconUser,
-} from '../icons/Icons';
+} from '../../icons/Icons';
 import { useMotionValueEvent, useScroll } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAuthContext } from '@/contexts/AuthContext';
+import UserTab from './UserTab';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 const MainNavbar: React.FC = () => {
-  const [fillBackground, setFillBackground] = useState(false);
+  const { userData, logout } = useAuthContext();
   const { scrollY } = useScroll();
+  const [fillBackground, setFillBackground] = useState(false);
+  const [openUserTab, setOpenUserTab] = useState(false);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (latest > 50) {
@@ -23,6 +28,18 @@ const MainNavbar: React.FC = () => {
       setFillBackground(false);
     }
   });
+
+  const toggleUserTab = () => {
+    setOpenUserTab((prev) => !prev);
+  };
+
+  const logoutHandler = () => {
+    setOpenUserTab(false);
+    logout();
+  };
+
+  const userTabRef = useOutsideClick(() => setOpenUserTab(false));
+
   return (
     <nav
       className={`px-[10%] w-full h-[110px] py-5 z-10 flex items-center justify-between fixed top-0 left-0 duration-300 ${
@@ -76,16 +93,30 @@ const MainNavbar: React.FC = () => {
         <button>
           <IconHeart />
         </button>
-        <Link href="/signin" className="flex items-center gap-5">
-          <IconUser />
-          <p>Sign in</p>
-        </Link>
-        {/* <Link
-          href="/signup"
-          className="bg-primary-red py-2 px-10 text-white font-semibold rounded-3xl"
-        >
-          JOIN
-        </Link> */}
+        {userData ? (
+          <div className="relative" ref={userTabRef}>
+            <button
+              className="relative flex items-center gap-5"
+              onClick={toggleUserTab}
+            >
+              <IconUser />
+              {userData.username || userData.companyName}
+              {/* // user tab */}
+            </button>
+            {openUserTab && (
+              <UserTab
+                username={userData.username || userData.companyName}
+                email={userData.email}
+                onLogout={logoutHandler}
+              />
+            )}
+          </div>
+        ) : (
+          <Link href="/signin" className="flex items-center gap-5">
+            <IconUser />
+            <p>Sign in</p>
+          </Link>
+        )}
       </section>
     </nav>
   );

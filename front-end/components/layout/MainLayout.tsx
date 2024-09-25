@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import MainNavbar from './MainNavbar';
+import MainNavbar from './Navbar/MainNavbar';
 import MainFooter from './MainFooter';
 
 interface MainLayoutProps {
