@@ -57,7 +57,11 @@ const SigninUser: React.FC = () => {
 
   return (
     <div className="py-10 flex items-center justify-center gap-10 h-fit">
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="flex flex-col gap-5"
+        onSubmit={handleSubmit(onSubmit)}
+        id="sign-in"
+      >
         <div className="flex mb-5 justify-between items-center">
           <h1 className="text-[28px] text-primary-black font-medium">
             Sign in to Elma

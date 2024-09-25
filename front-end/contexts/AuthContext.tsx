@@ -1,10 +1,22 @@
 'use client';
-import { createContext, ReactNode, useContext } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { revalidateDashboard } from '@/components/auth/revalidateDashboard';
+import { useMutation } from 'react-query';
+import { logoutFn } from '@/api/auth';
+import { revalidateLandingPage } from '@/components/auth/revalidateLandingPage';
 
 interface AuthContextType {
   login: (data: any) => void;
   logout: () => void;
+  userData: any;
 }
 
 interface AuthContextProviderProps {
@@ -14,14 +26,27 @@ interface AuthContextProviderProps {
 export const authContext = createContext<AuthContextType>({
   login: () => {},
   logout: () => {},
+  userData: {},
 });
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   children,
 }) => {
+  const [userData, setUserData] = useState<any>(null);
+
+  const router = useRouter();
+
+  const { mutate: signOut } = useMutation({
+    mutationFn: logoutFn,
+    onSuccess: () => {
+      revalidateLandingPage();
+      router.push('/');
+      setUserData(null);
+    },
+  });
+
   const login = (data: any) => {
     if (!data || !data.success) return;
-    console.log(data);
     if (data.token) {
       Cookies.set('token', data.token, {
         expires: 7,
@@ -34,7 +59,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
           prop === 'username' ||
           prop === 'phoneNumber' ||
           prop === 'lastLogin' ||
-          prop === 'companyName'
+          prop === 'companyName' ||
+          prop === 'userRole'
         ) {
           return prop;
         } else {
@@ -48,14 +74,37 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
           });
         }
       });
+
+      setUserData({
+        ...Cookies.get(),
+        token: null,
+      });
+
+      revalidateDashboard();
+      router.push('/dashboard');
     }
   };
-  const logout = () => {};
+  const logout = () => {
+    signOut();
+  };
 
   const contextValue: AuthContextType = {
     login,
     logout,
+    userData,
   };
+
+  useEffect(() => {
+    const userData: any =
+      Object.keys(Cookies.get()).length > 0
+        ? {
+            ...Cookies.get(),
+            token: null,
+          }
+        : null;
+
+    setUserData(userData);
+  }, []);
   return (
     <authContext.Provider value={contextValue}>{children}</authContext.Provider>
   );

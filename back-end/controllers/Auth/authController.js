@@ -6,7 +6,17 @@ import { validateUser } from './validationHelpers.js';
 import { generateTokenAndSetCookie } from '../../utils/generateTokenAndSetCookie.js';
 
 export const logout = async (req, res) => {
-  res.clearCookie('token');
+  const cookies = req.cookies;
+
+  console.log(cookies);
+
+  for (let cookieName in cookies) {
+    res.clearCookie(cookieName, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+  }
   res.status(200).json({ success: true, message: 'Logged out successfully' });
 };
 
@@ -26,8 +36,6 @@ export const login = async (req, res) => {
         $or: [{ email: response.name }, { companyName: response.name }],
       })) ||
       null;
-
-    console.log(user);
 
     if (user) {
       const passwordIsValid = await bcrypt.compare(

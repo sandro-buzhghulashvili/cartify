@@ -26,3 +26,8 @@ export { IconLinkedin } from './IconLinkedin';
 export { IconInstagram } from './IconInstagram';
 export { IconGithub } from './IconGithub';
 export { IconGoogle } from './IconGoogle';
+export { IconSuitcase } from './IconSuitcase';
+export { IconTasks } from './IconTasks';
+export { IconPrivacySettings } from './IconPrivacySettings';
+export { IconMessages } from './IconMessages';
+export { IconCalendar } from './IconCalendar';

@@ -4,13 +4,14 @@ import { useSearchParams } from 'next/navigation';
 import ChooseAccType from './ChooseAccType';
 import SignupUser from './Signup/SignupUser';
 import SignupCompany from './Signup/SignupCompany';
+import { Suspense } from 'react';
 
 const SignUp: React.FC = () => {
   const params = useSearchParams();
   const role = params.get('role');
 
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       {role === 'user' ? (
         <SignupUser />
       ) : role === 'company' ? (
@@ -18,7 +19,7 @@ const SignUp: React.FC = () => {
       ) : (
         <ChooseAccType />
       )}
-    </div>
+    </Suspense>
   );
 };
 

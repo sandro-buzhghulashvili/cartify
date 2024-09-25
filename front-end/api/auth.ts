@@ -13,7 +13,7 @@ export const registerClient: MutationFunction<
 > = async (data) => {
   try {
     const res = await axios.post(
-      'http://localhost:3000/api/auth/client-signup',
+      'http://localhost:5000/api/auth/client-signup',
       data.formData
     );
     return res.data;
@@ -30,7 +30,7 @@ export const registerCompany: MutationFunction<
 > = async (data) => {
   try {
     const res = await axios.post(
-      'http://localhost:3000/api/auth/company-signup',
+      'http://localhost:5000/api/auth/company-signup',
       data.companyData
     );
 
@@ -48,8 +48,23 @@ export const login: MutationFunction<
 > = async (data) => {
   try {
     const res = await axios.post(
-      'http://localhost:3000/api/auth/login',
+      'http://localhost:5000/api/auth/login',
       data.userData
+    );
+    return res.data;
+  } catch (error: any) {
+    throw errorHandler(error);
+  }
+};
+
+export const logoutFn = async () => {
+  try {
+    const res = await axios.post(
+      'http://localhost:5000/api/auth/logout',
+      {},
+      {
+        withCredentials: true,
+      }
     );
     return res.data;
   } catch (error: any) {

@@ -125,6 +125,7 @@ const SignupCompany: React.FC = () => {
         <form
           className="flex flex-col py-10 gap-10"
           onSubmit={handleSubmit(onSubmit)}
+          id="company-signup"
         >
           <InputGroup
             id="companyName"

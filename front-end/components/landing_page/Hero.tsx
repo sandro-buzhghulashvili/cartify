@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
         <div className="flex items-center gap-10">
           <Link
             href="/signup"
-            className="px-4 rounded-sm bg-primary-purple py-3 text-base font-regular text-white"
+            className="px-4 rounded-sm bg-primary-purple py-3 text-base font-normal text-white"
           >
             Get Started
           </Link>
