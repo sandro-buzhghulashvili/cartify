@@ -205,3 +205,41 @@ export const DUMMY_TRENDING_COMPANIES = [
     image: '/trending_companies/apple.png',
   },
 ];
+
+export const DUMMY_MESSAGES = [
+  {
+    name: 'Nicholas Gordon',
+    profileImage: '/profile_default.svg',
+    message: 'Moreover the striking, brilliant and vivid colors',
+    timestamp: '10m',
+    online: true,
+  },
+  {
+    name: 'Sophia Turner',
+    profileImage: '/profile_default.svg',
+    message: 'The presentation was very well received!',
+    timestamp: '5m',
+    online: false,
+  },
+  {
+    name: 'Liam Johnson',
+    profileImage: '/profile_default.svg',
+    message: 'Can we schedule the meeting for tomorrow?',
+    timestamp: '15m',
+    online: true,
+  },
+  {
+    name: 'Olivia Smith',
+    profileImage: '/profile_default.svg',
+    message: 'Thanks for the quick feedback on the proposal.',
+    timestamp: '30m',
+    online: false,
+  },
+  {
+    name: 'Ethan Brown',
+    profileImage: '/profile_default.svg',
+    message: "I'll send over the documents shortly.",
+    timestamp: '20m',
+    online: true,
+  },
+];
