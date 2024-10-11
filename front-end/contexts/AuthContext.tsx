@@ -75,6 +75,10 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         }
       });
 
+      const newlyRegistered = data.newlyRegistered || null;
+
+      Cookies.set('newlyRegistered', `${newlyRegistered}`);
+
       setUserData({
         ...Cookies.get(),
         token: null,

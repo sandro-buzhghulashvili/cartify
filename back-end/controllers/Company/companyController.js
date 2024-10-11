@@ -30,6 +30,7 @@ export const companySignup = async (req, res) => {
 
       const newCompany = new Company({
         ...req.body,
+        lastLogin: new Date(),
         password: hashedPassword,
         verificationToken: verificationCode,
         verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
@@ -42,6 +43,7 @@ export const companySignup = async (req, res) => {
       const token = generateTokenAndSetCookie(res, newCompany._id);
 
       res.status(200).json({
+        newlyRegistered: true,
         success: true,
         message: 'Company successfully registered',
         token,

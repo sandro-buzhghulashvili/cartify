@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 
 const CompanyDashboard: React.FC = () => {
   return (
-    <div className="flex gap-10 py-20">
+    <div className="flex gap-10 py-24">
       <Sidebar />
       <Notifications />
       <Data />
