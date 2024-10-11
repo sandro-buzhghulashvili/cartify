@@ -5,7 +5,7 @@ import Image from 'next/image';
 const Notifications: React.FC = () => {
   const { userData } = useAuthContext();
   return (
-    <div className="relative px-16">
+    <div className="relative px-20">
       <Image
         priority={true}
         src="/profile_default.svg"

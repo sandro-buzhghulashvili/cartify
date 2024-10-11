@@ -5,9 +5,15 @@ interface UserTabProps {
   username: string;
   email: string;
   onLogout: () => void;
+  onToggle: () => void;
 }
 
-const UserTab: React.FC<UserTabProps> = ({ username, email, onLogout }) => {
+const UserTab: React.FC<UserTabProps> = ({
+  username,
+  email,
+  onLogout,
+  onToggle,
+}) => {
   return (
     <div className="absolute right-0 top-10 w-[320px] flex flex-col gap-5 bg-white px-2 py-5">
       <div className="flex justify-between items-center">
@@ -37,6 +43,7 @@ const UserTab: React.FC<UserTabProps> = ({ username, email, onLogout }) => {
           </h1>
           <p className="text-sm">{email}</p>
           <Link
+            onClick={onToggle}
             className="text-sm font-normal text-primary-indigo underline"
             href="/dashboard"
             replace

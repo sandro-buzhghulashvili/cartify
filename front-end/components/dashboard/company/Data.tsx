@@ -1,8 +1,36 @@
+import { useAuthContext } from '@/contexts/AuthContext';
 import Image from 'next/image';
+import Instruction from './Instruction';
+import { useEffect, useState } from 'react';
+
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 const Data: React.FC = () => {
+  const router = useRouter();
+  const [newlyRegistered, setNewlyRegistered] = useState(false);
+
+  const toggleNewlyRegisteredStatus = () => {
+    setNewlyRegistered(false);
+    Cookies.set('newlyRegistered', 'false');
+  };
+
+  const handleSetup = () => {
+    console.log('handilng');
+    Cookies.set('newlyRegistered', 'false');
+    router.push('/company-profile');
+  };
+
+  useEffect(() => {
+    const newlyRegistered = Cookies.get('newlyRegistered') === 'true';
+
+    if (newlyRegistered) {
+      setNewlyRegistered(true);
+    }
+  }, [Cookies]);
   return (
     <div className="flex flex-col w-full">
+      {newlyRegistered && <Instruction onClose={toggleNewlyRegisteredStatus} />}
       <h1 className="text-lg font-bold text-primary-black">Dashoard</h1>
       <div className="h-full flex flex-col justify-center gap-5 items-center">
         <Image
@@ -17,7 +45,14 @@ const Data: React.FC = () => {
         <p className="text-secondary-gray text-sm font-medium">
           Enter your details to proceed further
         </p>
-        <button className="px-12 py-2 text-white text-sm rounded-lg font-bold bg-primary-indigo">
+        <button
+          onClick={handleSetup}
+          className={`px-12 py-2 duration-300 text-white text-sm rounded-lg font-bold bg-primary-indigo relative ${
+            newlyRegistered
+              ? 'z-20 scale-150 -translate-y-56 -translate-x-10'
+              : null
+          }`}
+        >
           Setup
         </button>
       </div>
