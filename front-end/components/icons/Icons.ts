@@ -33,3 +33,5 @@ export { IconMessages } from './IconMessages';
 export { IconCalendar } from './IconCalendar';
 export { IconUpload } from './IconUpload';
 export { IconPlus } from './IconPlus';
+export { IconX } from './IconX';
+export { IconLocation } from './IconLocation';

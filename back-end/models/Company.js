@@ -35,6 +35,10 @@ const companySchema = new Schema({
     type: String,
     default: 'client',
   },
+  companyDetails: {
+    type: Schema.Types.Mixed,
+    default: null,
+  },
 });
 
 export default model('Company', companySchema);

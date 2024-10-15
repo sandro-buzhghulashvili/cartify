@@ -5,10 +5,12 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 interface WizardsContextType {
   wizardsData: any[];
   activePage: number;
+  finishFunc: any;
   onNext: () => void;
   onPrevious: () => void;
   onSkip: () => void;
   onSetWizardsData: (data: any) => void;
+  onSetFinishFunc: (fn: any) => void;
 }
 
 interface WizardsContextProviderProps {
@@ -18,10 +20,12 @@ interface WizardsContextProviderProps {
 const wizardsContext = createContext<WizardsContextType>({
   wizardsData: [],
   activePage: 0,
+  finishFunc: () => {},
   onNext: () => {},
   onPrevious: () => {},
   onSkip: () => {},
   onSetWizardsData: (data) => {},
+  onSetFinishFunc: () => {},
 });
 
 export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
@@ -29,6 +33,7 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
 }) => {
   const [wizardsData, setWizardsData] = useState<any>([]);
   const [activePage, setActivePage] = useState(1);
+  const [finishFunc, setFinishFunc] = useState<any>(null);
 
   const current = wizardsData[activePage - 1];
 
@@ -54,8 +59,6 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
     }
   };
 
-  console.log(wizardsData);
-
   const onPrevious = () => {
     if (activePage > 1) {
       setActivePage((prevPage) => prevPage - 1);
@@ -70,6 +73,10 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
     setWizardsData(data);
   };
 
+  const onSetFinishFunc = (fn: any) => {
+    setFinishFunc(() => fn);
+  };
+
   const contextValue: WizardsContextType = {
     wizardsData,
     activePage,
@@ -77,9 +84,9 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
     onPrevious,
     onSkip,
     onSetWizardsData,
+    finishFunc,
+    onSetFinishFunc,
   };
-
-  // console.log(wizardsData);
 
   return (
     <wizardsContext.Provider value={contextValue}>

@@ -1,16 +1,18 @@
 'use client';
 
+import { addCompanyProfile } from '@/api/wizards';
 import { companyProfileWizardsData } from '@/components/wizards/company-profile/companyProfile';
 import { useWizardsContext } from '@/contexts/WizardsContext';
 import Image from 'next/image';
 import { useEffect } from 'react';
 
 const CompanyProfileWizardPage: React.FC = () => {
-  const { wizardsData, onNext, onPrevious, activePage, onSetWizardsData } =
+  const { wizardsData, activePage, onSetWizardsData, onSetFinishFunc } =
     useWizardsContext();
 
   useEffect(() => {
     onSetWizardsData(companyProfileWizardsData);
+    onSetFinishFunc(() => addCompanyProfile);
   }, []);
 
   return (

@@ -49,7 +49,6 @@ const SignupCompany: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<CompanyAuthorizationType> = (data) => {
-    console.log(data);
     registerCompanyFn({
       companyData: data,
     });
