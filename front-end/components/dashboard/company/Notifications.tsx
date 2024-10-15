@@ -21,14 +21,14 @@ const Notifications: React.FC = () => {
       <ul className="pl-5 flex flex-col gap-5 mb-20">
         {DUMMY_MESSAGES.map((message, index) => (
           <li className="flex gap-3" key={index}>
-            <div className="relative">
+            <div className="relative h-fit">
               <Image
                 src="/profile_default.svg"
                 width={40}
                 height={40}
                 alt="company default logo"
               />
-              <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full"></span>
+              <span className="absolute -bottom-1 -right-1 size-3 bg-green-500 rounded-full"></span>
             </div>
             <div>
               <h1 className="text-sm font-bold text-primary-black">

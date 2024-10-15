@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import clientRouter from './routes/Client/ClientRoutes.js';
 import authRouter from './routes/Auth/AuthRoutes.js';
 import companyRouter from './routes/Company/CompanyRoutes.js';
+import wizardsRouter from './routes/Wizards/Wizards.js';
 import cors from 'cors';
 import { connectDB } from './db/connectDB.js';
 
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use('/api/auth', companyRouter);
 app.use('/api/auth', clientRouter);
 app.use('/api/auth', authRouter);
+app.use('/wizards', wizardsRouter);
 
 app.get('/', (req, res) => {
   console.log('hello');

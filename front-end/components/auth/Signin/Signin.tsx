@@ -49,7 +49,6 @@ const SigninUser: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<ClientAuthenticationType> = (data) => {
-    console.log(data);
     loginUser({
       userData: data,
     });

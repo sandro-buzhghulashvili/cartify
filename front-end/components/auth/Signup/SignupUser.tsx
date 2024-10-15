@@ -52,7 +52,6 @@ const SignupUser: React.FC = () => {
     registerClientFn({
       formData: data,
     });
-    console.log('Form Data:', data);
   };
   return (
     <div className="py-10 flex items-center justify-center gap-10 h-fit">

@@ -3,8 +3,11 @@
 import Lottie from 'lottie-react';
 import HeroAnimation from '@/components/lotties/ecommerce.json';
 import Link from 'next/link';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const Hero: React.FC = () => {
+  const { userData } = useAuthContext();
+
   return (
     <div className="flex justify-between items-center min-h-[60vh] py-20">
       {/* intro text */}
@@ -24,12 +27,14 @@ const Hero: React.FC = () => {
           easier than ever.
         </p>
         <div className="flex items-center gap-10">
-          <Link
-            href="/signup"
-            className="px-4 rounded-sm bg-primary-purple py-3 text-base font-normal text-white"
-          >
-            Get Started
-          </Link>
+          {!userData && (
+            <Link
+              href="/signup"
+              className="px-4 rounded-sm bg-primary-purple py-3 text-base font-normal text-white"
+            >
+              Get Started
+            </Link>
+          )}
           <button className="px-4 py-3 rounded-sm border-[1px] border-primary-purple text-primary-indigo">
             Learn More
           </button>

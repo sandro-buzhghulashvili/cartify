@@ -1,5 +1,6 @@
 import AboutCompany from './AboutCompany';
 import Address from './Address';
+import FinishProfile from './FinishProfile';
 import Tags from './Tags';
 import UploadLogo from './UploadLogo';
 
@@ -28,8 +29,13 @@ export const companyProfileWizardsData = [
   {
     title: 'tags',
     component: <Tags />,
-    answer: null,
-    validationFn: (val: string[]) => val.length > 0,
+    answer: [],
+    validationFn: (val: string[]) =>
+      val.length > 0 && val.every((str) => str.length > 0),
     errorMessage: 'Please provide tags',
+  },
+  {
+    title: 'finish',
+    component: <FinishProfile />,
   },
 ];

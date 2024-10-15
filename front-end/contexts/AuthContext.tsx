@@ -60,7 +60,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
           prop === 'phoneNumber' ||
           prop === 'lastLogin' ||
           prop === 'companyName' ||
-          prop === 'userRole'
+          prop === 'userRole' ||
+          prop === '_id'
         ) {
           return prop;
         } else {

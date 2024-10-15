@@ -67,7 +67,7 @@ const UploadLogo: React.FC = () => {
   }, [wizardsData]);
 
   return (
-    <div className="flex flex-col gap-10 h-full justify-center items-center">
+    <div className="flex flex-col gap-10 h-full justify-center items-center w-fit">
       <div>
         <h1 className="text-3xl mb-3 font-medium text-primary-black">
           Upload Logo
