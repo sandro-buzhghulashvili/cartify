@@ -38,6 +38,7 @@ export const signupClient = async (req, res) => {
         password: hashedPassword,
         verificationToken: verificationCode,
         verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
+        lastLogin: new Date(),
       });
 
       const clientCopy = client.toObject();
@@ -51,6 +52,7 @@ export const signupClient = async (req, res) => {
       // await sendVerificationEmail(client.email, verificationCode);
 
       res.status(201).json({
+        newlyRegistered: true,
         success: true,
         message: 'Client successfully created',
         token: token,

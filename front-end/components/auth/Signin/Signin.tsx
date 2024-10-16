@@ -49,7 +49,6 @@ const SigninUser: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<ClientAuthenticationType> = (data) => {
-    console.log(data);
     loginUser({
       userData: data,
     });
@@ -64,7 +63,7 @@ const SigninUser: React.FC = () => {
       >
         <div className="flex mb-5 justify-between items-center">
           <h1 className="text-[28px] text-primary-black font-medium">
-            Sign in to Elma
+            Sign in to Cartify
           </h1>
           <Link
             href="/signup"

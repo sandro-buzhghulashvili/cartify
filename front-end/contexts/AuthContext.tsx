@@ -60,7 +60,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
           prop === 'phoneNumber' ||
           prop === 'lastLogin' ||
           prop === 'companyName' ||
-          prop === 'userRole'
+          prop === 'userRole' ||
+          prop === '_id'
         ) {
           return prop;
         } else {
@@ -74,6 +75,10 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
           });
         }
       });
+
+      const newlyRegistered = data.newlyRegistered || null;
+
+      Cookies.set('newlyRegistered', `${newlyRegistered}`);
 
       setUserData({
         ...Cookies.get(),
