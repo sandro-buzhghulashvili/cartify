@@ -108,6 +108,7 @@ const MainNavbar: React.FC = () => {
                 username={userData.username || userData.companyName}
                 email={userData.email}
                 onLogout={logoutHandler}
+                onToggle={toggleUserTab}
               />
             )}
           </div>

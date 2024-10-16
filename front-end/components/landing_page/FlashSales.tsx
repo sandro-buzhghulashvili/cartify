@@ -49,24 +49,17 @@ const DUMMY_FLASHSALES_DATA: FlashSaleItem[] = [
 const FlashSales: React.FC = () => {
   return (
     <>
-      <Image
-        src="/wave.png"
-        alt="wave"
-        width={1080}
-        height={400}
-        className="w-full h-[450px]"
-      />
-      <div className="relative py-40 flex flex-col justify-center items-center overflow-hidden bg-black_to_purple text-white">
+      <div className="relative py-40 flex flex-col justify-center items-center overflow-hidden text-white">
         <div className="mb-40 text-center w-[40%]">
-          <h1 className="text-[56px] mb-5 text-white font-bold uppercase">
-            🚨 Flash Sales 🚨
+          <h1 className="text-4xl mb-10 font-medium text-primary-black">
+            Flash Sales
           </h1>
-          <p>
+          <p className="text-base mb-20 font-medium text-primary-gray">
             These exclusive deals are here for a short time only, with
             unbeatable discounts on your favorite products. Whether you're
-            looking for the latest tech gadgets 📱, stylish fashion 👗, or
-            must-have accessories 🎒, our Flash Sales have something for
-            everyone. But hurry—once they're gone, they're gone for good! 🏃‍♂️💨
+            looking for the latest tech gadgets, stylish fashion, or must-have
+            accessories, our Flash Sales have something for everyone. But
+            hurry—once they're gone, they're gone for good!
           </p>
         </div>
         <Swiper
@@ -79,7 +72,7 @@ const FlashSales: React.FC = () => {
           pagination={{
             clickable: true,
             bulletClass:
-              'swiper-pagination-bullet !bg-light-blue !translate-y-16 !w-10 !h-2 !rounded-none',
+              'swiper-pagination-bullet !bg-primary-purple !translate-y-16 !w-10 !h-2 !rounded-none',
           }}
           modules={[EffectCards, Autoplay, Pagination]}
           className="relative z-10 w-[500px] h-[720px] !m-0"
@@ -87,7 +80,7 @@ const FlashSales: React.FC = () => {
           {DUMMY_FLASHSALES_DATA.map((sale, index) => (
             <SwiperSlide
               key={index}
-              className="bg-primary-black p-5 rounded-[30px] border-2 shadow-flash-sale-shadow !overflow-visible"
+              className="bg-white p-5 rounded-[30px] border-2 border-primary-indigo shadow-flash-sale-shadow !overflow-visible"
             >
               <div
                 className={`relative mb-20 flex ${
@@ -106,22 +99,26 @@ const FlashSales: React.FC = () => {
                   }`}
                 />
                 <div
-                  className={`absolute text-center top-0 bottom-0 my-auto ${
+                  className={`absolute !text-primary-black text-center top-0 bottom-0 my-auto ${
                     index % 2 !== 0 ? 'left-0' : 'right-0'
                   } h-fit`}
                 >
-                  <h1 className="text-2xl mb-5 uppercase">Time left</h1>
+                  <h1 className="text-2xl mb-5 uppercase font-medium">
+                    Time left
+                  </h1>
                   <Timer />
                 </div>
               </div>
 
               <div className="flex flex-col gap-5 items-center">
-                <h1 className="text-4xl font-bold text-white">{sale.title}</h1>
-                <p className="text-base text-center font-medium text-light-blue">
+                <h1 className="text-4xl font-bold text-primary-black">
+                  {sale.title}
+                </h1>
+                <p className="text-base text-center font-medium text-primary-purple">
                   {sale.description}
                 </p>
                 <div className="flex flex-col items-center">
-                  <button className="px-5 py-2 mb-3 text-white text-base bg-light-blue">
+                  <button className="px-5 py-2 mb-3 text-white text-base bg-primary-purple">
                     Buy Now for ${sale.price}
                   </button>
                   <span className="text-[20px] text-white line-through">
@@ -133,13 +130,6 @@ const FlashSales: React.FC = () => {
           ))}
         </Swiper>
       </div>
-      <Image
-        src="/wave-reverse.png"
-        alt="wave-reverse"
-        width={1080}
-        height={400}
-        className="w-full h-[450px]"
-      />
     </>
   );
 };

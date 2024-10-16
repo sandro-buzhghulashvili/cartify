@@ -1,9 +1,13 @@
+import Data from './Data';
+import Notifications from './Notifications';
 import Sidebar from './Sidebar';
 
 const CompanyDashboard: React.FC = () => {
   return (
-    <div className="flex py-20">
+    <div className="flex gap-10 py-24">
       <Sidebar />
+      <Notifications />
+      <Data />
     </div>
   );
 };
