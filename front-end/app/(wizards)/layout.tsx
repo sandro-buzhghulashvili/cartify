@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, use, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { IconChevronRight } from '@/components/icons/Icons';
 import {
@@ -8,6 +8,7 @@ import {
   WizardsContextProvider,
 } from '@/contexts/WizardsContext';
 import Link from 'next/link';
+import Success from '@/components/shared/popups/Success';
 
 interface WizardsLayoutProps {
   children: ReactNode;
@@ -17,8 +18,8 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
   const { wizardsData, onNext, onPrevious, activePage, onSkip, finishFunc } =
     useWizardsContext();
   const [loading, setLoading] = useState(false);
-
-  console.log(loading);
+  const [error, setError] = useState<any>(null);
+  const [success, setSuccess] = useState<null | string>(null);
 
   const isValid = wizardsData
     .slice(0, wizardsData.length - 1)
@@ -40,9 +41,18 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
 
       setLoading(false);
 
-      console.log(res);
-    } catch (error) {}
+      if (res.success) {
+        setSuccess(res.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
   };
+
+  if (success) {
+    return <Success text={success} link="/dashboard" />;
+  }
 
   return (
     <div className="relative w-full min-h-screen bg-white  flex flex-col justify-between items-center px-[10%]">
@@ -81,6 +91,9 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
       </section>
 
       <div className="w-full h-[500px] overflow-y-auto">{children}</div>
+      {error && (
+        <p className="text-left w-full font-medium text-red-500">{`${error}`}</p>
+      )}
       <div className="py-10 w-full flex justify-between items-center">
         <button onClick={onPrevious} disabled={activePage - 1 === 0}>
           <IconChevronRight
@@ -121,7 +134,7 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
             onClick={handleFinish}
             className={`px-12 py-3 text-white font-medium text-lg bg-primary-indigo rounded-[30px] disabled:cursor-not-allowed disabled:opacity-50 `}
           >
-            Finish
+            {loading ? 'Loading ...' : 'Finish'}
           </button>
         )}
       </div>

@@ -8,8 +8,6 @@ import { generateTokenAndSetCookie } from '../../utils/generateTokenAndSetCookie
 export const logout = async (req, res) => {
   const cookies = req.cookies;
 
-  console.log(cookies);
-
   for (let cookieName in cookies) {
     res.clearCookie(cookieName, {
       httpOnly: true,

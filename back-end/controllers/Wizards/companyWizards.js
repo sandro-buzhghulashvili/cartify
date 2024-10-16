@@ -3,7 +3,7 @@ import Company from '../../models/Company.js';
 
 export const addCompanyDetails = async (req, res) => {
   try {
-    console.log(req.file);
+    // console.log(req.file);
     const profileIsValid = validateCompanyProfile(req.body);
 
     if (!profileIsValid) {
