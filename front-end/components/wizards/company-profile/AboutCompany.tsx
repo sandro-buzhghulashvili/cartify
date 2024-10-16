@@ -51,7 +51,7 @@ const AboutCompany: React.FC = () => {
           rows={10}
           value={aboutValue}
           onBlur={(e) => setIsTouched(true)}
-          placeholder="Enter address"
+          placeholder="Enter description"
           className={`w-1/2 px-8 py-3 rounded-[30px] focus:outline-none border-[1px] border-primary-gray mb-3 ${
             wizardsData[activePage - 1].error && '!border-2 border-red-500'
           }`}
