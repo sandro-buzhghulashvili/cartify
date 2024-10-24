@@ -6,11 +6,17 @@ import {
   IconMessages,
   IconPrivacySettings,
   IconCalendar,
+  IconSpeedometer,
 } from '@/components/icons/Icons';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const SIDEBAR_LINKS = [
+  {
+    title: 'Dashboard',
+    icon: IconSpeedometer,
+  },
   {
     title: 'Products',
     icon: IconSuitcase,
@@ -28,40 +34,45 @@ const SIDEBAR_LINKS = [
     icon: IconMessages,
   },
   {
-    title: 'Personal Info',
+    title: 'Personal',
     icon: IconPrivacySettings,
   },
 ];
 
 const Sidebar: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('Products');
+  const [activeTab, setActiveTab] = useState('Dashboard');
   return (
-    <div className="flex flex-col justify-between">
-      <div className="h-[30%]">
+    <div className="flex flex-col gap-10">
+      <Link href="/" className="flex items-center gap-2">
         <Image
           src="/cartify.png"
-          alt="company logo"
           width={50}
           height={50}
-          className="ml-2 mb-5"
+          alt="cartify logo"
+          priority
         />
-      </div>
-
-      <ul className="max-w-[66px] flex flex-col justify-between h-full">
+        <h1 className="text-xl font-semibold text-primary-black">Cartify</h1>
+      </Link>
+      <ul className="flex flex-col gap-8">
         {SIDEBAR_LINKS.map((link, index) => (
           <li
             key={index}
+            className={`flex items-center px-5 py-2 gap-5 cursor-pointer group hover:bg-[rgba(94,129,244,0.1)] duration-300 relative ${
+              activeTab === link.title ? 'bg-[rgba(94,129,244,0.1)]' : null
+            }`}
             onClick={() => setActiveTab(link.title)}
-            className="p-5 group hover:bg-hover-light-blue duration-300 w-fit cursor-pointer  flex relative z-2"
           >
-            <link.icon
-              className={`w-5 h-5 fill-secondary-fill-gray group-hover:!fill-primary-blue duration-300 ${
-                activeTab === link.title ? '!fill-primary-blue' : null
+            <link.icon className="size-[22px] fill-secondary-blue" />
+            <p
+              className={`text-base text-secondary-gray duration-300 ${
+                activeTab === link.title ? 'font-bold' : null
               }`}
-            />
-            <p className="absolute z-5 max-w-0 left-10 overflow-hidden whitespace-nowrap hover:max-w-xs group-hover:ml-3 group-hover:text-primary-blue group-hover:max-w-xs duration-300 transition-all ease-in-out">
+            >
               {link.title}
             </p>
+            {activeTab === link.title && (
+              <span className="absolute top-0 bottom-0 my-auto -right-5 h-full w-1 bg-secondary-blue animate-wiggle"></span>
+            )}
           </li>
         ))}
       </ul>

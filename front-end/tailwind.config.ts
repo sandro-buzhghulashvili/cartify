@@ -30,6 +30,7 @@ const config: Config = {
         'light-blue': '#47C1BF',
         'ligher-blue': 'rgba(71, 193, 191, 0.5)',
         'primary-purple': '#43467F',
+        'secondary-blue': '#5E81F4',
         'primary-indigo': '#5C6AC4',
         'primary-blue': '#006FBB',
         'hover-light-blue': 'rgba(94, 129, 244, 0.1)',
@@ -40,6 +41,37 @@ const config: Config = {
       },
       boxShadow: {
         'flash-sale-shadow': '#5C6AC4 0px 7px 29px 0px',
+      },
+      keyframes: {
+        wiggle: {
+          '0%': { height: '0px' },
+          '100%': { height: '100%' },
+        },
+        modalIn: {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(100px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        modalOut: {
+          '0%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            opacity: '0',
+            transform: 'translateY(100px)',
+          },
+        },
+      },
+      animation: {
+        wiggle: 'wiggle 0.5s ease-in-out',
+        modalIn: 'modalIn 0.5s ease',
+        modalOut: 'modalOut 0.6s ease',
       },
     },
   },

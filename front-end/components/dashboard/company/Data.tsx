@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import CompanySales from './sales/CompanySales';
 
 interface DataProps {
   companyDetails: null | any;
@@ -33,9 +34,9 @@ const Data: React.FC<DataProps> = ({ companyDetails }) => {
     }
   }, [Cookies]);
   return (
-    <div className="flex flex-col w-full">
-      {!companyDetails && (
-        <>
+    <div>
+      {!companyDetails ? (
+        <div className="flex flex-col w-full">
           {newlyRegistered && (
             <Instruction onClose={toggleNewlyRegisteredStatus} />
           )}
@@ -47,7 +48,7 @@ const Data: React.FC<DataProps> = ({ companyDetails }) => {
               height={240}
               alt="statistics"
             />
-            <h1 className="text-2xl w-1/3 text-center text-primary-black font-bold leading-9">
+            <h1 className="text-2xl w-1/2 text-center text-primary-black font-bold leading-9">
               There is no data to display. Setup your business.
             </h1>
             <p className="text-secondary-gray text-sm font-medium">
@@ -64,7 +65,9 @@ const Data: React.FC<DataProps> = ({ companyDetails }) => {
               Setup
             </button>
           </div>
-        </>
+        </div>
+      ) : (
+        <CompanySales sales={companyDetails.sales} />
       )}
     </div>
   );

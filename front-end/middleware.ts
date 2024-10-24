@@ -6,17 +6,22 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('token');
   const { pathname } = request.nextUrl;
 
-  // console.log(`Requesting: ${pathname}, Token: ${token}`);
-
   if (token) {
     if (pathname === '/signin' || pathname === '/signup') {
       return NextResponse.redirect(new URL('/', request.url));
     }
-    if (!isCompany && pathname === '/company-profile') {
-      return NextResponse.redirect(new URL('/', request.url));
+    if (!isCompany) {
+      // protected dashboard paths
+      if (pathname.replace('/dashboard', '').startsWith('/company')) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+      // protected wizards paths
+      if (pathname === '/company-profile') {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
     }
   } else {
-    if (pathname === '/dashboard') {
+    if (pathname.startsWith('/dashboard')) {
       return NextResponse.redirect(new URL('/', request.url));
     }
   }
@@ -25,5 +30,13 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard', '/signin', '/signup', '/company-profile', '/'],
+  matcher: [
+    '/dashboard',
+    '/signin',
+    '/signup',
+    '/company-profile',
+    '/dashboard/company',
+    '/dashboard/client',
+    '/company-add-product',
+  ],
 };

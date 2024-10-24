@@ -22,8 +22,10 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
   const [success, setSuccess] = useState<null | string>(null);
 
   const isValid = wizardsData
-    .slice(0, wizardsData.length - 1)
+    .slice(0, activePage - 1)
     .every((val) => val.validationFn(val.answer));
+
+  // last page is for finish page
 
   const handleFinish = async () => {
     try {
