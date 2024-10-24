@@ -1,3 +1,5 @@
+'use client';
+
 import { useQuery } from 'react-query';
 import Data from './Data';
 import Notifications from './Notifications';
@@ -14,18 +16,17 @@ const CompanyDashboard: React.FC = () => {
     queryFn: getCompanyDetails,
   });
 
-  console.log(companyData);
-
   return (
     <>
       {isLoading ? (
         <p>Loading ...</p> // Here we will have loading screen + we will have error screen
       ) : (
-        <div className="flex gap-10 py-24">
-          <Sidebar />
-          <Notifications />
-          <Data companyDetails={companyData.companyDetails} />
-        </div>
+        <>
+          <div className="flex">
+            <Notifications />
+            <Data companyDetails={companyData.companyDetails} />
+          </div>
+        </>
       )}
     </>
   );

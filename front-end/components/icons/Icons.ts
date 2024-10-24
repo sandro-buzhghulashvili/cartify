@@ -35,3 +35,7 @@ export { IconUpload } from './IconUpload';
 export { IconPlus } from './IconPlus';
 export { IconX } from './IconX';
 export { IconLocation } from './IconLocation';
+export { IconSpeedometer } from './IconSpeedometer';
+export { IconSales } from './IconSales';
+export { IconWalletStroke } from './IconWalletStroke';
+export { IconRate } from './IconRate';

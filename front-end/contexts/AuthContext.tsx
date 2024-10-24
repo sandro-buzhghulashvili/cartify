@@ -39,8 +39,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   const { mutate: signOut } = useMutation({
     mutationFn: logoutFn,
     onSuccess: () => {
-      revalidateLandingPage();
       router.push('/');
+      revalidateLandingPage();
+      revalidateDashboard();
       setUserData(null);
     },
   });
