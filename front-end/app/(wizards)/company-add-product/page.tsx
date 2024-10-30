@@ -19,7 +19,7 @@ const AddProductWizardPage: React.FC = () => {
         wizardsData.length &&
         wizardsData[activePage - 1].component}
       <Image
-        src="/illustrations/illustration_1.svg"
+        src="/illustrations/product-1.png"
         width={400}
         height={500}
         alt="illustration_1"
