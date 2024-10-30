@@ -35,6 +35,8 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
   const [activePage, setActivePage] = useState(1);
   const [finishFunc, setFinishFunc] = useState<any>(null);
 
+  // console.log(wizardsData);
+
   const current = wizardsData[activePage - 1];
 
   const onNext = () => {
@@ -43,6 +45,18 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
       current.validationFn(current.answer)
     ) {
       setActivePage((prevPage) => prevPage + 1);
+      setWizardsData((prevData: any) =>
+        prevData.map((item: any, index: number) => {
+          if (index === activePage - 1) {
+            return {
+              ...item,
+              error: null,
+            };
+          } else {
+            return item;
+          }
+        })
+      );
     } else {
       setWizardsData((prevData: any) =>
         prevData.map((item: any, index: number) => {

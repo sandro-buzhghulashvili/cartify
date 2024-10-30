@@ -39,3 +39,5 @@ export { IconSpeedometer } from './IconSpeedometer';
 export { IconSales } from './IconSales';
 export { IconWalletStroke } from './IconWalletStroke';
 export { IconRate } from './IconRate';
+export { IconCheckmark } from './IconCheckmark';
+export { IconInfoButton } from './IconInfoButton';
