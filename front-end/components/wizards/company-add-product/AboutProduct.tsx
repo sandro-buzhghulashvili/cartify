@@ -1,6 +1,6 @@
-import { useWizardsContext } from '@/contexts/WizardsContext';
-import useInput from '@/hooks/useInput';
-import { useEffect, useState } from 'react';
+import { useWizardsContext } from "@/contexts/WizardsContext";
+import useInput from "@/hooks/useInput";
+import { useEffect, useState } from "react";
 
 const AboutProduct: React.FC = () => {
   const [errors, setErrors] = useState<any>(null);
@@ -36,12 +36,12 @@ const AboutProduct: React.FC = () => {
           return {
             ...prevErrors,
             description:
-              'Please provide description for your product (over 50 characters)',
+              "Please provide description for your product (over 50 characters)",
           };
         } else {
           return {
             description:
-              'Please provide description for your product (over 50 characters)',
+              "Please provide description for your product (over 50 characters)",
           };
         }
       });
@@ -58,11 +58,11 @@ const AboutProduct: React.FC = () => {
         if (prevErrors) {
           return {
             ...prevErrors,
-            title: 'Please type product title',
+            title: "Please type product title",
           };
         } else {
           return {
-            title: 'Please type product title',
+            title: "Please type product title",
           };
         }
       });
@@ -103,11 +103,11 @@ const AboutProduct: React.FC = () => {
   }, [title, description]);
 
   return (
-    <div className="h-full flex flex-col gap-7">
-      <div className="flex flex-col gap-5">
+    <div className='h-full flex flex-col gap-7'>
+      <div className='flex flex-col gap-5'>
         <label
-          htmlFor="productTitle"
-          className="text-2xl mb-3 font-medium text-primary-black w-fit"
+          htmlFor='productTitle'
+          className='text-2xl mb-3 font-medium text-primary-black w-fit'
         >
           Product Title
         </label>
@@ -116,26 +116,24 @@ const AboutProduct: React.FC = () => {
             value={title}
             onChange={handleTitleChange}
             onBlur={titleBlurHandler}
-            id="productTitle"
-            type="text"
-            placeholder="e.g., Wireless Headphones"
+            id='productTitle'
+            type='text'
+            placeholder='e.g., Wireless Headphones'
             className={`w-1/2 px-8 py-3 rounded-[30px] focus:outline-none border-[1px] border-primary-gray mb-3 ${
-              titleHasError || errors?.title ? '!border-2 border-red-500' : null
+              titleHasError || errors?.title ? "!border-2 border-red-500" : null
             }`}
           />
           {(errors?.title || titleHasError) && (
-            <p
-              className={`max-w-[200px] px-5 text-sm font-medium text-red-600`}
-            >
+            <p className={`px-5 text-sm font-medium text-red-600`}>
               Please type product title
             </p>
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-5">
+      <div className='flex flex-col gap-5'>
         <label
-          htmlFor="productDescription"
-          className="text-2xl mb-3 font-medium text-primary-black w-fit"
+          htmlFor='productDescription'
+          className='text-2xl mb-3 font-medium text-primary-black w-fit'
         >
           Product Description
         </label>
@@ -145,14 +143,14 @@ const AboutProduct: React.FC = () => {
             onChange={handleDescriptionChange}
             onBlur={descriptionBlurHandler}
             rows={8}
-            placeholder="Provide a detailed description..."
+            placeholder='Provide a detailed description...'
             className={`w-1/2 px-8 py-3 rounded-[30px] focus:outline-none border-[1px] border-primary-gray mb-3 ${
               descriptionHasError || errors?.description
-                ? '!border-2 border-red-500'
+                ? "!border-2 border-red-500"
                 : null
             }`}
-            name="product-description"
-            id="productDescription"
+            name='product-description'
+            id='productDescription'
           ></textarea>
           {(errors?.description || descriptionHasError) && (
             <p className={` px-5 text-sm font-medium text-red-600`}>
