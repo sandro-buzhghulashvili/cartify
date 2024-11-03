@@ -4,6 +4,8 @@ import Image from 'next/image';
 
 const Notifications: React.FC = () => {
   const { userData } = useAuthContext();
+
+  if (!userData) return;
   return (
     <div className="relative px-20">
       <Image

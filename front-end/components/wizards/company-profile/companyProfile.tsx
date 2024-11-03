@@ -23,7 +23,7 @@ export const companyProfileWizardsData = [
     title: 'logo',
     component: <UploadLogo />,
     answer: null,
-    validationFn: (val: File | null) => val,
+    validationFn: (val: File | null) => val && val instanceof File,
     errorMessage: 'Please upload photo',
   },
   {
@@ -31,7 +31,7 @@ export const companyProfileWizardsData = [
     component: <Tags />,
     answer: [],
     validationFn: (val: string[]) =>
-      val.length > 0 && val.every((str) => str.length > 0),
+      val && val.length > 0 && val.every((str) => str.length > 0),
     errorMessage: 'Please provide tags',
   },
   {
