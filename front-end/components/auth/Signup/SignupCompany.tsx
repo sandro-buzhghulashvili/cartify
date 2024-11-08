@@ -52,7 +52,6 @@ const SignupCompany: React.FC = () => {
     registerCompanyFn({
       companyData: data,
     });
-    console.log('submitted');
   };
 
   return (
@@ -172,8 +171,8 @@ const SignupCompany: React.FC = () => {
                       backgroundColor:
                         state.isFocused || state.isSelected
                           ? '#43467F'
-                          : baseStyles.backgroundColor, // Set hover color
-                      color: state.isFocused ? 'white' : baseStyles.color, // Optional: set hover text color
+                          : baseStyles.backgroundColor,
+                      color: state.isFocused ? 'white' : baseStyles.color,
                     }),
                   }}
                   options={options}

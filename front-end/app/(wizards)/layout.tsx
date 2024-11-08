@@ -61,7 +61,7 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
       {/* header section */}
       <section className="w-full">
         <div className="flex w-full justify-between items-center">
-          <Link href="/" className="flex items-center gap-2 w-full py-10">
+          <Link href="/" className="flex items-center w-fit gap-2 py-10">
             <Image
               src="/cartify.png"
               width={70}

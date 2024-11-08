@@ -1,29 +1,35 @@
-import { colorValidation } from "@/utils/validateColor";
-import AboutProduct from "./AboutProduct";
-import FinishProduct from "./FinishProduct";
-import MainTypes from "./MainTypes";
-import ProductImages from "./ProductImages";
+import { colorValidation } from '@/utils/validateColor';
+import AboutProduct from './AboutProduct';
+import FinishProduct from './FinishProduct';
+import MainTypes from './MainTypes';
+import ProductDetails from './ProductDetails';
+import ProductSpecifications from './ProductSpecifications';
 
 export const addProductsWizardsData = [
   {
-    title: "about_company",
+    title: 'about_company',
     component: <AboutProduct />,
     answer: null,
     validationFn: (data: any) =>
       data &&
       data.title.trim().length > 0 &&
       data.description.trim().length > 50,
-    errorMessage: "Please provide title and description",
+    errorMessage: 'Please provide title and description',
   },
   {
-    title: "images",
-    component: <ProductImages />,
+    title: 'product_details',
+    component: <ProductDetails />,
     answer: null,
-    validationFn: () => {},
-    errorMessage: "Please provide images",
+    validationFn: (data: any) =>
+      data &&
+      data.product_price.trim().length > 0 &&
+      Number(data.product_price) &&
+      data.images.length > 0 &&
+      data.product_type.trim().length > 0,
+    errorMessage: 'Please provide product details',
   },
   {
-    title: "main_types",
+    title: 'main_types',
     component: <MainTypes />,
     answer: null,
     validationFn: (data: any) => {
@@ -32,15 +38,13 @@ export const addProductsWizardsData = [
       const areTypesValid =
         Array.isArray(data.types) &&
         data.types.every(
-          ({ val }: any) => typeof val === "string" && val.trim().length > 0
+          ({ val }: any) => typeof val === 'string' && val.trim().length > 0
         );
 
-      // Validate colors array
       const areColorsValid =
         Array.isArray(data.colors) &&
         data.colors.every(({ val }: any) => colorValidation(val));
 
-      // Validate stock array
       const isStockValid =
         data.stock &&
         data.stock[0].val.trim().length > 0 &&
@@ -48,10 +52,22 @@ export const addProductsWizardsData = [
 
       return areTypesValid && areColorsValid && isStockValid;
     },
-    errorMessage: "Please provide all neccessary features",
+    errorMessage: 'Please provide all neccessary features',
   },
   {
-    title: "finish",
+    title: 'specifications',
+    component: <ProductSpecifications />,
+    answer: null,
+    validationFn: (data: any) =>
+      data &&
+      data.specifications.every(
+        (item: any) =>
+          item.detail.trim().length > 0 && item.value.trim().length > 0
+      ),
+    errorMessage: 'Please provide specifications correctly',
+  },
+  {
+    title: 'finish',
     component: <FinishProduct />,
   },
 ];
