@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 const MainTypes: React.FC = () => {
   const { wizardsData, onSetWizardsData, activePage } = useWizardsContext();
   const [allTypes, setAllTypes] = useState<any>({
-    'Types of product': {
+    Features: {
       validationFn: (type: string) => type.trim().length > 0,
       data: wizardsData[activePage - 1]?.answer?.types || [
         {

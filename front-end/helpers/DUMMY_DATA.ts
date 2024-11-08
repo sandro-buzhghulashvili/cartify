@@ -243,3 +243,17 @@ export const DUMMY_MESSAGES = [
     online: true,
   },
 ];
+
+export const DUMMY_PRODUCT_TYPES = [
+  { value: 'clothing', label: 'Clothing' },
+  { value: 'food_beverage', label: 'Food & Beverage' },
+  { value: 'furniture', label: 'Furniture' },
+  { value: 'health_wellness', label: 'Health & Wellness' },
+  { value: 'automotive', label: 'Automotive' },
+  { value: 'beauty', label: 'Beauty' },
+  { value: 'home_goods', label: 'Home Goods' },
+  { value: 'toys_games', label: 'Toys & Games' },
+  { value: 'sports_outdoors', label: 'Sports & Outdoors' },
+  { value: 'books_media', label: 'Books & Media' },
+  { value: 'office_supplies', label: 'Office Supplies' },
+];

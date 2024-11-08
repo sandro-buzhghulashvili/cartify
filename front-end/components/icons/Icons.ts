@@ -41,3 +41,4 @@ export { IconWalletStroke } from './IconWalletStroke';
 export { IconRate } from './IconRate';
 export { IconCheckmark } from './IconCheckmark';
 export { IconInfoButton } from './IconInfoButton';
+export { IconXFilled } from './IconXFilled';
