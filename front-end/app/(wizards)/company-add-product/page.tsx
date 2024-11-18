@@ -14,6 +14,10 @@ const AddProductWizardPage: React.FC = () => {
   useEffect(() => {
     onSetWizardsData(addProductsWizardsData);
     onSetFinishFunc(() => addProduct);
+
+    return () => {
+      onSetWizardsData([]);
+    };
   }, []);
   return (
     <div className="relative h-full">
