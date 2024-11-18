@@ -9,6 +9,8 @@ const FinishProduct: React.FC = () => {
   const [productPreviews, setProductPreviews] = useState<string[]>([]);
   const [activePreviewImage, setActivePreviewImage] = useState(0);
 
+  console.log(productHashMap);
+
   wizardsData.slice(0, wizardsData.length - 1).forEach((data) => {
     productHashMap[data.title] = data.answer;
   });
@@ -87,14 +89,14 @@ const FinishProduct: React.FC = () => {
         )}
         {/* // product title and description section */}
         <section className="w-3/5 flex flex-col gap-8">
-          {productHashMap.about_company.title.trim().length > 0 ? (
+          {productHashMap.about_company?.title.trim().length > 0 ? (
             <h1 className="text-3xl font-medium leading-[52px]">
               {productHashMap.about_company.title}
             </h1>
           ) : (
             <p className="text-red-500">Product title isn't provided</p>
           )}
-          {productHashMap.about_company.description.trim().length > 50 ? (
+          {productHashMap.about_company?.description.trim().length > 50 ? (
             <p className="text-base font-normal leading-[28px] text-teritary-gray w-4/5">
               {productHashMap.about_company.description}
             </p>
@@ -196,7 +198,7 @@ const FinishProduct: React.FC = () => {
         {wizardsData[1].validationFn(wizardsData[1].answer) ? (
           <div>
             <p className="text-2xl font-medium text-primary-black">
-              Price:{' '}
+              Price:
               <span>${productHashMap.product_details.product_price}</span>
             </p>
           </div>

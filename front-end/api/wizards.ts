@@ -41,7 +41,49 @@ export const addProduct: MutationFunction<
   }
 > = async ({ wizardsData }) => {
   try {
-    console.log(wizardsData, 'Inside wizards api file');
+    const formData = new FormData();
+
+    formData.append('title', wizardsData.about_company.title);
+    formData.append('description', wizardsData.about_company.description);
+    formData.append('stock', wizardsData.main_types.stock[0].val);
+    formData.append('price', wizardsData.product_details.product_price);
+    formData.append('product_type', wizardsData.product_details.product_type);
+
+    // serialized data:
+    formData.append(
+      'colors',
+      JSON.stringify(
+        wizardsData.main_types.colors.map((color: any) => color.val)
+      )
+    );
+    formData.append(
+      'types',
+      JSON.stringify(
+        wizardsData.main_types.types.map((color: any) => color.val)
+      )
+    );
+    formData.append(
+      'specifications',
+      JSON.stringify(
+        wizardsData.specifications.specifications.map((spec: any) => ({
+          detail: spec.detail,
+          value: spec.value,
+        }))
+      )
+    );
+
+    // handling image blobs:
+    wizardsData.product_details.images.forEach((file: File, index: number) => {
+      formData.append(`files`, file);
+    });
+
+    const res = await axiosInstance.post('wizards/add-product', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    return res.data;
   } catch (error: any) {
     throw errorHandler(error);
   }
