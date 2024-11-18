@@ -5,8 +5,11 @@ import Data from './Data';
 import Notifications from './Notifications';
 import Sidebar from './Sidebar';
 import { getCompanyDetails } from '@/api/company';
+import { useEffect } from 'react';
+import { useDashboardContext } from '@/contexts/DashboardContext';
 
 const CompanyDashboard: React.FC = () => {
+  const { onSetUserDetails } = useDashboardContext();
   const {
     data: companyData,
     isLoading,
@@ -15,6 +18,12 @@ const CompanyDashboard: React.FC = () => {
   } = useQuery({
     queryFn: getCompanyDetails,
   });
+
+  useEffect(() => {
+    if (companyData?.companyDetails) {
+      onSetUserDetails(companyData.companyDetails);
+    }
+  }, [companyData]);
 
   return (
     <>

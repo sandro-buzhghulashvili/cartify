@@ -145,7 +145,7 @@ const ProductSpecifications: React.FC = () => {
               </button>
             )}
             <input
-              className={`w-1/2 text-center border-2 border-r-0 border-t-0 border-primary-black py-3 font-bold focus:outline-none ${
+              className={`w-1/2 text-center border-2 border-r-0 border-t-0 border-primary-black py-3 font-bold focus:outline-none px-5 ${
                 spec.detail.trim().length === 0 && spec.isTouched
                   ? 'text-red-500 placeholder:text-red-500'
                   : null
@@ -157,7 +157,7 @@ const ProductSpecifications: React.FC = () => {
               onBlur={() => handleTouch(index)}
             />
             <input
-              className={`w-1/2 text-center border-2 border-t-0 border-primary-black py-3 font-medium focus:outline-none text-secondary-gray ${
+              className={`w-1/2 text-center border-2 border-t-0 border-primary-black py-3 font-medium focus:outline-none text-secondary-gray px-5 ${
                 spec.value.trim().length === 0 && spec.isTouched
                   ? 'text-red-500 placeholder:text-red-500'
                   : null

@@ -8,6 +8,7 @@ import {
   IconCalendar,
   IconSpeedometer,
 } from '@/components/icons/Icons';
+import { useDashboardContext } from '@/contexts/DashboardContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -41,6 +42,7 @@ const SIDEBAR_LINKS = [
 
 const Sidebar: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Dashboard');
+
   return (
     <div className="flex flex-col gap-10">
       <Link href="/" className="flex items-center gap-2">

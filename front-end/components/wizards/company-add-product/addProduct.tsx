@@ -63,8 +63,11 @@ export const addProductsWizardsData = [
       data.specifications.every(
         (item: any) =>
           item.detail.trim().length > 0 && item.value.trim().length > 0
+      ) &&
+      data.specifications.some(
+        (item: any) => item.detail.toLowerCase() === 'brand'
       ),
-    errorMessage: 'Please provide specifications correctly',
+    errorMessage: 'Please provide brand and additional specifications',
   },
   {
     title: 'finish',

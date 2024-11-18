@@ -30,15 +30,15 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
   const handleFinish = async () => {
     try {
       setLoading(true);
-      const profileHashMap: any = {};
+      const wizardsHashMap: any = {};
 
       wizardsData.forEach((data) => {
-        profileHashMap[data.title] = data.answer;
+        wizardsHashMap[data.title] = data.answer;
       });
 
       const mutator = finishFunc();
       const res = await mutator({
-        companyProfile: profileHashMap,
+        wizardsData: wizardsHashMap,
       });
 
       setLoading(false);
