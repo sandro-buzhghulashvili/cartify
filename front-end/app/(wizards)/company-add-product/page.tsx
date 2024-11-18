@@ -5,6 +5,7 @@ import { useWizardsContext } from '@/contexts/WizardsContext';
 import { useEffect } from 'react';
 
 import Image from 'next/image';
+import { addProduct } from '@/api/wizards';
 
 const AddProductWizardPage: React.FC = () => {
   const { wizardsData, onSetWizardsData, onSetFinishFunc, activePage } =
@@ -12,19 +13,23 @@ const AddProductWizardPage: React.FC = () => {
 
   useEffect(() => {
     onSetWizardsData(addProductsWizardsData);
+    onSetFinishFunc(() => addProduct);
   }, []);
   return (
     <div className="relative h-full">
       {wizardsData &&
         wizardsData.length &&
         wizardsData[activePage - 1].component}
-      <Image
-        src="/illustrations/product-1.png"
-        width={400}
-        height={500}
-        alt="illustration_1"
-        className="absolute bottom-0 right-0"
-      />
+
+      {activePage !== wizardsData.length && (
+        <Image
+          src="/illustrations/product-1.png"
+          width={400}
+          height={500}
+          alt="illustration_1"
+          className="absolute bottom-0 right-0"
+        />
+      )}
     </div>
   );
 };

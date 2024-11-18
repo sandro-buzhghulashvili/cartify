@@ -1,16 +1,18 @@
 import { useAuthContext } from '@/contexts/AuthContext';
+import { useDashboardContext } from '@/contexts/DashboardContext';
 import { DUMMY_MESSAGES } from '@/helpers/DUMMY_DATA';
 import Image from 'next/image';
 
 const Notifications: React.FC = () => {
   const { userData } = useAuthContext();
+  const { userDetails } = useDashboardContext();
 
   if (!userData) return;
   return (
     <div className="relative px-20">
       <Image
         priority={true}
-        src="/profile_default.svg"
+        src={userDetails?.logo || '/profile_default.svg'}
         width={100}
         height={100}
         alt="company default logo"
