@@ -30,15 +30,15 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
   const handleFinish = async () => {
     try {
       setLoading(true);
-      const profileHashMap: any = {};
+      const wizardsHashMap: any = {};
 
       wizardsData.forEach((data) => {
-        profileHashMap[data.title] = data.answer;
+        wizardsHashMap[data.title] = data.answer;
       });
 
       const mutator = finishFunc();
       const res = await mutator({
-        companyProfile: profileHashMap,
+        wizardsData: wizardsHashMap,
       });
 
       setLoading(false);
@@ -61,7 +61,7 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
       {/* header section */}
       <section className="w-full">
         <div className="flex w-full justify-between items-center">
-          <Link href="/" className="flex items-center gap-2 w-full py-10">
+          <Link href="/" className="flex items-center w-fit gap-2 py-10">
             <Image
               src="/cartify.png"
               width={70}
