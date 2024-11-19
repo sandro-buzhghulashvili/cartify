@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, use, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { IconChevronRight } from '@/components/icons/Icons';
 import {
