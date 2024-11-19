@@ -11,16 +11,19 @@ import {
 import { useDashboardContext } from '@/contexts/DashboardContext';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 const SIDEBAR_LINKS = [
   {
     title: 'Dashboard',
     icon: IconSpeedometer,
+    link: '',
   },
   {
     title: 'Products',
     icon: IconSuitcase,
+    link: '/products',
   },
   {
     title: 'Tasks',
@@ -41,6 +44,8 @@ const SIDEBAR_LINKS = [
 ];
 
 const Sidebar: React.FC = () => {
+  const pathname = usePathname();
+  const activePageUrl = pathname.replace('/dashboard/company', '');
   const [activeTab, setActiveTab] = useState('Dashboard');
 
   return (
@@ -57,25 +62,26 @@ const Sidebar: React.FC = () => {
       </Link>
       <ul className="flex flex-col gap-8">
         {SIDEBAR_LINKS.map((link, index) => (
-          <li
+          <Link
+            href={`/dashboard/company/${link.link}`}
             key={index}
             className={`flex items-center px-5 py-2 gap-5 cursor-pointer group hover:bg-[rgba(94,129,244,0.1)] duration-300 relative ${
-              activeTab === link.title ? 'bg-[rgba(94,129,244,0.1)]' : null
+              activePageUrl === link.link ? 'bg-[rgba(94,129,244,0.1)]' : null
             }`}
             onClick={() => setActiveTab(link.title)}
           >
             <link.icon className="size-[22px] fill-secondary-blue" />
             <p
               className={`text-base text-secondary-gray duration-300 ${
-                activeTab === link.title ? 'font-bold' : null
+                activePageUrl === link.link ? 'font-bold' : null
               }`}
             >
               {link.title}
             </p>
-            {activeTab === link.title && (
+            {activePageUrl === link.link && (
               <span className="absolute top-0 bottom-0 my-auto -right-5 h-full w-1 bg-secondary-blue animate-wiggle"></span>
             )}
-          </li>
+          </Link>
         ))}
       </ul>
     </div>

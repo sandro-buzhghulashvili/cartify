@@ -11,6 +11,7 @@ interface WizardsContextType {
   onSkip: () => void;
   onSetWizardsData: (data: any) => void;
   onSetFinishFunc: (fn: any) => void;
+  resetWizard: () => void;
 }
 
 interface WizardsContextProviderProps {
@@ -26,6 +27,7 @@ const wizardsContext = createContext<WizardsContextType>({
   onSkip: () => {},
   onSetWizardsData: (data) => {},
   onSetFinishFunc: () => {},
+  resetWizard: () => {},
 });
 
 export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
@@ -91,6 +93,10 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
     setFinishFunc(() => fn);
   };
 
+  const resetWizard = () => {
+    setActivePage(1);
+  };
+
   const contextValue: WizardsContextType = {
     wizardsData,
     activePage,
@@ -100,6 +106,7 @@ export const WizardsContextProvider: React.FC<WizardsContextProviderProps> = ({
     onSetWizardsData,
     finishFunc,
     onSetFinishFunc,
+    resetWizard,
   };
 
   return (

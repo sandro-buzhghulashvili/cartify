@@ -32,7 +32,11 @@ export const addProduct = async (req, res) => {
 
     await product.save();
 
-    res.json({ success: true, message: 'Successfully added product' });
+    res.json({
+      success: true,
+      message: 'Successfully added product',
+      redirect: '/dashboard/company/products',
+    });
   } catch (error) {
     res.status(400).json({
       success: false,

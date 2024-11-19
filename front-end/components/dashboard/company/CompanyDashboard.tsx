@@ -31,7 +31,7 @@ const CompanyDashboard: React.FC = () => {
         <p>Loading ...</p> // Here we will have loading screen + we will have error screen
       ) : (
         <>
-          <div className="flex">
+          <div className="flex w-full justify-between">
             <Notifications />
             <Data companyDetails={companyData.companyDetails} />
           </div>

@@ -33,6 +33,8 @@ const Data: React.FC<DataProps> = ({ companyDetails }) => {
       setNewlyRegistered(true);
     }
   }, [Cookies]);
+
+  console.log(companyDetails);
   return (
     <div>
       {!companyDetails ? (

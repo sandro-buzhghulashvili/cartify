@@ -7,7 +7,7 @@ interface CompanyLayoutProps {
 
 const CompanyLayout: React.FC<CompanyLayoutProps> = ({ children }) => {
   return (
-    <div className="flex justify-around py-24">
+    <div className="flex py-24">
       <Sidebar />
       {children}
     </div>
