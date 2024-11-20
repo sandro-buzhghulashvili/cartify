@@ -17,3 +17,13 @@ export const getProductTypes = async (searchTerm: string | null) => {
     throw errorHandler(error);
   }
 };
+
+export const getProducts = async () => {
+  try {
+    const res = await axiosInstance.get('products/company-products');
+
+    return res.data?.products;
+  } catch (error: any) {
+    throw errorHandler(error);
+  }
+};

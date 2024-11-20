@@ -1,4 +1,4 @@
-import Sidebar from '@/components/dashboard/company/Sidebar';
+import Sidebar from '@/components/dashboard/company/index/Sidebar';
 import { ReactNode } from 'react';
 
 interface CompanyLayoutProps {

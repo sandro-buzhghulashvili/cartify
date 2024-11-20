@@ -1,7 +1,7 @@
 'use client';
 
 import Cookies from 'js-cookie';
-import CompanyDashboard from './company/CompanyDashboard';
+import CompanyDashboard from './company/index/CompanyDashboard';
 import { useAuthContext } from '@/contexts/AuthContext';
 
 const Dashboard: React.FC = () => {

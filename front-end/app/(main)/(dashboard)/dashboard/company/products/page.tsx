@@ -1,5 +1,7 @@
-const CompanyProductsPage: React.FC = () => {
-  return <h1>Here will be products page</h1>;
+import ProductsDashboard from '@/components/dashboard/company/products/ProductsDashboard';
+
+const CompanyProductsPage: React.FC = async () => {
+  return <ProductsDashboard />;
 };
 
 export default CompanyProductsPage;
