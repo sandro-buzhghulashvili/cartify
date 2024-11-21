@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import SortNav from './SortNav';
 import FilterMenu from './FilterMenu';
 import { createPriceRanges } from '@/helpers/ranges';
+import ProductList from './ProductList';
 
 const ProductsDashboard: React.FC = () => {
   const {
@@ -47,7 +48,6 @@ const ProductsDashboard: React.FC = () => {
   const productClasses = Array.from(
     new Set(products.map((prod: any) => prod.product_type))
   );
-  console.log(productClasses);
 
   //   console.log(productTypes);
   //   console.log(JSON.parse(products[0]?.specifications));
@@ -59,6 +59,7 @@ const ProductsDashboard: React.FC = () => {
         priceRange={priceRanges}
         productClasses={productClasses}
       />
+      <ProductList />
     </div>
   );
 };
