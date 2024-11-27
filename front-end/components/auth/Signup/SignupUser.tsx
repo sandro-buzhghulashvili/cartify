@@ -27,7 +27,7 @@ import { registerClient } from '@/api/auth';
 import { useAuthContext } from '@/contexts/AuthContext';
 
 const SignupUser: React.FC = () => {
-  const authContext = useAuthContext();
+  const { login, loading } = useAuthContext();
   const {
     data: registerFeedback,
     mutate: registerClientFn,
@@ -37,7 +37,7 @@ const SignupUser: React.FC = () => {
   } = useMutation({
     mutationFn: registerClient,
     onSuccess: (data) => {
-      authContext.login(data);
+      login(data);
     },
   });
   const {
@@ -183,7 +183,9 @@ const SignupUser: React.FC = () => {
           </p>
         )}
         <button className="w-full rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
-          {registeringClient ? 'Registering ...' : ' Create Elma account'}
+          {registeringClient || loading
+            ? 'Registering ...'
+            : ' Create Elma account'}
         </button>
       </form>
       <Swiper

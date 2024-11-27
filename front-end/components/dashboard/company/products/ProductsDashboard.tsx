@@ -8,7 +8,13 @@ import FilterMenu from './FilterMenu';
 import { createPriceRanges } from '@/helpers/ranges';
 import ProductList from './ProductList';
 
+import Image from 'next/image';
+import Link from 'next/link';
+import { IconPlus, IconSuitcase } from '@/components/icons/Icons';
+import { useState } from 'react';
+
 const ProductsDashboard: React.FC = () => {
+  const [filters, setFilters] = useState<any>(null);
   const {
     data: products,
     isLoading: productsAreLoading,
@@ -17,6 +23,32 @@ const ProductsDashboard: React.FC = () => {
   } = useQuery({
     queryFn: getProducts,
   });
+
+  if (products?.length === 0) {
+    return (
+      <div className="w-full flex flex-col gap-5 justify-center items-center">
+        <Image
+          src="/illustrations/not-found.png"
+          width={350}
+          height={350}
+          alt="not found illustration"
+        />
+        <h1 className="text-2xl w-1/2 text-center text-primary-black font-bold leading-9">
+          Found no products.
+        </h1>
+        <p className="text-secondary-gray text-sm font-medium">
+          Maybe add one ?
+        </p>
+        <Link
+          replace={true}
+          href="/company-add-product"
+          className={`px-8 py-2 duration-300 text-white text-sm rounded-lg font-bold bg-primary-indigo relative flex items-center gap-5`}
+        >
+          Add new product <IconPlus className="fill-white size-5" />
+        </Link>
+      </div>
+    );
+  }
 
   if (productsAreLoading || !products?.length) {
     return (
@@ -49,6 +81,31 @@ const ProductsDashboard: React.FC = () => {
     new Set(products.map((prod: any) => prod.product_type))
   );
 
+  const handleFilter = (data: any) => {
+    setFilters(data);
+  };
+
+  let filteredProducts =
+    filters &&
+    products.filter((product: any) => {
+      const filterEntries = Object.entries(product).filter(
+        ([key, value]) => key in filters
+      );
+
+      if (
+        filterEntries.every(([key, value]: [key: string, value: any]) => {
+          if (key === 'types') {
+            return value.some((val: any) => filters[key](val));
+          } else {
+            return filters[key](value);
+          }
+        })
+      ) {
+        return product;
+      }
+    });
+
+  console.log(filteredProducts);
   //   console.log(productTypes);
   //   console.log(JSON.parse(products[0]?.specifications));
   return (
@@ -58,8 +115,9 @@ const ProductsDashboard: React.FC = () => {
         categories={productTypes}
         priceRange={priceRanges}
         productClasses={productClasses}
+        onFilter={handleFilter}
       />
-      <ProductList />
+      <ProductList products={filteredProducts || []} />
     </div>
   );
 };

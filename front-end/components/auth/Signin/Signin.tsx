@@ -27,7 +27,7 @@ import { login } from '@/api/auth';
 import { useAuthContext } from '@/contexts/AuthContext';
 
 const SigninUser: React.FC = () => {
-  const authContext = useAuthContext();
+  const { login: authContextLogin, loading } = useAuthContext();
   const {
     mutate: loginUser,
     isLoading: logging,
@@ -37,7 +37,7 @@ const SigninUser: React.FC = () => {
   } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      authContext.login(data);
+      authContextLogin(data);
     },
   });
   const {
@@ -119,7 +119,7 @@ const SigninUser: React.FC = () => {
           </p>
         )}
         <button className="w-full rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
-          {logging ? 'Logging in ...' : 'Sign In'}
+          {logging || loading ? 'Logging in ...' : 'Sign In'}
         </button>
       </form>
       <Swiper
