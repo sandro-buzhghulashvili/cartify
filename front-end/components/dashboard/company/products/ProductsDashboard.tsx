@@ -11,9 +11,10 @@ import ProductList from './ProductList';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IconPlus, IconSuitcase } from '@/components/icons/Icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ProductsDashboard: React.FC = () => {
+  const [filteredProducts, setFilteredProducts] = useState<any>([]);
   const [filters, setFilters] = useState<any>(null);
   const {
     data: products,
@@ -23,6 +24,44 @@ const ProductsDashboard: React.FC = () => {
   } = useQuery({
     queryFn: getProducts,
   });
+
+  const handleSearch = (searchTerm: string) => {
+    const searchFn = (title: string) =>
+      title.toLowerCase().includes(searchTerm.toLowerCase());
+    setFilters((prevFilters: any) => ({
+      ...prevFilters,
+      title: searchFn,
+    }));
+  };
+
+  const handleSort = (sortOption: any) => {
+    setFilteredProducts((products: any[]) => sortOption.sortFn(products));
+  };
+
+  useEffect(() => {
+    if (filters) {
+      let filteredProducts =
+        filters &&
+        products.filter((product: any) => {
+          const filterEntries = Object.entries(product).filter(
+            ([key, value]) => key in filters
+          );
+
+          if (
+            filterEntries.every(([key, value]: [key: string, value: any]) => {
+              if (key === 'types') {
+                return value.some((val: any) => filters[key](val));
+              } else {
+                return filters[key](value);
+              }
+            })
+          ) {
+            return product;
+          }
+        });
+      setFilteredProducts(filteredProducts);
+    }
+  }, [filters]);
 
   if (products?.length === 0) {
     return (
@@ -62,7 +101,7 @@ const ProductsDashboard: React.FC = () => {
     // Handle error state or empty products
     return (
       <div className="w-full flex justify-center items-center">
-        No products found.
+        Error occured : {productsError as string}
       </div>
     );
   }
@@ -85,32 +124,11 @@ const ProductsDashboard: React.FC = () => {
     setFilters(data);
   };
 
-  let filteredProducts =
-    filters &&
-    products.filter((product: any) => {
-      const filterEntries = Object.entries(product).filter(
-        ([key, value]) => key in filters
-      );
-
-      if (
-        filterEntries.every(([key, value]: [key: string, value: any]) => {
-          if (key === 'types') {
-            return value.some((val: any) => filters[key](val));
-          } else {
-            return filters[key](value);
-          }
-        })
-      ) {
-        return product;
-      }
-    });
-
-  console.log(filteredProducts);
   //   console.log(productTypes);
   //   console.log(JSON.parse(products[0]?.specifications));
   return (
     <div className="w-full px-[5%]">
-      <SortNav />
+      <SortNav onSearch={handleSearch} onSort={handleSort} />
       <FilterMenu
         categories={productTypes}
         priceRange={priceRanges}

@@ -26,6 +26,16 @@ const ProductList: React.FC<ProductsListProps> = ({
     });
   };
 
+  if (productsData.length === 0) {
+    return (
+      <div className="py-10 mx-auto w-fit">
+        <h1 className="text-xl font-medium text-primary-black">
+          Found no products
+        </h1>
+      </div>
+    );
+  }
+
   return (
     <div className="p-5">
       {/* // list header */}

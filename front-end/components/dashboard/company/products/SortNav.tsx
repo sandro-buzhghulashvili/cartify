@@ -1,22 +1,37 @@
 import { IconLoupe, IconPlus } from '@/components/icons/Icons';
 import Link from 'next/link';
+import { ChangeEvent, useEffect, useRef } from 'react';
 import Select from 'react-select';
 
-const SortNav: React.FC = () => {
+interface SortNavProps {
+  onSearch: (searchTerm: string) => void;
+  onSort: (sortOption: any) => void;
+}
+
+const SortNav: React.FC<SortNavProps> = ({ onSearch, onSort }) => {
   const sortOptions = [
     {
       value: 'default',
       label: 'Default',
+      sortFn: (products: any[]) => [...products],
     },
     {
       value: 'price',
       label: 'Price',
+      sortFn: (products: any[]) =>
+        [...products].sort((a, b) => a.price - b.price),
     },
     {
       value: 'date',
       label: 'Date',
+      sortFn: (products: any[]) =>
+        [...products].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        ),
     },
   ];
+
   return (
     <nav className="flex items-center justify-between p-5 rounded-lg shadow-bottom-shadow">
       <div className="flex items-center gap-5">
@@ -27,6 +42,9 @@ const SortNav: React.FC = () => {
               type="text"
               placeholder="Search product ..."
               className="bg-gray-100 px-8 py-2 rounded-lg pl-12 text-base focus:outline-none"
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                onSearch(event.target.value)
+              }
             />
             <IconLoupe className="absolute top-0 bottom-0 left-2 my-auto size-5 stroke-primary-black" />
           </div>
@@ -61,6 +79,7 @@ const SortNav: React.FC = () => {
                   },
                 }),
               }}
+              onChange={(selected) => onSort(selected)}
             />
           </div>
         </section>
