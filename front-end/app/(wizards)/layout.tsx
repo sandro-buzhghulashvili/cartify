@@ -20,6 +20,7 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [success, setSuccess] = useState<null | string>(null);
+  const [redirectLink, setRedirectLink] = useState<null | string>(null);
 
   const isValid = wizardsData
     .slice(0, activePage - 1)
@@ -45,6 +46,10 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
 
       if (res.success) {
         setSuccess(res.message);
+
+        if (res.redirect) {
+          setRedirectLink(res.redirect);
+        }
       }
     } catch (error) {
       setLoading(false);
@@ -53,7 +58,7 @@ const WizardsLayout: React.FC<WizardsLayoutProps> = ({ children }) => {
   };
 
   if (success) {
-    return <Success text={success} link="/dashboard" />;
+    return <Success text={success} link={redirectLink || '/dashboard'} />;
   }
 
   return (

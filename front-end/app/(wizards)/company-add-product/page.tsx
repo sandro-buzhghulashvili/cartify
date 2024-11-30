@@ -8,12 +8,18 @@ import Image from 'next/image';
 import { addProduct } from '@/api/wizards';
 
 const AddProductWizardPage: React.FC = () => {
-  const { wizardsData, onSetWizardsData, onSetFinishFunc, activePage } =
-    useWizardsContext();
+  const {
+    wizardsData,
+    onSetWizardsData,
+    onSetFinishFunc,
+    activePage,
+    resetWizard,
+  } = useWizardsContext();
 
   useEffect(() => {
     onSetWizardsData(addProductsWizardsData);
     onSetFinishFunc(() => addProduct);
+    resetWizard();
 
     return () => {
       onSetWizardsData([]);

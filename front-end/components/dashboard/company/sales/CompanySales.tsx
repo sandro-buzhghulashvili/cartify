@@ -2,6 +2,7 @@ import Image from 'next/image';
 import SalesStats from './SalesStats';
 import { IconPlus } from '@/components/icons/IconPlus';
 import Link from 'next/link';
+import { IconSuitcase } from '@/components/icons/IconSuitcase';
 
 interface CompanySalesProps {
   sales: any[] | null;
@@ -70,13 +71,21 @@ const CompanySales: React.FC<CompanySalesProps> = ({ sales }) => {
           <p className="text-secondary-gray text-sm font-medium">
             Maybe add new products ?
           </p>
-          <Link
-            replace={true}
-            href="/company-add-product"
-            className={`px-12 py-2 duration-300 text-white text-sm rounded-lg font-bold bg-primary-indigo relative flex items-center gap-5`}
-          >
-            Add new product <IconPlus className="fill-white size-5" />
-          </Link>
+          <div className="w-full flex items-center justify-center gap-5">
+            <Link
+              replace={true}
+              href="/company-add-product"
+              className={`px-8 py-2 duration-300 text-white text-sm rounded-lg font-bold bg-primary-indigo relative flex items-center gap-5`}
+            >
+              Add new product <IconPlus className="fill-white size-5" />
+            </Link>
+            <Link
+              href="/dashboard/company/products"
+              className={`px-8 py-2 duration-300 text-white text-sm rounded-lg font-bold bg-primary-green relative flex items-center gap-5`}
+            >
+              Check your products <IconSuitcase className="fill-white size-5" />
+            </Link>
+          </div>
         </div>
       )}
     </div>

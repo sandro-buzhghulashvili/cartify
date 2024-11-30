@@ -59,8 +59,8 @@ const FinishProduct: React.FC = () => {
               src={productPreviews[activePreviewImage]}
               alt="product-preview"
               width={300}
-              height={230}
-              className="w-[280px] h-[230px]"
+              height={300}
+              className="w-[280px] h-[280px] object-cover aspect-square"
             />
             <ul className="flex justify-around max-w-[300px] gap-5 flex-nowrap overflow-x-auto pb-3">
               {productPreviews.map((preview, index) => (
@@ -78,7 +78,7 @@ const FinishProduct: React.FC = () => {
                     alt={`product-${index}`}
                     width={90}
                     height={70}
-                    className={`w-[90px] h-[70px] p-2 z-2 `}
+                    className={`w-[90px] h-[70px] object-cover p-2 z-2 `}
                   />
                 </li>
               ))}

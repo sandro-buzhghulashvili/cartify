@@ -41,6 +41,7 @@ const config: Config = {
       },
       boxShadow: {
         'flash-sale-shadow': '#5C6AC4 0px 7px 29px 0px',
+        'bottom-shadow': 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
       },
       keyframes: {
         wiggle: {

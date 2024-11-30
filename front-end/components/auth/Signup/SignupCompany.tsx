@@ -27,7 +27,7 @@ const options: OptionType[] = [
 ];
 
 const SignupCompany: React.FC = () => {
-  const authContext = useAuthContext();
+  const { login, loading } = useAuthContext();
   const {
     mutate: registerCompanyFn,
     isLoading: registering,
@@ -36,7 +36,7 @@ const SignupCompany: React.FC = () => {
   } = useMutation({
     mutationFn: registerCompany,
     onSuccess: (data) => {
-      authContext.login(data);
+      login(data);
     },
   });
   const {
@@ -214,7 +214,9 @@ const SignupCompany: React.FC = () => {
           )}
           <div className="flex items-center justify-between">
             <button className="w-1/2 rounded-lg text-base font-regular py-3 text-white bg-primary-purple">
-              {registering ? 'Registering company...' : 'Create your account'}
+              {registering || loading
+                ? 'Registering company...'
+                : 'Create your account'}
             </button>
             <Link
               href="/signin"

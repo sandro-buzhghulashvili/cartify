@@ -50,6 +50,14 @@ const productSchema = new Schema(
       type: Schema.Types.Mixed,
       default: null,
     },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    status: {
+      type: String,
+      default: 'active',
+    },
   },
   { timestamps: true }
 );

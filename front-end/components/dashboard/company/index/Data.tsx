@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import CompanySales from './sales/CompanySales';
+import CompanySales from '../sales/CompanySales';
 
 interface DataProps {
   companyDetails: null | any;
@@ -33,6 +33,8 @@ const Data: React.FC<DataProps> = ({ companyDetails }) => {
       setNewlyRegistered(true);
     }
   }, [Cookies]);
+
+  console.log(companyDetails);
   return (
     <div>
       {!companyDetails ? (
