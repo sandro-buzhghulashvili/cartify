@@ -157,7 +157,7 @@ const FinishProduct: React.FC = () => {
                     >
                       <span>{color}</span>
                       <span
-                        className="size-5 rounded-full"
+                        className="size-5 rounded-full border-[1px] border-black"
                         style={{ backgroundColor: color }}
                       ></span>
                     </li>

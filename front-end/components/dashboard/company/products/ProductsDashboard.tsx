@@ -112,8 +112,9 @@ const ProductsDashboard: React.FC = () => {
 
   const priceRanges = createPriceRanges(
     Math.min(...products.map((prod: any) => Math.floor(prod.price))),
-    Math.max(...products.map((prod: any) => Math.ceil(prod.price))),
-    4
+    Math.max(...products.map((prod: any) => Math.ceil(prod.price))) + 1,
+    products.length,
+    products.length
   );
 
   const productClasses = Array.from(

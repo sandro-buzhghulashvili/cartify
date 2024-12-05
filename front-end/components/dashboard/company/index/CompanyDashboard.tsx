@@ -3,10 +3,10 @@
 import { useQuery } from 'react-query';
 import Data from './Data';
 import Notifications from './Notifications';
-import Sidebar from './Sidebar';
 import { getCompanyDetails } from '@/api/company';
 import { useEffect } from 'react';
 import { useDashboardContext } from '@/contexts/DashboardContext';
+import Cookies from 'js-cookie';
 
 const CompanyDashboard: React.FC = () => {
   const { onSetUserDetails } = useDashboardContext();
@@ -22,6 +22,7 @@ const CompanyDashboard: React.FC = () => {
   useEffect(() => {
     if (companyData?.companyDetails) {
       onSetUserDetails(companyData.companyDetails);
+      Cookies.set('profile_img', companyData.companyDetails.logo);
     }
   }, [companyData]);
 

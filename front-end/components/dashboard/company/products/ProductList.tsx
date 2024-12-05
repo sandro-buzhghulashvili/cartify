@@ -5,6 +5,8 @@ import Image from 'next/image';
 import ProductStatus from './ProductStatus';
 import { useState } from 'react';
 import { paginateArray } from '@/utils/paginateArray';
+import Modal from '@/components/shared/modal/Modal';
+import UpdateProduct from '../update_product/UpdateProduct';
 
 interface ProductsListProps {
   products: any[];
@@ -13,6 +15,8 @@ interface ProductsListProps {
 const ProductList: React.FC<ProductsListProps> = ({
   products: productsData,
 }) => {
+  const [editingProduct, setEditingProduct] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [activePage, setActivePage] = useState(1);
   const itemsOnPage = 8;
 
@@ -24,6 +28,11 @@ const ProductList: React.FC<ProductsListProps> = ({
       top: 0,
       behavior: 'smooth',
     });
+  };
+
+  const toggleEditingProduct = (product: any) => {
+    setSelectedProduct(product);
+    setEditingProduct((prevState) => !prevState);
   };
 
   if (productsData.length === 0) {
@@ -38,6 +47,11 @@ const ProductList: React.FC<ProductsListProps> = ({
 
   return (
     <div className="p-5">
+      {editingProduct && (
+        <Modal onClose={() => setEditingProduct(false)}>
+          <UpdateProduct productData={selectedProduct} />
+        </Modal>
+      )}
       {/* // list header */}
       <header className="flex items-center justify-between px-8 pb-8 font-medium text-base text-primary-gray">
         <section className="w-[25%]">
@@ -47,7 +61,7 @@ const ProductList: React.FC<ProductsListProps> = ({
           <p>Price</p>
         </section>
         <section className="w-[15%]">
-          <p className="text-center">Products</p>
+          <p className="text-center">Stock</p>
         </section>
         <section className="w-[15%]">
           <p className="text-center">Views</p>
@@ -62,58 +76,63 @@ const ProductList: React.FC<ProductsListProps> = ({
       </header>
       {/* products  */}
       <ul className="flex flex-col gap-5">
-        {products.map((product: any, index) => (
-          <li
-            key={product._id}
-            className="flex items-center justify-between px-8 text-primary-black"
-          >
-            <section className="w-[25%] flex items-center gap-5">
-              <Image
-                src={product.images[0]}
-                width={50}
-                height={50}
-                alt={`product-${product._id}`}
-                className="size-[50px] aspect-square object-cover"
-              />
-              <div>
-                <h1 className="max-w-[150px] whitespace-nowrap overflow-x-auto text-primary-black font-medium">
-                  {product.title}
-                </h1>
-                <p className="text-sm font-medium text-primary-gray py-1">
-                  SKU :
-                  {generateSKU({
-                    category: product.product_type,
-                    brand: JSON.parse(product.specifications).find(
-                      (item: any) => item.detail === 'Brand'
-                    ).value,
-                    uniqueId: product._id,
-                  })}
-                </p>
-              </div>
-            </section>
-            <section className="w-[15%] pl-10">
-              <p className="font-medium">${product.price.toFixed(2)}</p>
-            </section>
-            <section className="w-[15%]">
-              <p className="text-center font-medium">{product.stock}</p>
-            </section>
-            <section className="w-[15%]">
-              <p className="text-center">{formatNumber(product.views)}</p>
-            </section>
-            <section className="w-[15%] flex justify-center">
-              <ProductStatus status={product.status} />
-            </section>
+        {products.map((product: any, index) => {
+          return (
+            <li
+              key={product._id}
+              className="flex items-center justify-between px-8 text-primary-black"
+            >
+              <section className="w-[25%] flex items-center gap-5">
+                <Image
+                  src={product.images[0]}
+                  width={50}
+                  height={50}
+                  alt={`product-${product._id}`}
+                  className="size-[50px] aspect-square object-cover"
+                />
+                <div>
+                  <h1 className="max-w-[150px] whitespace-nowrap overflow-x-auto text-primary-black font-medium">
+                    {product.title}
+                  </h1>
+                  <p className="text-sm font-medium text-primary-gray py-1">
+                    SKU :
+                    {generateSKU({
+                      category: product.product_type,
+                      brand: JSON.parse(product.specifications).find(
+                        (item: any) => item.detail === 'Brand'
+                      ).value,
+                      uniqueId: product._id,
+                    })}
+                  </p>
+                </div>
+              </section>
+              <section className="w-[15%] pl-10">
+                <p className="font-medium">${product.price.toFixed(2)}</p>
+              </section>
+              <section className="w-[15%]">
+                <p className="text-center font-medium">{product.stock}</p>
+              </section>
+              <section className="w-[15%]">
+                <p className="text-center">{formatNumber(product.views)}</p>
+              </section>
+              <section className="w-[15%] flex justify-center">
+                <ProductStatus status={product.status} />
+              </section>
 
-            <section className="w-[15%] flex items-center justify-around">
-              <button className="flex items-center gap-3 bg-primary-purple px-3 py-2 rounded-lg text-white font-medium">
-                <IconEdit className="fill-white size-5" /> Edit
-              </button>
-              <button>
-                <IconTrashcan className="size-5 fill-primary-black" />
-              </button>
-            </section>
-          </li>
-        ))}
+              <section className="w-[15%] flex items-center justify-around">
+                <button
+                  onClick={() => toggleEditingProduct(product)}
+                  className="flex items-center gap-3 bg-primary-purple px-3 py-2 rounded-lg text-white font-medium"
+                >
+                  <IconEdit className="fill-white size-5" /> Edit
+                </button>
+                <button>
+                  <IconTrashcan className="size-5 fill-primary-black" />
+                </button>
+              </section>
+            </li>
+          );
+        })}
       </ul>
       <div className="py-7 flex flex-wrap justify-center gap-5 items-center">
         {[...Array(Math.ceil(productsData.length / itemsOnPage))].map(

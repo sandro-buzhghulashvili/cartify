@@ -24,6 +24,12 @@ const options: OptionType[] = [
   { value: 'tech', label: 'Technology' },
   { value: 'clothing', label: 'Fashion & Clothing' },
   { value: 'sports', label: 'Sports' },
+  {
+    value: 'food_beverage',
+    label: 'Food & Beverage',
+  },
+  { value: 'furniture', label: 'Furniture' },
+  { value: 'toys_and_games', label: 'Toys and Games' },
 ];
 
 const SignupCompany: React.FC = () => {
@@ -162,17 +168,22 @@ const SignupCompany: React.FC = () => {
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,
-                      borderColor: errors.industryType
-                        ? 'red'
-                        : baseStyles.borderColor,
+                      boxShadow: 'none',
+                      borderColor: errors.industryType ? 'red' : 'none',
+                      '&:hover': {
+                        borderColor: '#43467F',
+                      },
                     }),
                     option: (baseStyles, state) => ({
                       ...baseStyles,
                       backgroundColor:
                         state.isFocused || state.isSelected
                           ? '#43467F'
-                          : baseStyles.backgroundColor,
+                          : 'none',
                       color: state.isFocused ? 'white' : baseStyles.color,
+                      '&:active': {
+                        backgroundColor: '#43467F',
+                      },
                     }),
                   }}
                   options={options}
