@@ -58,6 +58,10 @@ const productSchema = new Schema(
       type: String,
       default: 'active',
     },
+    discount: {
+      type: Schema.Types.Mixed,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

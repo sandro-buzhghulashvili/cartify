@@ -54,56 +54,66 @@ const UpdateImages: React.FC<UpdateImagesProps> = ({
   }, [images]);
 
   return (
-    <section className="flex items-center flex-col gap-10">
-      <Image
-        src={images[activeImage].url || images[activeImage]}
-        alt="product-preview"
-        width={300}
-        height={300}
-        className="w-[280px] h-[280px] object-contain aspect-square"
-      />
-      <div className="pr-10  relative">
-        <ul className="flex justify-around max-w-[300px] gap-5 flex-nowrap overflow-x-auto pb-3">
-          {images.map((preview: any, index: number) => (
-            <div className="relative flex-shrink-0 " key={index}>
-              <li
-                onClick={() => setActiveImage(index)}
-                className={`cursor-pointer hover:bg-gray-300 rounded-md duration-300  ${
-                  activeImage === index
-                    ? 'relative border-2 border-primary-purple '
-                    : null
-                }`}
-              >
-                <Image
-                  src={preview.url || preview}
-                  alt={`product-${index}`}
-                  width={90}
-                  height={70}
-                  className={`w-[90px] h-[70px] object-contain p-2 z-2 `}
-                />
-              </li>
-              {index > 0 && (
+    <section className="flex items-center flex-col">
+      <div className="flex items-center flex-col gap-10">
+        <Image
+          src={
+            images[activeImage]?.url ||
+            images[activeImage] ||
+            '/illustrations/not-found.png'
+          }
+          alt="product-preview"
+          width={300}
+          height={300}
+          className="w-[280px] h-[280px] object-contain aspect-square"
+        />
+        <div className="pr-10  relative">
+          <ul className="flex justify-around max-w-[300px] gap-5 flex-nowrap overflow-x-auto pb-3">
+            {images.map((preview: any, index: number) => (
+              <div className="relative flex-shrink-0 " key={index}>
+                <li
+                  onClick={() => setActiveImage(index)}
+                  className={`cursor-pointer hover:bg-gray-300 rounded-md duration-300  ${
+                    activeImage === index
+                      ? 'relative border-2 border-primary-purple '
+                      : null
+                  }`}
+                >
+                  <Image
+                    src={preview.url || preview}
+                    alt={`product-${index}`}
+                    width={90}
+                    height={70}
+                    className={`w-[90px] h-[70px] object-contain p-2 z-2 `}
+                  />
+                </li>
                 <button
                   className="absolute top-0 right-0 z-10 "
                   onClick={() => handleRemoveImage(index)}
                 >
                   <IconXFilled className="size-5 fill-red-500" />
                 </button>
-              )}
-            </div>
-          ))}
-        </ul>
-        <input
-          onChange={handleFileInputChange}
-          ref={addImageInputRef}
-          type="file"
-          className="hidden"
-          multiple
-        />
-        <button onClick={handleAddImage}>
-          <IconPlus className="size-7 fill-primary-purple absolute -top-5 bottom-0 right-0 z-10 " />
-        </button>
+              </div>
+            ))}
+          </ul>
+          <input
+            onChange={handleFileInputChange}
+            ref={addImageInputRef}
+            type="file"
+            className="hidden"
+            multiple
+          />
+          <button onClick={handleAddImage}>
+            <IconPlus className="size-7 fill-primary-purple absolute -top-5 bottom-0 right-0 z-10 " />
+          </button>
+        </div>
       </div>
+
+      {!images[activeImage]?.url && !images[activeImage] && (
+        <p className="text-center text-red-400 font-medium">
+          Please provide at least one product image
+        </p>
+      )}
     </section>
   );
 };

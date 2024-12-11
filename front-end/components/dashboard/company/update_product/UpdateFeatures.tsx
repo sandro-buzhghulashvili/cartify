@@ -1,5 +1,5 @@
 import { IconPlus, IconXFilled } from '@/components/icons/Icons';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 interface CustomType {
   new: boolean;
@@ -9,10 +9,12 @@ interface CustomType {
 
 interface UpdateFeaturesProps {
   types: string[];
+  onUpdate: (detail: string, value: any) => void;
 }
 
 const UpdateFeatures: React.FC<UpdateFeaturesProps> = ({
   types: typesData,
+  onUpdate,
 }) => {
   const [types, setTypes] = useState<CustomType[]>([
     ...typesData.map((type) => ({ new: false, value: type, isTouched: false })),
@@ -80,6 +82,13 @@ const UpdateFeatures: React.FC<UpdateFeaturesProps> = ({
   const removeType = (index: number) => {
     setTypes((prevTypes) => prevTypes.filter((_, i) => i !== index));
   };
+
+  useEffect(() => {
+    onUpdate(
+      'types',
+      types.map((type) => type.value)
+    );
+  }, [types]);
 
   return (
     <div className="text-primary-black">
