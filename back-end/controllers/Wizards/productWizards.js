@@ -38,7 +38,7 @@ export const addProduct = async (req, res) => {
       redirect: '/dashboard/company/products',
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: error.message || 'Could not add product',
     });

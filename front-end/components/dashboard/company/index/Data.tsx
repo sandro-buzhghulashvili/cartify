@@ -34,7 +34,6 @@ const Data: React.FC<DataProps> = ({ companyDetails }) => {
     }
   }, [Cookies]);
 
-  console.log(companyDetails);
   return (
     <div>
       {!companyDetails ? (

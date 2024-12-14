@@ -85,7 +85,7 @@ const UploadLogo: React.FC = () => {
           alt="ellipse frame"
           className={`${
             logoPreview
-              ? 'size-[300px] rounded-full border-[1px] border-primary-black'
+              ? 'size-[300px] object-contain rounded-full border-[1px] border-primary-black'
               : null
           }`}
         />

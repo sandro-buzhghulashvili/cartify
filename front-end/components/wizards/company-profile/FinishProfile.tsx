@@ -38,7 +38,7 @@ const FinishProfile: React.FC = () => {
             alt="company logo"
             width={70}
             height={70}
-            className="rounded-full size-[70px]"
+            className="rounded-full size-[70px] object-contain"
           />
         ) : (
           <p className="text-red-500">Company logo isn't provided</p>

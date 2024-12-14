@@ -10,7 +10,7 @@ import ProductList from './ProductList';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { IconPlus, IconSuitcase } from '@/components/icons/Icons';
+import { IconPlus } from '@/components/icons/Icons';
 import { useEffect, useState } from 'react';
 
 const ProductsDashboard: React.FC = () => {
@@ -23,6 +23,7 @@ const ProductsDashboard: React.FC = () => {
     error: productsError,
   } = useQuery({
     queryFn: getProducts,
+    queryKey: ['products'],
   });
 
   const handleSearch = (searchTerm: string) => {
@@ -61,7 +62,7 @@ const ProductsDashboard: React.FC = () => {
         });
       setFilteredProducts(filteredProducts);
     }
-  }, [filters]);
+  }, [filters, products]);
 
   if (products?.length === 0) {
     return (
@@ -92,7 +93,7 @@ const ProductsDashboard: React.FC = () => {
   if (productsAreLoading || !products?.length) {
     return (
       <div className="w-full flex justify-center items-center">
-        <LoadingScreen />
+        <LoadingScreen className="size-[70px]" />
       </div>
     );
   }
@@ -112,8 +113,9 @@ const ProductsDashboard: React.FC = () => {
 
   const priceRanges = createPriceRanges(
     Math.min(...products.map((prod: any) => Math.floor(prod.price))),
-    Math.max(...products.map((prod: any) => Math.ceil(prod.price))),
-    4
+    Math.max(...products.map((prod: any) => Math.ceil(prod.price))) + 1,
+    products.length,
+    products.length
   );
 
   const productClasses = Array.from(

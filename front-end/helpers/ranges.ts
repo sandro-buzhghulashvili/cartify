@@ -14,10 +14,19 @@ function calculateStep(
 export function createPriceRanges(
   minPrice: number,
   maxPrice: number,
-  numRanges: number
+  numRanges: number,
+  productQuantity: number
 ): string[] {
+  if (numRanges > 3) {
+    numRanges = 4;
+  }
+
   const step = calculateStep(minPrice, maxPrice, numRanges);
   const ranges: string[] = [];
+
+  if (productQuantity === 1) {
+    return [`$0-$${maxPrice}`];
+  }
 
   for (let i = 0; i < numRanges; i++) {
     const start = minPrice + i * step;

@@ -64,7 +64,6 @@ const Success: React.FC<SuccessProps> = ({ text, link }) => {
           Congratulations!
         </h1>
         <p className="text-base text-center font-medium text-primary-gray">
-          {/* great job, your work here is done */}
           {text}
         </p>
         <div className="text-center mt-10">

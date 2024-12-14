@@ -44,3 +44,5 @@ export { IconInfoButton } from './IconInfoButton';
 export { IconXFilled } from './IconXFilled';
 export { IconEdit } from './IconEdit';
 export { IconTrashcan } from './IconTrashcan';
+export { IconDiscount } from './IconDiscount';
+export { IconUpdate } from './IconUpdate';
