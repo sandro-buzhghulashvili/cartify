@@ -105,7 +105,15 @@ const UpdateSpecifications: React.FC<UpdateSpecificationsProps> = ({
   };
 
   useEffect(() => {
-    onUpdate('specifications', JSON.stringify(specifications));
+    onUpdate(
+      'specifications',
+      JSON.stringify(
+        specifications.map((spec) => ({
+          detail: spec.detail,
+          value: spec.value,
+        }))
+      )
+    );
   }, [specifications]);
 
   return (

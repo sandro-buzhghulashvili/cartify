@@ -21,7 +21,7 @@ export const validateCompanyProfile = (profileData) => {
 export const validateProduct = (product) => {
   const parsedColors = JSON.parse(product.colors || '[]');
   const parsedTypes = JSON.parse(product.types || '[]');
-  const parsedSpecifications = JSON.parse(product.specifications || '[]');
+  const parsedSpecifications = JSON.parse(product.specifications);
 
   // Validation functions
   const validateAboutProduct = (data) =>
@@ -30,28 +30,38 @@ export const validateProduct = (product) => {
   const validateProductDetails = (data) =>
     data.price?.trim().length > 0 &&
     !isNaN(Number(data.price)) &&
+    Number(data.price) > 0 &&
     data.product_type?.trim().length > 0;
 
   const validateMainTypes = (data) => {
     const areTypesValid =
       Array.isArray(data.types) &&
+      data.types.length > 0 &&
       data.types.every(
         (val) => typeof val === 'string' && val.trim().length > 0
       );
 
-    const areColorsValid = Array.isArray(data.colors);
+    const areColorsValid = Array.isArray(data.colors) && data.colors.length > 0;
 
-    const isStockValid = data.stock && !isNaN(Number(data.stock));
+    const isStockValid =
+      data.stock && !isNaN(Number(data.stock)) && Number(data.stock) > 0;
 
     return areTypesValid && areColorsValid && isStockValid;
   };
 
-  const validateSpecifications = (data) =>
-    Array.isArray(data.specifications) &&
-    data.specifications.every(
-      (item) => item.detail?.trim().length > 0 && item.value?.trim().length > 0
-    ) &&
-    data.specifications.some((item) => item.detail.toLowerCase() === 'brand');
+  const validateSpecifications = (data) => {
+    // console.log(data);
+
+    return (
+      Array.isArray(data.specifications) &&
+      data.specifications.length > 0 &&
+      data.specifications.every(
+        (item) =>
+          item.detail?.trim().length > 0 && item.value?.trim().length > 0
+      ) &&
+      data.specifications.some((item) => item.detail.toLowerCase() === 'brand')
+    );
+  };
 
   const aboutProductValid = validateAboutProduct(product);
   const productDetailsValid = validateProductDetails(product);
@@ -63,12 +73,17 @@ export const validateProduct = (product) => {
   const specificationsValid = validateSpecifications({
     specifications: parsedSpecifications,
   });
+  const discountIsValid =
+    product.discount === '0' || !product.discount
+      ? true
+      : !isNaN(Number(product.discount)) && Number(product.discount > 0);
 
   const isValid =
     aboutProductValid &&
     productDetailsValid &&
     mainTypesValid &&
-    specificationsValid;
+    specificationsValid &&
+    discountIsValid;
 
   const errors = [];
   if (!aboutProductValid) errors.push('Invalid title or description');
@@ -76,6 +91,7 @@ export const validateProduct = (product) => {
   if (!mainTypesValid) errors.push('Invalid types, colors, or stock');
   if (!specificationsValid)
     errors.push('Invalid specifications or missing brand');
+  if (!discountIsValid) errors.push('Invalid discount');
 
   return {
     isValid,

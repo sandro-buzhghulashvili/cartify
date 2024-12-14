@@ -1,6 +1,7 @@
 import { colorValidation } from './validateColor';
 
 export type Product = {
+  _id: string;
   title: string;
   description: string;
   stock: number;
@@ -68,13 +69,15 @@ export const validateProduct = (product: Product) => {
     !isNaN(Number(product.discount)) &&
     product.discount >= 0 &&
     product.discount < 100;
+  const imagesAreValid = product.images.length > 0;
 
   const isValid =
     aboutProductValid &&
     productDetailsValid &&
     mainTypesValid &&
     specificationsValid &&
-    discountIsValid;
+    discountIsValid &&
+    imagesAreValid;
 
   const errors = [];
   if (!aboutProductValid) errors.push('Invalid title or description');
@@ -83,6 +86,7 @@ export const validateProduct = (product: Product) => {
   if (!specificationsValid)
     errors.push('Invalid specifications or missing brand');
   if (!discountIsValid) errors.push('Invalid discount');
+  if (!imagesAreValid) errors.push('Invalid images');
 
   return {
     isValid,

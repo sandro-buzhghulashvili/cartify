@@ -7,12 +7,32 @@ import UpdateSpecifications from './UpdateSpecifications';
 import UpdateStockAndPrice from './UpdateStockAndPrice';
 import { Product, validateProduct } from '@/utils/validateProduct';
 import { IconUpdate } from '@/components/icons/Icons';
+import { useMutation, useQueryClient } from 'react-query';
+import { updateProduct } from '@/api/products';
+import LoadingScreen from '@/components/shared/loaders/LoadingScreen';
+import LottiePopup from '@/components/shared/popups/LottiePopup';
+import successLottie from '@/components/lotties/success.json';
+import errorLottie from '@/components/lotties/error.json';
 
 interface UpdateProductProps {
   productData: Product;
 }
 
 const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
+  const queryClient = useQueryClient();
+
+  const {
+    mutate: mutateUpdate,
+    isLoading: productIsUpdating,
+    error: updateError,
+    isError: couldNotUpdate,
+    isSuccess: productUpdated,
+  } = useMutation({
+    mutationFn: updateProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['products']);
+    },
+  });
   const [product, setProduct] = useState({ ...productData });
 
   const { isValid: productIsValid } = validateProduct(product);
@@ -52,7 +72,49 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
     }));
   };
 
-  console.log(productIsValid);
+  const handleUpdateProduct = () => {
+    mutateUpdate({
+      productId: product._id,
+      product,
+    });
+  };
+
+  if (productIsUpdating) {
+    return (
+      <div className="p-8 bg-white rounded-xl size-[300px] flex flex-col gap-10 items-center justify-center">
+        <LoadingScreen className="size-[100px]" />
+        <h1 className="font-medium text-primary-black text-xl">Updating</h1>
+      </div>
+    );
+  }
+
+  if (productUpdated) {
+    return (
+      <div className="p-8 bg-white rounded-xl size-[350px] flex flex-col gap-10 items-center justify-center">
+        <LottiePopup
+          text="Successfully updated product"
+          lottieClass="size-[150px]"
+          className="flex flex-col items-center"
+          lottieData={successLottie}
+        />
+      </div>
+    );
+  }
+
+  if (couldNotUpdate) {
+    return (
+      <div className="p-8 bg-white rounded-xl size-[350px] flex flex-col gap-10 items-center justify-center">
+        <LottiePopup
+          text={`${updateError}`}
+          lottieClass="size-[150px]"
+          className="flex flex-col items-center"
+          lottieData={errorLottie}
+        />
+      </div>
+    );
+  }
+
+  // console.log(product);
 
   return (
     <div className="p-8 bg-white rounded-xl w-[1000px]">
@@ -74,7 +136,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
             specifications={product.specifications}
             onUpdate={updateDetails}
           />
-          <div className="flex flex-col items-center justify-between w-1/2 ">
+          <div className="flex flex-col items-center w-1/2 gap-10 ">
             <UpdateStockAndPrice
               defaultStock={String(product.stock)}
               defaultPrice={String(product.price)}
@@ -82,6 +144,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
               onUpdate={updateStockAndPrice}
             />
             <button
+              onClick={handleUpdateProduct}
               disabled={!productIsValid}
               className={`flex items-center duration-300 gap-5 px-10 py-2 bg-primary-purple text-white font-medium rounded-lg  ${
                 !productIsValid ? 'cursor-not-allowed opacity-50' : null
