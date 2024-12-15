@@ -13,7 +13,7 @@ export type Product = {
   images: string[];
   companyDetails: Record<string, any> | null;
   views: number;
-  status: 'active' | 'inactive';
+  status: 'active' | 'disabled';
   discount: number;
   createdAt?: Date;
   updatedAt?: Date;

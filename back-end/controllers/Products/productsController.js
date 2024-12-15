@@ -73,12 +73,38 @@ export const updateProduct = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Successfully updated product',
+      message: 'Successfully updated product.',
       product: updatedProduct,
     });
   } catch (error) {
     res
       .status(500)
       .json({ message: error.message || 'Error occured', success: false });
+  }
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    console.log(productId);
+
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+
+    if (!deletedProduct) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found',
+      });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: 'Successfully deleted product.' });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Could not delete product',
+    });
   }
 };
