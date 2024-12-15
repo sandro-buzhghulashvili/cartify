@@ -74,3 +74,18 @@ export const updateProduct: MutationFunction<
     throw errorHandler(error);
   }
 };
+
+export const deleteProduct: MutationFunction<
+  any,
+  { productId: string }
+> = async ({ productId }) => {
+  try {
+    const res = await axiosInstance.delete(
+      `/products/delete-product/${productId}`
+    );
+
+    return res.data;
+  } catch (error) {
+    return errorHandler(error);
+  }
+};

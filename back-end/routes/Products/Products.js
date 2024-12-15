@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  deleteProduct,
   getCompanyProducts,
   getProductTypes,
   updateProduct,
@@ -16,5 +17,6 @@ router.put(
   upload.array('files'),
   updateProduct
 );
+router.delete('/delete-product/:productId', authenticateToken, deleteProduct);
 
 export default router;

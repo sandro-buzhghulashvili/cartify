@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { paginateArray } from '@/utils/paginateArray';
 import Modal from '@/components/shared/modal/Modal';
 import UpdateProduct from '../update_product/UpdateProduct';
+import { Product } from '@/utils/validateProduct';
+import DeleteProduct from '../delete_product/DeleteProduct';
 
 interface ProductsListProps {
   products: any[];
@@ -15,8 +17,9 @@ interface ProductsListProps {
 const ProductList: React.FC<ProductsListProps> = ({
   products: productsData,
 }) => {
+  const [deletingProduct, setDeletingProduct] = useState(false);
   const [editingProduct, setEditingProduct] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activePage, setActivePage] = useState(1);
   const itemsOnPage = 8;
 
@@ -30,9 +33,14 @@ const ProductList: React.FC<ProductsListProps> = ({
     });
   };
 
-  const toggleEditingProduct = (product: any) => {
+  const toggleEditingProduct = (product: Product) => {
     setSelectedProduct(product);
     setEditingProduct((prevState) => !prevState);
+  };
+
+  const toggleDeletingProduct = (product: Product) => {
+    setSelectedProduct(product);
+    setDeletingProduct((prevState) => !prevState);
   };
 
   if (productsData.length === 0) {
@@ -47,9 +55,14 @@ const ProductList: React.FC<ProductsListProps> = ({
 
   return (
     <div className="p-5">
-      {editingProduct && (
-        <Modal onClose={() => setEditingProduct(false)}>
+      {editingProduct && selectedProduct && (
+        <Modal onClose={() => setEditingProduct(false)} closeButton={true}>
           <UpdateProduct productData={selectedProduct} />
+        </Modal>
+      )}
+      {deletingProduct && selectedProduct && (
+        <Modal onClose={() => setDeletingProduct(false)} closeButton={true}>
+          <DeleteProduct productId={selectedProduct._id} />
         </Modal>
       )}
       {/* // list header */}
@@ -76,7 +89,7 @@ const ProductList: React.FC<ProductsListProps> = ({
       </header>
       {/* products  */}
       <ul className="flex flex-col gap-5">
-        {products.map((product: any, index) => {
+        {products.map((product: Product, index) => {
           return (
             <li
               key={product._id}
@@ -99,7 +112,7 @@ const ProductList: React.FC<ProductsListProps> = ({
                     {generateSKU({
                       category: product.product_type,
                       brand: JSON.parse(product.specifications).find(
-                        (item: any) => item.detail === 'Brand'
+                        (item: any) => item.detail.toLowerCase() === 'brand'
                       ).value,
                       uniqueId: product._id,
                     })}
@@ -126,7 +139,7 @@ const ProductList: React.FC<ProductsListProps> = ({
                 >
                   <IconEdit className="fill-white size-5" /> Edit
                 </button>
-                <button>
+                <button onClick={() => toggleDeletingProduct(product)}>
                   <IconTrashcan className="size-5 fill-primary-black" />
                 </button>
               </section>

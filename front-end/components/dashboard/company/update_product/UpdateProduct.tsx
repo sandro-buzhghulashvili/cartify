@@ -22,6 +22,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
   const queryClient = useQueryClient();
 
   const {
+    data: updateRespone,
     mutate: mutateUpdate,
     isLoading: productIsUpdating,
     error: updateError,
@@ -92,7 +93,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
     return (
       <div className="p-8 bg-white rounded-xl size-[350px] flex flex-col gap-10 items-center justify-center">
         <LottiePopup
-          text="Successfully updated product"
+          text={updateRespone.message}
           lottieClass="size-[150px]"
           className="flex flex-col items-center"
           lottieData={successLottie}
