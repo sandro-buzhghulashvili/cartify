@@ -120,7 +120,22 @@ const ProductList: React.FC<ProductsListProps> = ({
                 </div>
               </section>
               <section className="w-[15%] pl-10">
-                <p className="font-medium">${product.price.toFixed(2)}</p>
+                {product.discount ? (
+                  <div className="flex flex-col gap-2">
+                    <p className="font-medium text-primary-red line-through">
+                      ${product.price.toFixed(2)}
+                    </p>
+                    <p className="font-medium">
+                      $
+                      {(
+                        product.price *
+                        ((100 - product.discount) / 100)
+                      ).toFixed(2)}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="font-medium">${product.price.toFixed(2)}</p>
+                )}
               </section>
               <section className="w-[15%]">
                 <p className="text-center font-medium">{product.stock}</p>
