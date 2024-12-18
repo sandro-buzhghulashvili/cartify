@@ -22,7 +22,7 @@ export const validateProduct = (product) => {
   const parsedColors = JSON.parse(product.colors || '[]');
   const parsedTypes = JSON.parse(product.types || '[]');
   const parsedSpecifications = JSON.parse(product.specifications);
-  const parsedDiscount = JSON.parse(product.discount);
+  const parsedDiscount = product.discount && JSON.parse(product.discount);
 
   // Validation functions
   const validateAboutProduct = (data) =>

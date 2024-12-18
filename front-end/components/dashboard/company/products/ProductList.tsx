@@ -101,7 +101,7 @@ const ProductList: React.FC<ProductsListProps> = ({
                   width={50}
                   height={50}
                   alt={`product-${product._id}`}
-                  className="size-[50px] aspect-square object-cover"
+                  className="size-[50px] aspect-square object-contain"
                 />
                 <div>
                   <h1 className="max-w-[150px] whitespace-nowrap overflow-x-auto text-primary-black font-medium">
