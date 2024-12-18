@@ -199,7 +199,12 @@ const FinishProduct: React.FC = () => {
           <div>
             <p className="text-2xl font-medium text-primary-black">
               Price:
-              <span>${productHashMap.product_details.product_price}</span>
+              <span className="ml-3">
+                $
+                {Number(productHashMap.product_details.product_price).toFixed(
+                  2
+                )}
+              </span>
             </p>
           </div>
         ) : (

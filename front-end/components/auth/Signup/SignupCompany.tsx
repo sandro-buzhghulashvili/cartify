@@ -28,6 +28,7 @@ const options: OptionType[] = [
     value: 'food_beverage',
     label: 'Food & Beverage',
   },
+  {value : 'books_and_education', label : "Books And Education"},
   { value: 'furniture', label: 'Furniture' },
   { value: 'toys_and_games', label: 'Toys and Games' },
 ];

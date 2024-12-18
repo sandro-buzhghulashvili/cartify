@@ -101,7 +101,7 @@ const ProductList: React.FC<ProductsListProps> = ({
                   width={50}
                   height={50}
                   alt={`product-${product._id}`}
-                  className="size-[50px] aspect-square object-cover"
+                  className="size-[50px] aspect-square object-contain"
                 />
                 <div>
                   <h1 className="max-w-[150px] whitespace-nowrap overflow-x-auto text-primary-black font-medium">
@@ -120,7 +120,9 @@ const ProductList: React.FC<ProductsListProps> = ({
                 </div>
               </section>
               <section className="w-[15%] pl-10">
-                {product.discount ? (
+                {typeof product.discount !== 'number' &&
+                new Date(product.discount.endDate).getTime() >
+                  new Date().getTime() ? (
                   <div className="flex flex-col gap-2">
                     <p className="font-medium text-primary-red line-through">
                       ${product.price.toFixed(2)}
@@ -129,7 +131,7 @@ const ProductList: React.FC<ProductsListProps> = ({
                       $
                       {(
                         product.price *
-                        ((100 - product.discount) / 100)
+                        ((100 - Number(product.discount.percentage)) / 100)
                       ).toFixed(2)}
                     </p>
                   </div>

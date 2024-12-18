@@ -51,7 +51,7 @@ export const updateProduct: MutationFunction<
       'images',
       JSON.stringify(product.images.filter((img) => typeof img === 'string'))
     );
-    formData.append('discount', String(product.discount));
+    formData.append('discount', JSON.stringify(product.discount));
 
     // handling new images as blobs:
     product.images.forEach((image: any) => {

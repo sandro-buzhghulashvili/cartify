@@ -1,12 +1,16 @@
 import useInput from '@/hooks/useInput';
-import Discount from './Discount';
+import Discount, { DiscountObject } from './Discount';
 import { useEffect, useState } from 'react';
 
 interface UpdateStockAndPriceProps {
   defaultStock: string;
   defaultPrice: string;
-  defaultDiscount: string;
-  onUpdate: (stock: number, price: number, discount: number) => void;
+  defaultDiscount: string | DiscountObject;
+  onUpdate: (
+    stock: number,
+    price: number,
+    discount: number | DiscountObject
+  ) => void;
 }
 
 const UpdateStockAndPrice: React.FC<UpdateStockAndPriceProps> = ({
@@ -41,12 +45,16 @@ const UpdateStockAndPrice: React.FC<UpdateStockAndPriceProps> = ({
     defaultValue: defaultPrice,
   });
 
-  const handleDiscountChange = (newDiscount: string) => {
+  const handleDiscountChange = (newDiscount: string | DiscountObject) => {
     setDiscount(newDiscount);
   };
 
   useEffect(() => {
-    onUpdate(Number(stock), Number(price), Number(discount));
+    if (typeof discount === 'string') {
+      onUpdate(Number(stock), Number(price), Number(discount));
+    } else {
+      onUpdate(Number(stock), Number(price), discount);
+    }
   }, [stock, price, discount]);
 
   return (
