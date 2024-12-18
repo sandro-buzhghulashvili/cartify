@@ -22,6 +22,7 @@ export const validateProduct = (product) => {
   const parsedColors = JSON.parse(product.colors || '[]');
   const parsedTypes = JSON.parse(product.types || '[]');
   const parsedSpecifications = JSON.parse(product.specifications);
+  const parsedDiscount = JSON.parse(product.discount);
 
   // Validation functions
   const validateAboutProduct = (data) =>
@@ -74,9 +75,13 @@ export const validateProduct = (product) => {
     specifications: parsedSpecifications,
   });
   const discountIsValid =
-    product.discount === '0' || !product.discount
+    parsedDiscount === '0' || !parsedDiscount
       ? true
-      : !isNaN(Number(product.discount)) && Number(product.discount > 0);
+      : !isNaN(Number(parsedDiscount.percentage)) &&
+        Number(parsedDiscount.percentage > 0) &&
+        Number(parsedDiscount.percentage < 100) &&
+        new Date(parsedDiscount.endDate) instanceof Date &&
+        new Date(parsedDiscount.endDate).getTime() > new Date().getTime();
 
   const isValid =
     aboutProductValid &&

@@ -66,7 +66,10 @@ export const updateProduct = async (req, res) => {
           ...req.files.map((file) => file.path),
           ...JSON.parse(req.body.images),
         ],
-        discount: Number(req.body.discount),
+        discount:
+          typeof req.body.discount === 'number'
+            ? Number(req.body.discount)
+            : JSON.parse(req.body.discount),
       },
       { new: true }
     );

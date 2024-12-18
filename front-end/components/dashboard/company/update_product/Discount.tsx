@@ -1,16 +1,37 @@
 import { IconDiscount } from '@/components/icons/Icons';
 import useInput from '@/hooks/useInput';
-import { useEffect } from 'react';
+import DatePicker from 'react-datepicker';
+import { useEffect, useState } from 'react';
+
+import 'react-datepicker/dist/react-datepicker.css';
+import { string } from 'zod';
+
+export interface DiscountObject {
+  percentage: string;
+  endDate: Date;
+}
 
 interface DiscountProps {
-  availableDiscount: null | string;
-  onDiscountChange: (newDiscount: string) => void;
+  availableDiscount: string | DiscountObject;
+  onDiscountChange: (newDiscount: string | DiscountObject) => void;
+}
+
+interface endDateType {
+  date: Date;
+  isTouched: boolean;
 }
 
 const Discount: React.FC<DiscountProps> = ({
   availableDiscount,
   onDiscountChange,
 }) => {
+  const [endDate, setEndDate] = useState<endDateType>({
+    date:
+      typeof availableDiscount !== 'string'
+        ? availableDiscount.endDate
+        : new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+    isTouched: false,
+  });
   const {
     value: discount,
     hasError: discountHasError,
@@ -19,15 +40,35 @@ const Discount: React.FC<DiscountProps> = ({
     blurHandler: handleDiscountBlur,
   } = useInput({
     validationFn: (val: string) =>
-      !isNaN(Number(val)) && Number(val) > 0 && Number(val) < 100,
-    defaultValue: availableDiscount || '0',
+      !isNaN(Number(val)) && Number(val) >= 0 && Number(val) < 100,
+    defaultValue:
+      typeof availableDiscount === 'string'
+        ? '0'
+        : availableDiscount.percentage,
   });
 
+  const dateIsValid =
+    endDate.date instanceof Date &&
+    endDate.date.getTime() > new Date().getTime();
+
+  const handleEndDate = (date: Date | null) => {
+    if (date) {
+      setEndDate((prevDate) => ({ ...prevDate, date }));
+    }
+  };
+
   useEffect(() => {
-    onDiscountChange(discount);
-  }, [discount]);
+    if (discount === '0') {
+      onDiscountChange(discount);
+    } else {
+      onDiscountChange({
+        percentage: discount,
+        endDate: endDate.date,
+      });
+    }
+  }, [discount, endDate]);
   return (
-    <div className="flex items-center flex-col gap-5 text-primary-black">
+    <div className="flex items-center flex-col gap-5 text-primary-black shadow-2xl px-3 py-5 rounded-xl">
       <div className="flex gap-3 items-center">
         <IconDiscount className="size-7" />
         <h1 className="text-lg font-medium">Apply discount:</h1>
@@ -43,6 +84,24 @@ const Discount: React.FC<DiscountProps> = ({
             discountHasError ? 'border-red-500 !border-2' : null
           }`}
         />
+      </div>
+      <div className="flex flex-col items-center gap-3">
+        <p className="text-lg font-medium">End date : </p>
+        <div className=" text-center">
+          <DatePicker
+            className={`focus:outline-none text-center p-3 border-[1px] border-primary-black w-2/3 rounded-lg cursor-pointer disabled:opacity-50 disabled:!cursor-not-allowed ${
+              endDate.isTouched && !dateIsValid
+                ? 'border-red-500 !border-2'
+                : null
+            }`}
+            disabled={!discountIsValid || discount == '0'}
+            selected={endDate.date}
+            onChange={(date) => handleEndDate(date)}
+            onBlur={() =>
+              setEndDate((prevDate) => ({ ...prevDate, isTouched: true }))
+            }
+          />
+        </div>
       </div>
     </div>
   );

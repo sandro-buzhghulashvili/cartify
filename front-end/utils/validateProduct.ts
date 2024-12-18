@@ -1,3 +1,4 @@
+import { DiscountObject } from '@/components/dashboard/company/update_product/Discount';
 import { colorValidation } from './validateColor';
 
 export type Product = {
@@ -14,7 +15,7 @@ export type Product = {
   companyDetails: Record<string, any> | null;
   views: number;
   status: 'active' | 'disabled';
-  discount: number;
+  discount: number | DiscountObject;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -66,9 +67,15 @@ export const validateProduct = (product: Product) => {
   const mainTypesValid = validateMainTypes(product);
   const specificationsValid = validateSpecifications(product);
   const discountIsValid =
-    !isNaN(Number(product.discount)) &&
-    product.discount >= 0 &&
-    product.discount < 100;
+    typeof product?.discount === 'number'
+      ? !isNaN(Number(product.discount)) &&
+        product.discount >= 0 &&
+        product.discount < 100
+      : !isNaN(Number(product.discount.percentage)) &&
+        Number(product.discount.percentage) >= 0 &&
+        Number(product.discount.percentage) < 100 &&
+        product.discount.endDate instanceof Date &&
+        product.discount.endDate.getTime() > new Date().getTime();
   const imagesAreValid = product.images.length > 0;
 
   const isValid =

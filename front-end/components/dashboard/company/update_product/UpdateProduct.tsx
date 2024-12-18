@@ -13,6 +13,7 @@ import LoadingScreen from '@/components/shared/loaders/LoadingScreen';
 import LottiePopup from '@/components/shared/popups/LottiePopup';
 import successLottie from '@/components/lotties/success.json';
 import errorLottie from '@/components/lotties/error.json';
+import { DiscountObject } from './Discount';
 
 interface UpdateProductProps {
   productData: Product;
@@ -63,7 +64,7 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
   const updateStockAndPrice = (
     stock: number,
     price: number,
-    discount: number
+    discount: number | DiscountObject
   ) => {
     setProduct((prevProduct: Product) => ({
       ...prevProduct,
@@ -79,6 +80,8 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
       product,
     });
   };
+
+  console.log(product);
 
   if (productIsUpdating) {
     return (
@@ -115,8 +118,6 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
     );
   }
 
-  // console.log(product);
-
   return (
     <div className="p-8 bg-white rounded-xl w-[1000px]">
       <div className="max-h-[500px] overflow-y-auto ">
@@ -141,7 +142,11 @@ const UpdateProduct: React.FC<UpdateProductProps> = ({ productData }) => {
             <UpdateStockAndPrice
               defaultStock={String(product.stock)}
               defaultPrice={String(product.price)}
-              defaultDiscount={String(product?.discount)}
+              defaultDiscount={
+                typeof product.discount === 'number'
+                  ? String(product.discount)
+                  : product.discount
+              }
               onUpdate={updateStockAndPrice}
             />
             <button
