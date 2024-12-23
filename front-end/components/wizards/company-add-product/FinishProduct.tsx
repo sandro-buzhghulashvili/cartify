@@ -2,14 +2,13 @@ import { useWizardsContext } from '@/contexts/WizardsContext';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { ProductType } from './MainTypes';
 
 const FinishProduct: React.FC = () => {
   const { wizardsData } = useWizardsContext();
   const productHashMap: any = {};
   const [productPreviews, setProductPreviews] = useState<string[]>([]);
   const [activePreviewImage, setActivePreviewImage] = useState(0);
-
-  console.log(productHashMap);
 
   wizardsData.slice(0, wizardsData.length - 1).forEach((data) => {
     productHashMap[data.title] = data.answer;
@@ -37,8 +36,12 @@ const FinishProduct: React.FC = () => {
     wizardsData[2].validationFn(wizardsData[2].answer) &&
     productHashMap.main_types.types.map((item: any) => ({
       value: item.val,
-      label: item.val[0].toUpperCase() + item.val.slice(1),
+      label: item.val.type[0].toUpperCase() + item.val.type.slice(1),
     }));
+
+  const [activeType, setActiveType] = useState<ProductType>(
+    typeOptions[0]?.value
+  );
 
   const totalAmount =
     wizardsData[2].validationFn(wizardsData[2].answer) &&
@@ -48,7 +51,7 @@ const FinishProduct: React.FC = () => {
     wizardsData[2].validationFn(wizardsData[2].answer) &&
     productHashMap.main_types.colors.map((col: any) => col.val);
 
-  console.log(productHashMap);
+  console.log(activeType);
   return (
     <>
       <div className="py-10 flex text-primary-black justify-around items-center">
@@ -114,6 +117,7 @@ const FinishProduct: React.FC = () => {
                 <Select
                   options={typeOptions}
                   defaultValue={typeOptions[0]}
+                  onChange={(selected) => setActiveType(selected?.value)}
                   styles={{
                     control: (styles) => ({
                       ...styles,
@@ -201,9 +205,12 @@ const FinishProduct: React.FC = () => {
               Price:
               <span className="ml-3">
                 $
-                {Number(productHashMap.product_details.product_price).toFixed(
-                  2
-                )}
+                {productHashMap.main_types?.types[0]
+                  ? Number(productHashMap.product_details.product_price) *
+                    ((100 + activeType.addition) / 100)
+                  : Number(
+                      productHashMap.product_details.product_price
+                    ).toFixed(2)}
               </span>
             </p>
           </div>

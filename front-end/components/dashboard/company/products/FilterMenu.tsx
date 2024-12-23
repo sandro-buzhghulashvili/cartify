@@ -91,7 +91,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
 
   useEffect(() => {
     const filterObj = {
-      types: selectedCategory.validationFn,
+      category: selectedCategory.validationFn,
       status: selectedStatus.validationFn,
       price: selectedPrice.validationFn,
       product_type: selectedClass.validationFn,

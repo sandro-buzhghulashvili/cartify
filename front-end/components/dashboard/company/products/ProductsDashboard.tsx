@@ -107,8 +107,9 @@ const ProductsDashboard: React.FC = () => {
     );
   }
 
+  console.log(products);
   const productTypes = Array.from(
-    new Set(products?.flatMap((prod: any) => prod.types))
+    new Set(products?.flatMap((prod: any) => prod.category))
   );
 
   const priceRanges = createPriceRanges(

@@ -31,7 +31,11 @@ const productSchema = new Schema(
       required: true,
     },
     types: {
-      type: [String],
+      type: [Schema.Types.Mixed],
+      required: true,
+    },
+    category: {
+      type: String,
       required: true,
     },
     specifications: {

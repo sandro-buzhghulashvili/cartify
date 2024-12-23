@@ -1,5 +1,6 @@
 import { DiscountObject } from '@/components/dashboard/company/update_product/Discount';
 import { colorValidation } from './validateColor';
+import { ProductType } from '@/components/wizards/company-add-product/MainTypes';
 
 export type Product = {
   _id: string;
@@ -8,8 +9,9 @@ export type Product = {
   stock: number;
   price: number;
   product_type: string;
+  category: string;
   colors: string[];
-  types: string[];
+  types: ProductType[];
   specifications: string;
   images: string[];
   companyDetails: Record<string, any> | null;
@@ -35,7 +37,8 @@ export const validateProduct = (product: Product) => {
       Array.isArray(data.types) &&
       data.types.length > 0 &&
       data.types.every(
-        (val) => typeof val === 'string' && val.trim().length > 0
+        (val) =>
+          val.type?.trim().length > 0 && val.addition >= 0 && val.addition < 100
       );
 
     const areColorsValid =
