@@ -37,7 +37,7 @@ const MainTypes: React.FC = () => {
           isTouched: false,
         },
       ],
-      placeholder: 'Wireless ...',
+      placeholder: 'Regular ...',
       name: 'types',
     },
     'Color(s)': {

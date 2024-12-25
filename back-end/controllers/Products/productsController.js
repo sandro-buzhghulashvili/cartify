@@ -111,3 +111,60 @@ export const deleteProduct = async (req, res) => {
     });
   }
 };
+
+export const getCategories = async (req, res) => {
+  try {
+    const productTypes = await ProductTypes.find();
+    const products = await Product.find();
+
+    const categoriesHashMap = {};
+
+    productTypes.forEach((productType) => {
+      categoriesHashMap[productType.label] = {
+        label: productType.label,
+        image: productType.image,
+        products: {},
+        productsCount: 0,
+      };
+    });
+
+    products.forEach((product) => {
+      if (!categoriesHashMap[product.product_type].products[product.category]) {
+        categoriesHashMap[product.product_type].products[product.category] = [
+          product,
+        ];
+      } else {
+        categoriesHashMap[product.product_type].products[product.category].push(
+          product
+        );
+      }
+      categoriesHashMap[product.product_type].productsCount += 1;
+    });
+
+    const sortedCategories = Object.fromEntries(
+      Object.entries(categoriesHashMap).sort((a, b) => {
+        const aProducts = Object.values(a[1].products).reduce(
+          (acc, arr) => acc.concat(arr),
+          []
+        );
+        const bProducts = Object.values(b[1].products).reduce(
+          (acc, arr) => acc.concat(arr),
+          []
+        );
+
+        return bProducts.length - aProducts.length;
+      })
+    );
+
+    res.json({
+      success: true,
+      message: 'Successfully fetched categories',
+      categories: sortedCategories,
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: error.message || 'Could not fetch categories' });
+  }
+};

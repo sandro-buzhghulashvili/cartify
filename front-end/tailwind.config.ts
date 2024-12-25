@@ -68,11 +68,33 @@ const config: Config = {
             transform: 'translateY(100px)',
           },
         },
+        dropDown: {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-100%)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        closeDropDown: {
+          '0%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            opacity: '0',
+            transform: 'translateY(-100%)',
+          },
+        },
       },
       animation: {
         wiggle: 'wiggle 0.5s ease-in-out',
         modalIn: 'modalIn 0.5s ease',
         modalOut: 'modalOut 0.6s ease',
+        dropDown: 'dropDown 0.5s ease',
+        closeDropDown: 'closeDropDown 0.5s ease',
       },
     },
   },

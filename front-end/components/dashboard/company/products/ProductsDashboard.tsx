@@ -107,7 +107,6 @@ const ProductsDashboard: React.FC = () => {
     );
   }
 
-  console.log(products);
   const productTypes = Array.from(
     new Set(products?.flatMap((prod: any) => prod.category))
   );
@@ -127,8 +126,6 @@ const ProductsDashboard: React.FC = () => {
     setFilters(data);
   };
 
-  //   console.log(productTypes);
-  //   console.log(JSON.parse(products[0]?.specifications));
   return (
     <div className="w-full px-[5%]">
       <SortNav onSearch={handleSearch} onSort={handleSort} />
