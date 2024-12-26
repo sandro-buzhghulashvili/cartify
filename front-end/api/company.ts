@@ -40,3 +40,13 @@ export const addCompanyProfile: MutationFunction<
     throw errorHandler(error);
   }
 };
+
+export const getPopularCompanies = async () => {
+  try {
+    const res = await axiosInstance.get('/company/popular-companies');
+
+    return res.data;
+  } catch (error: any) {
+    throw errorHandler(error);
+  }
+};

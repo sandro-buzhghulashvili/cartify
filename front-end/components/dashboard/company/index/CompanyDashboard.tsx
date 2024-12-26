@@ -22,7 +22,9 @@ const CompanyDashboard: React.FC = () => {
   useEffect(() => {
     if (companyData?.companyDetails) {
       onSetUserDetails(companyData.companyDetails);
-      Cookies.set('profile_img', companyData.companyDetails.logo);
+      Cookies.set('profile_img', companyData.companyDetails.logo, {
+        expires: 7,
+      });
     }
   }, [companyData]);
 

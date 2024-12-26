@@ -32,11 +32,6 @@ app.use('/wizards', wizardsRouter);
 app.use('/company', companyRouter);
 app.use('/products', productsRouter);
 
-app.get('/', (req, res) => {
-  console.log('hello');
-  res.send('Welcome to cartify backend');
-});
-
 app.listen(5000, () => {
   connectDB();
   console.log('Listening on port 5000');

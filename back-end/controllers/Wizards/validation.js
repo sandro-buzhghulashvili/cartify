@@ -19,6 +19,7 @@ export const validateCompanyProfile = (profileData) => {
 };
 
 export const validateProduct = (product) => {
+  console.log('validation :', product);
   const parsedColors = JSON.parse(product.colors || '[]');
   const parsedTypes = JSON.parse(product.types || '[]');
   const parsedSpecifications = JSON.parse(product.specifications);
@@ -36,10 +37,14 @@ export const validateProduct = (product) => {
 
   const validateMainTypes = (data) => {
     const areTypesValid =
-      Array.isArray(data.types) &&
-      data.types.length > 0 &&
-      data.types.every(
-        (val) => typeof val === 'string' && val.trim().length > 0
+      Array.isArray(parsedTypes) &&
+      parsedTypes.length > 0 &&
+      parsedTypes.every(
+        (val) =>
+          val.type.trim().length > 0 &&
+          !isNaN(Number(val.addition)) &&
+          Number(val.addition) >= 0 &&
+          Number(val.addition) < 100
       );
 
     const areColorsValid = Array.isArray(data.colors) && data.colors.length > 0;
@@ -82,13 +87,16 @@ export const validateProduct = (product) => {
         Number(parsedDiscount.percentage < 100) &&
         new Date(parsedDiscount.endDate) instanceof Date &&
         new Date(parsedDiscount.endDate).getTime() > new Date().getTime();
+  const categoryIsValid =
+    product.category && product.category.trim().length > 0;
 
   const isValid =
     aboutProductValid &&
     productDetailsValid &&
     mainTypesValid &&
     specificationsValid &&
-    discountIsValid;
+    discountIsValid &&
+    categoryIsValid;
 
   const errors = [];
   if (!aboutProductValid) errors.push('Invalid title or description');
@@ -97,6 +105,7 @@ export const validateProduct = (product) => {
   if (!specificationsValid)
     errors.push('Invalid specifications or missing brand');
   if (!discountIsValid) errors.push('Invalid discount');
+  if (!categoryIsValid) errors.push('Invalid category');
 
   return {
     isValid,

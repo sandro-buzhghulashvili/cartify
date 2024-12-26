@@ -60,3 +60,50 @@ export const companySignup = async (req, res) => {
     });
   }
 };
+
+export const getCompanyDetails = async (req, res) => {
+  try {
+    const companyId = req.user.userId;
+    const { companyDetails } = await Company.findById(companyId).select(
+      'companyDetails'
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Successfully fetched company details',
+      companyDetails,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message || 'Could not get company details',
+    });
+  }
+};
+
+export const getPopularCompanies = async (req, res) => {
+  try {
+    const companies = await Company.find();
+
+    const sortedCompanies = companies
+      .map((company) => ({
+        companyName: company.companyName,
+        sells: company.sells,
+        industryType: company.industryType,
+        companyDetails: company.companyDetails,
+      }))
+      .sort((a, b) => b.sells - a.sells);
+
+    res.status(200).json({
+      success: true,
+      message: 'Successfully fetched popular companies',
+      companies: sortedCompanies.slice(0, 6),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({
+      success: false,
+      message: error.message || 'Could not get popular companies',
+    });
+  }
+};

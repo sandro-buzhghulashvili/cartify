@@ -14,12 +14,15 @@ import { useEffect, useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import UserTab from './UserTab';
 import useOutsideClick from '@/hooks/useOutsideClick';
+import Categories from '@/components/categories_menu/Categories';
 
 const MainNavbar: React.FC = () => {
   const { userData, logout } = useAuthContext();
   const { scrollY } = useScroll();
   const [fillBackground, setFillBackground] = useState(false);
   const [openUserTab, setOpenUserTab] = useState(false);
+  const [openCategories, setOpenCategories] = useState(false);
+  const [closingCategories, setClosingCategories] = useState(false);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (latest > 50) {
@@ -33,12 +36,37 @@ const MainNavbar: React.FC = () => {
     setOpenUserTab((prev) => !prev);
   };
 
+  const handleOpenCategories = () => {
+    setOpenCategories(true);
+  };
+
+  const handleCloseCategories = () => {
+    setClosingCategories(true);
+    setTimeout(() => {
+      setOpenCategories(false);
+      setClosingCategories(false);
+    }, 300);
+  };
+
   const logoutHandler = () => {
     setOpenUserTab(false);
     logout();
   };
 
   const userTabRef = useOutsideClick(() => setOpenUserTab(false));
+  const categoriesRef = useOutsideClick(handleCloseCategories);
+
+  useEffect(() => {
+    if (openCategories) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [openCategories]);
 
   return (
     <nav
@@ -46,6 +74,13 @@ const MainNavbar: React.FC = () => {
         fillBackground ? 'bg-white' : null
       }`}
     >
+      {openCategories && (
+        <Categories
+          ref={categoriesRef}
+          closeCategories={handleCloseCategories}
+          closing={closingCategories}
+        />
+      )}
       {/* left section */}
       <section className="flex items-center">
         {/* logo */}
@@ -68,13 +103,15 @@ const MainNavbar: React.FC = () => {
             type="text"
             placeholder="Search something"
           />
-          <div className="relative">
-            <select className="appearance-none focus:outline-none bg-transparent border-none px-5 pr-16">
-              <option value="All Categories">All Categories</option>
-              {/* Add more options here */}
-            </select>
+          <button
+            className="relative  px-5 pr-16"
+            onClick={
+              openCategories ? handleCloseCategories : handleOpenCategories
+            }
+          >
+            All Categories
             <IconSelectArrows className="absolute top-0 bottom-0 right-5 my-auto fill-secondary-gray pointer-events-none" />
-          </div>
+          </button>
           <button className="size-11 bg-primary-black flex justify-center items-center rounded-md">
             <IconLoupe />
           </button>

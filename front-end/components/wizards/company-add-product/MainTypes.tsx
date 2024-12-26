@@ -3,18 +3,41 @@ import { useWizardsContext } from '@/contexts/WizardsContext';
 import { colorValidation } from '@/utils/validateColor';
 import { useEffect, useState } from 'react';
 
+export interface ProductType {
+  type: string;
+  addition: number;
+}
+
 const MainTypes: React.FC = () => {
   const { wizardsData, onSetWizardsData, activePage } = useWizardsContext();
   const [allTypes, setAllTypes] = useState<any>({
-    'Unique type(s)': {
+    Category: {
       validationFn: (type: string) => type.trim().length > 0,
-      data: wizardsData[activePage - 1]?.answer?.types || [
+      data: wizardsData[activePage - 1]?.answer?.category || [
         {
           val: '',
           isTouched: false,
         },
       ],
-      placeholder: 'Wireless ...',
+      placeholder: 'IOS ...',
+      name: 'category',
+      single: true,
+    },
+    Types: {
+      validationFn: (type: ProductType) =>
+        type.type.trim().length > 0 &&
+        type.addition >= 0 &&
+        type.addition < 100,
+      data: wizardsData[activePage - 1]?.answer?.types || [
+        {
+          val: {
+            type: '',
+            addition: 0,
+          },
+          isTouched: false,
+        },
+      ],
+      placeholder: 'Regular ...',
       name: 'types',
     },
     'Color(s)': {
@@ -46,7 +69,7 @@ const MainTypes: React.FC = () => {
 
   const handleUpdateType = (
     key: string,
-    newValue: string,
+    newValue: string | ProductType,
     valIndex: number
   ) => {
     setAllTypes((prevTypes: any) => {
@@ -117,7 +140,13 @@ const MainTypes: React.FC = () => {
         ...prevTypes,
         [key]: {
           ...prevTypes[key],
-          data: [...prevTypes[key].data, { val: '', isTouched: false }],
+          data: [
+            ...prevTypes[key].data,
+            {
+              val: key === 'Types' ? { type: '', addition: 0 } : '',
+              isTouched: false,
+            },
+          ],
         },
       };
     });
@@ -191,10 +220,22 @@ const MainTypes: React.FC = () => {
                 key={rowIndex}
                 className="w-[200px]  overflow-x-auto text-primary-black  font-regular text-center "
               >
-                <div className="relative">
+                <div
+                  className={`relative ${
+                    key === 'Types'
+                      ? `flex border-[1px] border-secondary-gray ${
+                          rowIndex !== value.data.length - 1
+                            ? 'border-b-0'
+                            : null
+                        } `
+                      : null
+                  }`}
+                >
                   <input
                     type="text"
-                    className={`h-full px-10 py-2 w-full  border-[1px] border-secondary-gray focus:outline-none text-center ${
+                    className={`h-full px-10 py-2 w-full ${
+                      key === 'Types' ? '!w-[70%] pr-1 !border-0' : null
+                    }  border-[1px] border-secondary-gray focus:outline-none text-center ${
                       !value.validationFn(row.val) && row.isTouched
                         ? 'placeholder:!text-red-500 text-red-500'
                         : null
@@ -202,12 +243,46 @@ const MainTypes: React.FC = () => {
                       rowIndex !== value.data.length - 1 ? 'border-b-0' : null
                     } `}
                     placeholder={value.placeholder}
-                    onChange={(e) =>
-                      handleUpdateType(key, e.target.value, rowIndex)
-                    }
+                    onChange={(e) => {
+                      if (key === 'Types') {
+                        handleUpdateType(
+                          key,
+                          {
+                            type: e.target.value,
+                            addition: row.val.addition,
+                          },
+                          rowIndex
+                        );
+                      } else {
+                        handleUpdateType(key, e.target.value, rowIndex);
+                      }
+                    }}
                     onBlur={() => handleBlur(key, rowIndex)}
-                    value={row.val}
+                    value={typeof row.val === 'string' ? row.val : row.val.type}
                   />
+                  {key === 'Types' && (
+                    <div className="relative w-[30%]">
+                      <input
+                        type="number"
+                        value={row.val.addition}
+                        onBlur={() => handleBlur(key, rowIndex)}
+                        className="w-full h-full pl-6  focus:outline-none"
+                        onChange={(e) =>
+                          handleUpdateType(
+                            key,
+                            {
+                              type: row.val.type,
+                              addition: Number(e.target.value),
+                            },
+                            rowIndex
+                          )
+                        }
+                      />
+                      <span className="absolute text-xs h-fit top-0 bottom-0 my-auto left-1  font-[900] ">
+                        +%
+                      </span>
+                    </div>
+                  )}
                   {rowIndex > 0 && (
                     <button
                       className="absolute top-0 bottom-0 my-auto left-2"

@@ -38,7 +38,11 @@ export const addProductsWizardsData = [
       const areTypesValid =
         Array.isArray(data.types) &&
         data.types.every(
-          ({ val }: any) => typeof val === 'string' && val.trim().length > 0
+          ({ val }: any) =>
+            typeof val.type === 'string' &&
+            val.type.trim().length > 0 &&
+            val.addition >= 0 &&
+            val.addition < 100
         );
 
       const areColorsValid =
@@ -50,7 +54,10 @@ export const addProductsWizardsData = [
         data.stock[0].val.trim().length > 0 &&
         !isNaN(Number(data.stock[0].val));
 
-      return areTypesValid && areColorsValid && isStockValid;
+      const categoryISValid =
+        data.category && data.category[0].val.trim().length > 0;
+
+      return areTypesValid && areColorsValid && isStockValid && categoryISValid;
     },
     errorMessage: 'Please provide all neccessary features',
   },

@@ -42,6 +42,7 @@ export const updateProduct: MutationFunction<
     formData.append('stock', String(product.stock));
     formData.append('price', String(product.price));
     formData.append('product_type', product.product_type);
+    formData.append('category', product.category);
 
     // serialized data:
     formData.append('colors', JSON.stringify(product.colors));

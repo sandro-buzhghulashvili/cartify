@@ -41,6 +41,7 @@ export const addProduct: MutationFunction<
   }
 > = async ({ wizardsData }) => {
   try {
+    console.log(wizardsData);
     const formData = new FormData();
 
     formData.append('title', wizardsData.about_company.title);
@@ -48,6 +49,7 @@ export const addProduct: MutationFunction<
     formData.append('stock', wizardsData.main_types.stock[0].val);
     formData.append('price', wizardsData.product_details.product_price);
     formData.append('product_type', wizardsData.product_details.product_type);
+    formData.append('category', wizardsData.main_types.category[0].val);
 
     // serialized data:
     formData.append(
