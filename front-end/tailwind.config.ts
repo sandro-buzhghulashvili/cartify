@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        '3xl': '1865px',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -73,6 +76,10 @@ const config: Config = {
             opacity: '0',
             transform: 'translateY(-100%)',
           },
+          '40%': {
+            opacity: '0.2',
+            transform: 'translateY(-100%)',
+          },
           '100%': {
             opacity: '1',
             transform: 'translateY(0)',
@@ -82,6 +89,10 @@ const config: Config = {
           '0%': {
             opacity: '1',
             transform: 'translateY(0)',
+          },
+          '40%': {
+            opacity: '0.2',
+            transform: 'translateY(-100%)',
           },
           '100%': {
             opacity: '0',

@@ -39,6 +39,10 @@ const companySchema = new Schema({
     type: Schema.Types.Mixed,
     default: null,
   },
+  sells: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export default model('Company', companySchema);

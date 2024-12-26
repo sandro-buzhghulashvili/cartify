@@ -54,6 +54,19 @@ const MainNavbar: React.FC = () => {
   };
 
   const userTabRef = useOutsideClick(() => setOpenUserTab(false));
+  const categoriesRef = useOutsideClick(handleCloseCategories);
+
+  useEffect(() => {
+    if (openCategories) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [openCategories]);
 
   return (
     <nav
@@ -63,6 +76,7 @@ const MainNavbar: React.FC = () => {
     >
       {openCategories && (
         <Categories
+          ref={categoriesRef}
           closeCategories={handleCloseCategories}
           closing={closingCategories}
         />

@@ -141,20 +141,18 @@ export const getCategories = async (req, res) => {
       categoriesHashMap[product.product_type].productsCount += 1;
     });
 
-    const sortedCategories = Object.fromEntries(
-      Object.entries(categoriesHashMap).sort((a, b) => {
-        const aProducts = Object.values(a[1].products).reduce(
-          (acc, arr) => acc.concat(arr),
-          []
-        );
-        const bProducts = Object.values(b[1].products).reduce(
-          (acc, arr) => acc.concat(arr),
-          []
-        );
+    const sortedCategories = Object.entries(categoriesHashMap).sort((a, b) => {
+      const aProducts = Object.values(a[1].products).reduce(
+        (acc, arr) => acc.concat(arr),
+        []
+      );
+      const bProducts = Object.values(b[1].products).reduce(
+        (acc, arr) => acc.concat(arr),
+        []
+      );
 
-        return bProducts.length - aProducts.length;
-      })
-    );
+      return bProducts.length - aProducts.length;
+    });
 
     res.json({
       success: true,
