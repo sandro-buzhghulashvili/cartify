@@ -47,3 +47,8 @@ export { IconTrashcan } from './IconTrashcan';
 export { IconDiscount } from './IconDiscount';
 export { IconUpdate } from './IconUpdate';
 export { IconHome } from './IconHome';
+export { IconBurgerMenu } from './IconBurgerMenu';
+export { IconGrid } from './IconGrid';
+export { IconProducts } from './IconProducts';
+export { IconStore } from './IconStore';
+export { IconDollar } from './IconDollar';

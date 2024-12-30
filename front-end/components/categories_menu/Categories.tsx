@@ -33,7 +33,7 @@ const Categories = forwardRef<HTMLDivElement, CategoriesProps>(
           closing ? 'animate-closeDropDown' : 'animate-dropDown'
         }`}
       >
-        <CategoriesHeader />
+        <CategoriesHeader onClose={closeCategories} />
         <div className="px-[10%] bg-[#F9FAFB]">
           {fetchingCategories && (
             <div className="flex justify-center items-center py-10">
@@ -51,7 +51,10 @@ const Categories = forwardRef<HTMLDivElement, CategoriesProps>(
           )}
         </div>
         {fetchedCategories && (
-          <CategoriesList categories={categoriesData.categories} />
+          <CategoriesList
+            categories={categoriesData.categories}
+            onClose={closeCategories}
+          />
         )}
         <PopularCompanies />
       </div>
