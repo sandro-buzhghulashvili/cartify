@@ -43,6 +43,19 @@ const companySchema = new Schema({
     type: Number,
     default: 0,
   },
+  rating: {
+    type: {
+      total: {
+        type: Number,
+        default: 0,
+      },
+      average: {
+        type: Number,
+        default: 0,
+      },
+    },
+    default: 0,
+  },
 });
 
 export default model('Company', companySchema);

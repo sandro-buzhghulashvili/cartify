@@ -8,14 +8,19 @@ import PriceFilter from './PriceFilter';
 import ColorFilter from './ColorFilter';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { on } from 'events';
 
 interface ProductsFilterProps {
   queryFilters: {
     [key: string]: string | number | boolean;
   };
+  onPageChange: (page: number) => void;
 }
 
-const ProductsFilter: React.FC<ProductsFilterProps> = ({ queryFilters }) => {
+const ProductsFilter: React.FC<ProductsFilterProps> = ({
+  queryFilters,
+  onPageChange,
+}) => {
   const [filters, setFilters] = useState({ ...queryFilters });
   const router = useRouter();
   const {
@@ -45,6 +50,7 @@ const ProductsFilter: React.FC<ProductsFilterProps> = ({ queryFilters }) => {
       validFilters as Record<string, string>
     ).toString();
 
+    onPageChange(1);
     router.push(`/products?${queryString}`);
   };
 

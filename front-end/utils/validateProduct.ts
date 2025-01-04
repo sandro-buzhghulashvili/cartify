@@ -9,7 +9,13 @@ export type Product = {
   stock: number;
   price: number;
   product_type: string;
-  category: string;
+  category: {
+    id: string;
+    name: string;
+    logo: string;
+    sells: number;
+    averageRating: number;
+  };
   colors: string[];
   types: ProductType[];
   specifications: string;
@@ -20,6 +26,12 @@ export type Product = {
   discount: number | DiscountObject;
   createdAt?: Date;
   updatedAt?: Date;
+  rating:
+    | number
+    | {
+        total: number;
+        average: number;
+      };
 };
 
 export const validateProduct = (product: Product) => {

@@ -52,3 +52,4 @@ export { IconGrid } from './IconGrid';
 export { IconProducts } from './IconProducts';
 export { IconStore } from './IconStore';
 export { IconDollar } from './IconDollar';
+export { IconFeatured } from './IconFeatured';

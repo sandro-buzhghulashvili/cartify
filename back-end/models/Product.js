@@ -66,6 +66,23 @@ const productSchema = new Schema(
       type: Schema.Types.Mixed,
       default: 0,
     },
+    sells: {
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: {
+        total: {
+          type: Number,
+          default: 0,
+        },
+        average: {
+          type: Number,
+          default: 0,
+        },
+      },
+      default: 0,
+    },
   },
   { timestamps: true }
 );

@@ -10,9 +10,19 @@ import {
 
 interface ProductHeaderProps {
   searchTerm?: string;
+  onLayoutChange: (layout: string) => void;
+  layoutMode: string;
+  onItemsTypeChange: (type: string) => void;
+  activeItemsType: string;
 }
 
-const ProductHeader: React.FC<ProductHeaderProps> = ({ searchTerm }) => {
+const ProductHeader: React.FC<ProductHeaderProps> = ({
+  searchTerm,
+  onLayoutChange,
+  layoutMode,
+  onItemsTypeChange,
+  activeItemsType,
+}) => {
   return (
     <div className="flex items-center text-primary-black justify-between py-10">
       <div className="flex flex-col gap-5">
@@ -37,20 +47,65 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({ searchTerm }) => {
       </div>
       <div className="flex items-center gap-10">
         <section className="p-2 rounded-lg flex  items-center gap-2 shadow-md">
-          <button className="bg-secondary-gray p-3 rounded-lg">
-            <IconGrid />
+          <button
+            className={`bg-secondary-gray p-3 
+             duration-300 rounded-lg ${
+               layoutMode !== 'grid' ? 'bg-white' : null
+             }`}
+            onClick={() => onLayoutChange('grid')}
+          >
+            <IconGrid
+              className={`${
+                layoutMode !== 'grid' ? 'fill-secondary-gray' : 'fill-white'
+              }`}
+            />
           </button>
-          <button className="p-3 rounded-lg">
-            <IconBurgerMenu />
+          <button
+            className={`p-3 rounded-lg duration-300 ${
+              layoutMode !== 'list' ? 'bg-white' : 'bg-secondary-gray'
+            }`}
+            onClick={() => onLayoutChange('list')}
+          >
+            <IconBurgerMenu
+              className={`${
+                layoutMode !== 'list' ? 'fill-secondary-gray' : 'fill-white'
+              }`}
+            />
           </button>
         </section>
         <section className="flex items-center gap-2">
-          <button className="flex items-center gap-3  rounded-lg text-white font-medium text-base bg-secondary-gray px-4 py-2">
-            <IconProducts />
+          <button
+            className={`flex items-center gap-3 border-[1px] border-primary-gray  rounded-lg text-white font-medium text-base px-4 py-2 ${
+              activeItemsType === 'products'
+                ? ' bg-secondary-gray text-white'
+                : '!text-primary-gray'
+            }`}
+            onClick={() => onItemsTypeChange('products')}
+          >
+            <IconProducts
+              className={`${
+                activeItemsType === 'products'
+                  ? 'fill-white'
+                  : 'fill-primary-gray'
+              }`}
+            />
             Product
           </button>
-          <button className="flex items-center gap-3 rounded-lg text-primary-gray px-4 py-2 border-[1px] border-primary-gray">
-            <IconStore />
+          <button
+            onClick={() => onItemsTypeChange('companies')}
+            className={`flex items-center gap-3 border-[1px] border-primary-gray  rounded-lg text-white font-medium text-base px-4 py-2 ${
+              activeItemsType === 'companies'
+                ? ' bg-secondary-gray text-white'
+                : '!text-primary-gray'
+            }`}
+          >
+            <IconStore
+              className={`${
+                activeItemsType === 'companies'
+                  ? 'fill-white'
+                  : 'fill-primary-gray'
+              }`}
+            />
             Store
           </button>
         </section>

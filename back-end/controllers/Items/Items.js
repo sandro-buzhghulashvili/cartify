@@ -8,7 +8,6 @@ export const getAllItems = async (req, res) => {
     // console.log(req.query);
     const filters = req.query.filters;
     let products;
-    console.log(filters);
 
     const page = parseInt(req.query.page, 10);
     const itemsPerPage = parseInt(req.query.itemsPerPage, 10);
@@ -49,8 +48,6 @@ export const getAllItems = async (req, res) => {
     });
 
     const featuredCompanies = Array.from(uniqueCompanies.values());
-
-    console.log(featuredCompanies);
 
     res.status(200).json({
       success: true,
