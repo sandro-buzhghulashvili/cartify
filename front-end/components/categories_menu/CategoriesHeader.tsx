@@ -1,6 +1,11 @@
+import Link from 'next/link';
 import { IconHome, IconChevronRight } from '../icons/Icons';
 
-const CategoriesHeader: React.FC = () => {
+interface CategoriesHeaderProps {
+  onClose: () => void;
+}
+
+const CategoriesHeader: React.FC<CategoriesHeaderProps> = ({ onClose }) => {
   return (
     <div className="flex items-center justify-between px-[10%]  py-24 bg-[#F9FAFB]">
       <section className="flex flex-col gap-5">
@@ -10,17 +15,28 @@ const CategoriesHeader: React.FC = () => {
         </p>
       </section>
       <section className="flex items-center gap-1">
-        <span className="flex items-center gap-2 text-base font-normal text-teritary-gray">
+        <Link
+          href="/"
+          onClick={onClose}
+          className="flex items-center gap-2 text-base font-normal text-teritary-gray hover:text-primary-indigo hover:font-medium"
+        >
           <IconHome />
           Home
           <IconChevronRight />
-        </span>
-        <span className="flex items-center gap-2 text-base font-normal text-teritary-gray">
+        </Link>
+        <button
+          onClick={onClose}
+          className="flex items-center gap-2 text-base font-normal text-teritary-gray hover:text-primary-indigo hover:font-medium"
+        >
           Shop <IconChevronRight className="!fill-primary-gray" />
-        </span>
-        <span className=" text-base font-medium text-primary-indigo">
+        </button>
+        <Link
+          onClick={onClose}
+          href="/products"
+          className=" text-base font-medium text-primary-indigo"
+        >
           All Categories
-        </span>
+        </Link>
       </section>
     </div>
   );

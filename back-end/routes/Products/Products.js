@@ -10,9 +10,9 @@ import { authenticateToken } from '../../middleware/auth.js';
 import upload from '../../utils/multer.js';
 const router = Router();
 
-router.get('/product-types', authenticateToken, getProductTypes);
+router.get('/product-types', getProductTypes);
 router.get('/company-products', authenticateToken, getCompanyProducts);
-router.get('/get-categories', authenticateToken, getCategories);
+router.get('/get-categories', getCategories);
 router.put(
   '/update-product',
   authenticateToken,

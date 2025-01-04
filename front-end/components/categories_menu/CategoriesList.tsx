@@ -20,10 +20,12 @@ interface Category {
 
 interface CategoriesListProps {
   categories: Category[];
+  onClose: () => void;
 }
 
 const CategoriesList: React.FC<CategoriesListProps> = ({
   categories: categoriesData,
+  onClose,
 }) => {
   const [activePage, setActivePage] = useState(1);
   const [itemsOnPage, setItemsOnPage] = useState(6);
@@ -67,7 +69,8 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
                   ([key, products], index) => (
                     <li key={index} className="">
                       <Link
-                        href="#"
+                        href={`/products/?categories=${JSON.stringify([key])}`}
+                        onClick={onClose}
                         className="flex group items-center justify-between"
                       >
                         <div className="flex items-center gap-3">
@@ -93,6 +96,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
           length: Math.ceil(categoriesData.length / itemsOnPage),
         }).map((_, index) => (
           <button
+            key={index}
             onClick={() => handlePageChange(index + 1)}
             className={`px-4 py-2 bg-white border-2 border-primary-indigo text-primary-indigo font-medium rounded-lg hover:bg-primary-indigo hover:text-white duration-300 ${
               activePage === index + 1 ? '!bg-primary-indigo text-white' : null

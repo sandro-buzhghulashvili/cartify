@@ -14,6 +14,10 @@ const productTypeSchema = new Schema({
     type: String,
     required: true,
   },
+  icon: {
+    type: String,
+    required: true,
+  },
 });
 
 export default model('product_types', productTypeSchema);

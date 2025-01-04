@@ -8,6 +8,7 @@ import companyAuthRouter from './routes/Auth/Company/CompanyRoutes.js';
 import wizardsRouter from './routes/Wizards/Wizards.js';
 import companyRouter from './routes/Company/Company.js';
 import productsRouter from './routes/Products/Products.js';
+import itemsRouter from './routes/Items/Items.js';
 import cors from 'cors';
 import { connectDB } from './db/connectDB.js';
 
@@ -31,6 +32,7 @@ app.use('/api/auth', authRouter);
 app.use('/wizards', wizardsRouter);
 app.use('/company', companyRouter);
 app.use('/products', productsRouter);
+app.use('/items', itemsRouter);
 
 app.listen(5000, () => {
   connectDB();

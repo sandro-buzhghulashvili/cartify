@@ -19,7 +19,6 @@ const PopularCompanies: React.FC = () => {
     queryFn: getPopularCompanies,
   });
 
-  console.log(companiesData);
   return (
     <div className="px-[10%] py-40 text-primary-black flex flex-col items-center gap-32">
       <div className="flex flex-col gap-5 items-center">
