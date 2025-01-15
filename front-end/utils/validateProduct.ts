@@ -9,13 +9,7 @@ export type Product = {
   stock: number;
   price: number;
   product_type: string;
-  category: {
-    id: string;
-    name: string;
-    logo: string;
-    sells: number;
-    averageRating: number;
-  };
+  category: string;
   colors: string[];
   types: ProductType[];
   specifications: string;

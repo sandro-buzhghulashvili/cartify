@@ -4,7 +4,8 @@ import { axiosInstance } from './axiosInstance';
 export const getAllItems = async (
   filters: { [key: string]: string },
   page: number,
-  itemsPerPage: number
+  itemsPerPage: number,
+  searchTerm?: string
 ) => {
   try {
     const res = await axiosInstance.get('/items/all-items', {
@@ -12,6 +13,7 @@ export const getAllItems = async (
         filters,
         page,
         itemsPerPage,
+        searchTerm,
       },
     });
 

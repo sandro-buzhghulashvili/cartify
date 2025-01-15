@@ -70,7 +70,6 @@ const ProductList: React.FC<ProductListProps> = ({
     );
   }
 
-  console.log(featuredCompany);
   return (
     <div className="w-4/5 px-10 flex flex-col gap-5">
       <section className="flex items-center justify-between">

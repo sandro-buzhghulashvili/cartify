@@ -10,19 +10,35 @@ import {
   IconUser,
 } from '../../icons/Icons';
 import { useMotionValueEvent, useScroll } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import UserTab from './UserTab';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import Categories from '@/components/categories_menu/Categories';
+import SearchPanel from '@/components/search/SearchPanel';
+import { useMutation } from 'react-query';
+import { addSearch } from '@/api/searches';
 
 const MainNavbar: React.FC = () => {
+  const { mutate: mutateAddSearch } = useMutation({
+    mutationFn: addSearch,
+  });
+
   const { userData, logout } = useAuthContext();
   const { scrollY } = useScroll();
   const [fillBackground, setFillBackground] = useState(false);
   const [openUserTab, setOpenUserTab] = useState(false);
+
+  // categories states
   const [openCategories, setOpenCategories] = useState(false);
   const [closingCategories, setClosingCategories] = useState(false);
+
+  // searching states
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [closingSearchPanel, setClosingSearchPanel] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchButtonRef = useRef<HTMLAnchorElement>(null);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (latest > 50) {
@@ -40,6 +56,10 @@ const MainNavbar: React.FC = () => {
     setOpenCategories(true);
   };
 
+  const handleEnableSearching = () => {
+    setSearching(true);
+  };
+
   const handleCloseCategories = () => {
     setClosingCategories(true);
     setTimeout(() => {
@@ -48,16 +68,35 @@ const MainNavbar: React.FC = () => {
     }, 300);
   };
 
+  const handleCloseSearchPanel = () => {
+    setClosingSearchPanel(true);
+    setTimeout(() => {
+      setSearching(false);
+      setClosingSearchPanel(false);
+    }, 300);
+  };
+
+  const handleChangeSearchTerm = (newSearchTerm: string) => {
+    setSearchTerm(newSearchTerm);
+  };
+
   const logoutHandler = () => {
     setOpenUserTab(false);
     logout();
   };
 
-  const userTabRef = useOutsideClick(() => setOpenUserTab(false));
-  const categoriesRef = useOutsideClick(handleCloseCategories);
+  const userTabRef = useOutsideClick(() => setOpenUserTab(false), false);
+  const categoriesRef = useOutsideClick(handleCloseCategories, false);
+  const searchPanelRef = useOutsideClick(
+    handleCloseSearchPanel,
+    true,
+    searchInputRef.current && searchButtonRef.current
+      ? [searchInputRef.current, searchButtonRef.current]
+      : null
+  );
 
   useEffect(() => {
-    if (openCategories) {
+    if (openCategories || searching) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
@@ -66,7 +105,7 @@ const MainNavbar: React.FC = () => {
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [openCategories]);
+  }, [openCategories, searching]);
 
   return (
     <nav
@@ -79,6 +118,14 @@ const MainNavbar: React.FC = () => {
           ref={categoriesRef}
           closeCategories={handleCloseCategories}
           closing={closingCategories}
+        />
+      )}
+      {searching && (
+        <SearchPanel
+          closing={closingSearchPanel}
+          ref={searchPanelRef}
+          onClose={handleCloseSearchPanel}
+          searchTerm={searchTerm}
         />
       )}
       {/* left section */}
@@ -102,6 +149,10 @@ const MainNavbar: React.FC = () => {
             className="min-w-[350px] text-sm py-2 px-5 rounded-3xl border-none focus:outline-none placeholder:text-primary-gray"
             type="text"
             placeholder="Search something"
+            onFocus={handleEnableSearching}
+            ref={searchInputRef}
+            value={searchTerm}
+            onChange={(e) => handleChangeSearchTerm(e.target.value)}
           />
           <button
             className="relative  px-5 pr-16"
@@ -112,9 +163,18 @@ const MainNavbar: React.FC = () => {
             All Categories
             <IconSelectArrows className="absolute top-0 bottom-0 right-5 my-auto fill-secondary-gray pointer-events-none" />
           </button>
-          <button className="size-11 bg-primary-black flex justify-center items-center rounded-md">
+          <Link
+            ref={searchButtonRef}
+            href={`/products?searchTerm=${searchTerm}`}
+            className="size-11 bg-primary-black flex justify-center items-center rounded-md"
+            onClick={() => {
+              mutateAddSearch({ searchTerm });
+              handleCloseSearchPanel();
+              setSearchTerm('');
+            }}
+          >
             <IconLoupe />
-          </button>
+          </Link>
         </div>
       </section>
       {/* right section */}
