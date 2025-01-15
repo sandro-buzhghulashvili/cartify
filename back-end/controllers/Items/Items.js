@@ -7,6 +7,7 @@ export const getAllItems = async (req, res) => {
   try {
     // console.log(req.query);
     const filters = req.query.filters;
+    const { searchTerm } = req.query;
     let products;
 
     const page = parseInt(req.query.page, 10);
@@ -22,7 +23,14 @@ export const getAllItems = async (req, res) => {
           (param) => param[0] in filteringOptions && param[1] !== ''
         )
       ) {
-        let tmpProducts = await Product.find();
+        const query = {};
+
+        if (searchTerm) {
+          query.title = { $regex: searchTerm, $options: 'i' };
+        }
+
+        const tmpProducts = await Product.find(query);
+
         products = tmpProducts.filter((product) =>
           Object.entries(filters).every(([filter, value]) =>
             filteringOptions[filter](product, value)
@@ -32,7 +40,13 @@ export const getAllItems = async (req, res) => {
         throw new Error('Invalid categories');
       }
     } else {
-      let tmpProducts = await Product.find();
+      const query = {};
+
+      if (searchTerm) {
+        query.title = { $regex: searchTerm, $options: 'i' };
+      }
+
+      const tmpProducts = await Product.find(query);
       products = tmpProducts;
     }
 

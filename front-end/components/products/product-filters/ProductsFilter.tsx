@@ -15,11 +15,13 @@ interface ProductsFilterProps {
     [key: string]: string | number | boolean;
   };
   onPageChange: (page: number) => void;
+  searchTerm: string;
 }
 
 const ProductsFilter: React.FC<ProductsFilterProps> = ({
   queryFilters,
   onPageChange,
+  searchTerm,
 }) => {
   const [filters, setFilters] = useState({ ...queryFilters });
   const router = useRouter();
@@ -51,7 +53,7 @@ const ProductsFilter: React.FC<ProductsFilterProps> = ({
     ).toString();
 
     onPageChange(1);
-    router.push(`/products?${queryString}`);
+    router.push(`/products?${queryString}&searchTerm=${searchTerm}`);
   };
 
   if (fetchingCategories) {

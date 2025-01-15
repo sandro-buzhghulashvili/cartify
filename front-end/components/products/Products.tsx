@@ -31,8 +31,8 @@ const Products: React.FC = () => {
     isError: couldNotFetchProducts,
     error: productsError,
   } = useQuery({
-    queryKey: ['products', filters, activePage, itemsPerPage],
-    queryFn: () => getAllItems(filters, activePage, itemsPerPage),
+    queryKey: ['products', filters, activePage, itemsPerPage, searchTerm],
+    queryFn: () => getAllItems(filters, activePage, itemsPerPage, searchTerm),
   });
 
   const handlePageChange = (page: number) => {
@@ -61,6 +61,7 @@ const Products: React.FC = () => {
         <ProductsFilter
           queryFilters={filters}
           onPageChange={handlePageChange}
+          searchTerm={searchTerm}
         />
         {loadingProducts && (
           <div className="w-4/5 flex justify-center items-center h-full py-10">

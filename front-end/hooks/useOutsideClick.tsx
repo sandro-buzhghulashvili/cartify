@@ -1,23 +1,35 @@
 import { useEffect, useRef } from 'react';
 
-const useOutsideClick = (callback: () => void) => {
+const useOutsideClick = (
+  callback: () => void,
+  exceptionExists: boolean,
+  exceptionNodes?: HTMLElement[] | null
+) => {
   const ref = useRef<HTMLDivElement>(null);
-  //   console.log('mounted');
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        // console.log('outside');
+        if (
+          exceptionNodes &&
+          exceptionNodes.some((node) => node.contains(event.target as Node))
+        ) {
+          return; // Don't trigger callback if clicked inside the exceptionNodes
+        }
+
         callback();
-      } else {
-        // console.log('inside');
       }
     };
-    window.addEventListener('mousedown', handleClickOutside);
+    if (exceptionNodes || !exceptionExists) {
+      window.addEventListener('mousedown', handleClickOutside);
+    }
+
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      if (exceptionNodes || !exceptionExists) {
+        document.removeEventListener('mousedown', handleClickOutside);
+      }
     };
-  }, [callback]);
+  }, [callback, exceptionNodes, exceptionExists]);
 
   return ref;
 };
