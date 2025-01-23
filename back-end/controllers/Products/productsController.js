@@ -166,3 +166,33 @@ export const getCategories = async (req, res) => {
       .json({ message: error.message || 'Could not fetch categories' });
   }
 };
+
+export const getProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    if (
+      !productId ||
+      typeof productId !== 'string' ||
+      productId.trim().length === 0
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid product id' });
+    }
+
+    const product = await Product.findById(productId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Successfully fetched product',
+      product,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Could not fetch product with given id',
+    });
+  }
+};

@@ -37,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({ children, onClose, closeButton }) => {
         {closeButton && (
           <button
             onClick={handleClose}
-            className="-top-5 -right-3 absolute bg-white rounded-full"
+            className="-top-5 -right-3 absolute bg-white rounded-full z-20"
           >
             <IconX className="size-10 fill-black" />
           </button>

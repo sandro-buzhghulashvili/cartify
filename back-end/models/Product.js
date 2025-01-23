@@ -71,17 +71,20 @@ const productSchema = new Schema(
       default: 0,
     },
     rating: {
-      type: {
-        total: {
-          type: Number,
-          default: 0,
-        },
-        average: {
-          type: Number,
-          default: 0,
-        },
-      },
+      type: Schema.Types.Mixed,
       default: 0,
+    },
+    skuNumber: {
+      required: true,
+      type: String,
+    },
+    productCode: {
+      required: true,
+      type: String,
+    },
+    ean: {
+      required: true,
+      type: String,
     },
   },
   { timestamps: true }

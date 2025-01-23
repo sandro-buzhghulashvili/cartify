@@ -10,7 +10,7 @@ import {
   IconUser,
 } from '../../icons/Icons';
 import { useMotionValueEvent, useScroll } from 'framer-motion';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import UserTab from './UserTab';
 import useOutsideClick from '@/hooks/useOutsideClick';
@@ -18,11 +18,14 @@ import Categories from '@/components/categories_menu/Categories';
 import SearchPanel from '@/components/search/SearchPanel';
 import { useMutation } from 'react-query';
 import { addSearch } from '@/api/searches';
+import { useRouter } from 'next/navigation';
 
 const MainNavbar: React.FC = () => {
   const { mutate: mutateAddSearch } = useMutation({
     mutationFn: addSearch,
   });
+
+  const router = useRouter();
 
   const { userData, logout } = useAuthContext();
   const { scrollY } = useScroll();
@@ -78,6 +81,14 @@ const MainNavbar: React.FC = () => {
 
   const handleChangeSearchTerm = (newSearchTerm: string) => {
     setSearchTerm(newSearchTerm);
+  };
+
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push(`/products?searchTerm=${searchTerm}`);
+    mutateAddSearch({ searchTerm });
+    handleCloseSearchPanel();
+    setSearchTerm('');
   };
 
   const logoutHandler = () => {
@@ -144,7 +155,7 @@ const MainNavbar: React.FC = () => {
           </h1>
         </Link>
         {/* filter bar */}
-        <div className="flex items-center ml-20">
+        <form className="flex items-center ml-20" onSubmit={handleSearch}>
           <input
             className="min-w-[350px] text-sm py-2 px-5 rounded-3xl border-none focus:outline-none placeholder:text-primary-gray"
             type="text"
@@ -156,6 +167,7 @@ const MainNavbar: React.FC = () => {
           />
           <button
             className="relative  px-5 pr-16"
+            type="button"
             onClick={
               openCategories ? handleCloseCategories : handleOpenCategories
             }
@@ -164,6 +176,7 @@ const MainNavbar: React.FC = () => {
             <IconSelectArrows className="absolute top-0 bottom-0 right-5 my-auto fill-secondary-gray pointer-events-none" />
           </button>
           <Link
+            type="submit"
             ref={searchButtonRef}
             href={`/products?searchTerm=${searchTerm}`}
             className="size-11 bg-primary-black flex justify-center items-center rounded-md"
@@ -175,7 +188,7 @@ const MainNavbar: React.FC = () => {
           >
             <IconLoupe />
           </Link>
-        </div>
+        </form>
       </section>
       {/* right section */}
       <section className="flex items-center gap-8">

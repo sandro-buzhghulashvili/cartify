@@ -5,12 +5,12 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import ProductHeader from './ProductsHeader';
-import ProductsFilter from './product-filters/ProductsFilter';
 import ProductList from './ProductsList';
-import LoadingScreen from '../shared/loaders/LoadingScreen';
-import LottiePopup from '../shared/popups/LottiePopup';
 import ErrorLottie from '@/components/lotties/error.json';
 import CompaniesList from './CompaniesList';
+import ProductsFilter from '../product-filters/ProductsFilter';
+import LoadingScreen from '@/components/shared/loaders/LoadingScreen';
+import LottiePopup from '@/components/shared/popups/LottiePopup';
 
 const Products: React.FC = () => {
   const searchParams = useSearchParams();

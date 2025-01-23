@@ -1,6 +1,11 @@
 import Product from '../../models/Product.js';
 import Company from '../../models/Company.js';
 import { validateProduct } from './validation.js';
+import {
+  calculateEan,
+  calculateProductCode,
+  calculateSkuNumber,
+} from '../../utils/productCodes.js';
 
 export const addProduct = async (req, res) => {
   try {
@@ -28,6 +33,13 @@ export const addProduct = async (req, res) => {
         name: company.companyName,
         logo: company.companyDetails.logo,
       },
+      skuNumber: calculateSkuNumber(req.body.title, req.body.category),
+      productCode: calculateProductCode(req.body.product_type),
+      ean: calculateEan(
+        req.body.title,
+        req.body.category,
+        req.body.product_type
+      ),
     });
 
     await product.save();

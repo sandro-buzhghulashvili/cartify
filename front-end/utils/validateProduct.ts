@@ -26,6 +26,10 @@ export type Product = {
         total: number;
         average: number;
       };
+  sells: number;
+  ean: string;
+  productCode: string;
+  skuNumber: string;
 };
 
 export const validateProduct = (product: Product) => {
