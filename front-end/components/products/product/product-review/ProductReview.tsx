@@ -1,4 +1,5 @@
 import ProductReviews from './ProductReviews';
+import ProductReviewsStatistics from './ProductReviewsStatistics';
 import ProductSpecifications from './ProductSpecifications';
 import ReviewPanel from './ReviewPanel';
 
@@ -39,7 +40,10 @@ const ProductReview: React.FC<ProductReviewProps> = ({
         productCode={productCode}
         ean={ean}
       />
-      <ProductReviews />
+      {/* // general review statistics */}
+      <ProductReviewsStatistics />
+      {/* all comments and reviews */}
+      <ProductReviews productId={productId} />
     </div>
   );
 };
