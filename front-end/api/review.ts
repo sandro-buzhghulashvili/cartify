@@ -24,3 +24,51 @@ export const addReview: MutationFunction<
     throw errorHandler(error);
   }
 };
+
+export const rateReview: MutationFunction<
+  any,
+  {
+    reviewId: string;
+    feedback: string;
+  }
+> = async ({ reviewId, feedback }) => {
+  try {
+    const res = await axiosInstance.post(`/reviews/rate-review/${reviewId}`, {
+      feedback,
+    });
+
+    return res.data;
+  } catch (error) {
+    throw errorHandler(error);
+  }
+};
+
+export const getReviews = async ({
+  page,
+  itemsPerPage,
+  productId,
+  username,
+  userId,
+}: {
+  page: number;
+  itemsPerPage: number;
+  productId: string;
+  username?: string;
+  userId?: string;
+}) => {
+  try {
+    const res = await axiosInstance.get('/reviews/get-reviews', {
+      params: {
+        page,
+        itemsPerPage,
+        productId,
+        username,
+        userId,
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    throw errorHandler(error);
+  }
+};

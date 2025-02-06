@@ -1,72 +1,133 @@
+'use client';
+
 import Image from 'next/image';
 import ReviewSort from './ReviewSort';
-import { IconStar, IconLike } from '@/components/icons/Icons';
+import { IconStar, IconLike, IconLoad } from '@/components/icons/Icons';
 import AddProductReview from './AddProductReview';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+import { getReviews } from '@/api/review';
+import LoadingScreen from '@/components/shared/loaders/LoadingScreen';
+import LottiePopup from '@/components/shared/popups/LottiePopup';
+import ErrorLottie from '@/components/lotties/error.json';
+import { formatDate } from '@/utils/dateFormatting';
+import { formatNumber } from '@/helpers/number_helpers';
+import Review from './Review';
+import { useAuthContext } from '@/contexts/AuthContext';
+
+interface Rating {
+  count: number;
+  average: number;
+}
+
+interface UserDetails {
+  name: string;
+  reviewedAt: Date;
+  userLogo: string;
+}
+
+export interface Review {
+  _id: string;
+  review: string;
+  rating: Rating;
+  likes: number;
+  dislikes: number;
+  userDetails: UserDetails;
+  productId: string;
+  liked?: boolean;
+  disliked?: boolean;
+}
 
 interface ProductReviewsProps {
   productId: string;
 }
 
 const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
+  const { userData } = useAuthContext();
+  const [activePage, setActivePage] = useState(1);
+  const itemsPerPage = 3;
+
+  const {
+    data: reviewsData,
+    isLoading: fetchingReviews,
+    isError: couldNotFetchReviews,
+    error: reviewsError,
+    isSuccess: fetchedReviews,
+  } = useQuery({
+    queryFn: () =>
+      getReviews({
+        page: activePage,
+        itemsPerPage,
+        productId,
+        username: userData?.username || userData?.companyName,
+        userId: userData?._id,
+      }),
+    queryKey: ['reviews', productId, activePage],
+  });
+
+  const handleLoadMore = () => {
+    setActivePage((prevPage) => (prevPage += 1));
+  };
+
+  if (fetchingReviews) {
+    return (
+      <div className="py-10 flex items-start justify-center">
+        <LoadingScreen className="size-[100px]" />
+      </div>
+    );
+  }
+
+  if (couldNotFetchReviews) {
+    return (
+      <div className="py-10 flex items-start justify-center">
+        <LottiePopup
+          lottieData={ErrorLottie}
+          text={(reviewsError as Error).message || 'Could not fetch reviews'}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="py-10 flex items-start justify-between text-primary-black">
       <section className="w-[60%] flex flex-col gap-10">
         <div className="flex items-center justify-between">
-          <h1 className="font-medium text-lg">All Comments (2,1k)</h1>
+          <h1 className="font-medium text-lg">
+            {fetchedReviews
+              ? `All Comments (${formatNumber(reviewsData?.reviews.length)})`
+              : 'All Comments'}
+          </h1>
           <ReviewSort />
         </div>
-        <ul>
-          <li className="flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              {/* // user info */}
-              <section className="flex items-center gap-4">
-                <Image
-                  src="/auth_assets/user.png"
-                  alt="review-owner-image"
-                  width={48}
-                  height={48}
-                  className="size-12 object-contain rounded-full"
+        {fetchedReviews &&
+          (reviewsData?.reviews.length > 0 ? (
+            <ul className="flex flex-col gap-y-20">
+              {(reviewsData?.reviews as Review[]).map((review, index) => (
+                <Review
+                  review={review}
+                  key={index}
+                  productId={productId}
+                  activePage={activePage}
                 />
-                <div>
-                  <h1 className="font-medium text-sm">Daisy Murphy</h1>
-                  <p className="text-sm font-normal text-primary-gray">
-                    July, 23 2020
-                  </p>
-                </div>
-              </section>
-              {/* // rating info */}
-              <section className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <span key={index}>
-                      <IconStar />
-                    </span>
-                  ))}
-                </div>
-                <p className="text-sm text-primary-gray font-normal">
-                  83% of users found this review helpful
-                </p>
-              </section>
-              {/* like or dislike options */}
-              <section className="flex items-center gap-3">
-                <button className="p-2 rounded-lg border-[1px] border-[#F4F6F8]">
-                  <IconLike />
-                </button>
-                <button className="p-2 rounded-lg border-[1px] border-[#F4F6F8]">
-                  <IconLike className="fill-[#C4CDD5] size-[22px] rotate-180" />
-                </button>
-              </section>
-            </div>
-            {/* review body */}
-            <div className="px-1">
-              <p className="text-teritary-gray text-base font-normal ">
-                Sony α, is a camera system introduced on 5 June 2006. It uses
-                and expands upon Konica Minolta camera technologies, including
-                the Minolta AF SLR lens mount…
+              ))}
+            </ul>
+          ) : (
+            <div>
+              <p className="text-sm font-medium text-primary-black">
+                Nobody reviewed this product yet.
               </p>
             </div>
-          </li>
-        </ul>
+          ))}
+        {activePage < reviewsData?.totalPages && (
+          <div className="py-10 flex items-center justify-center">
+            <button
+              className="flex text-base font-medium text-primary-indigo items-center gap-3"
+              onClick={handleLoadMore}
+            >
+              <IconLoad /> Load more reviews
+            </button>
+          </div>
+        )}
       </section>
       <AddProductReview productId={productId} />
     </div>

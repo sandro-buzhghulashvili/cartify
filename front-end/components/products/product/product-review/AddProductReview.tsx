@@ -1,19 +1,25 @@
 'use client';
 import { addReview } from '@/api/review';
 import { IconStar } from '@/components/icons/Icons';
+import { useAuthContext } from '@/contexts/AuthContext';
 import { useFlashMessagesContext } from '@/contexts/FlashMessagesContext';
 import { reviewSchema, ReviewSchemaType } from '@/schemas/ReviewSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 interface AddProductReviewProps {
   productId: string;
 }
 
 const AddProductReview: React.FC<AddProductReviewProps> = ({ productId }) => {
+  const { userData } = useAuthContext();
   const flashMessageContext = useFlashMessagesContext();
+
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     mutate: reviewMutation,
@@ -55,6 +61,14 @@ const AddProductReview: React.FC<AddProductReviewProps> = ({ productId }) => {
   };
 
   const onSubmit = (data: ReviewSchemaType) => {
+    if (!userData) {
+      console.log('run');
+      flashMessageContext?.addFlashMessage({
+        message: 'User is not authorized, please sign in.',
+        state: 'error',
+      });
+      router.push('/signin');
+    }
     reviewMutation({
       rating: data.rating,
       reviewBody: data.reviewBody,
@@ -93,8 +107,10 @@ const AddProductReview: React.FC<AddProductReviewProps> = ({ productId }) => {
       });
       reset();
       setRating(null);
+      queryClient.invalidateQueries(['reviews', productId]);
     }
     if (couldNotReview) {
+      if (!userData) return;
       flashMessageContext?.addFlashMessage({
         message: (reviewError as Error).message || 'Could not review product',
         state: 'error',

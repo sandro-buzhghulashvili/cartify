@@ -9,7 +9,7 @@ interface ProductPageProps {
 
 const ProductPage = async (props: ProductPageProps) => {
   const { product } = await getProduct(props.params.productId);
-  console.log(product);
+  // console.log(product);
   return (
     <div className="px-[10%]">
       <Product product={product} />

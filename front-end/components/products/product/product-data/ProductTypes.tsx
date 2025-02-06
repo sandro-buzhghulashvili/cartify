@@ -2,7 +2,9 @@
 
 import { ProductType } from '@/components/wizards/company-add-product/MainTypes';
 import { useState } from 'react';
-import Select from 'react-select';
+import dynamic from 'next/dynamic';
+
+const Select = dynamic(() => import('react-select'), { ssr: false });
 
 interface ProductTypesProps {
   types: ProductType[];
@@ -42,7 +44,7 @@ const ProductTypes: React.FC<ProductTypesProps> = ({
         <label>Type</label>
         <Select
           value={activeType}
-          onChange={(selected) => setActiveType(selected)}
+          onChange={(selected: any) => setActiveType(selected)}
           options={typeOptions}
           styles={{
             container: (base) => ({
@@ -86,7 +88,7 @@ const ProductTypes: React.FC<ProductTypesProps> = ({
       </section>
       <section className="flex flex-col gap-2 px-3">
         <label htmlFor="type">Color{colors.length > 1 ? 's' : ''}</label>
-        <ul>
+        <ul className="flex items-center gap-5">
           {colors.map((color, index) => (
             <li
               key={index}

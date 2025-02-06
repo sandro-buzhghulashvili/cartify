@@ -8,7 +8,7 @@ interface ProductProps {
 }
 
 const Product: React.FC<ProductProps> = ({ product }) => {
-  console.log(product);
+  // console.log(product);
   return (
     <div className="py-20">
       <div className="flex justify-around px-10">
