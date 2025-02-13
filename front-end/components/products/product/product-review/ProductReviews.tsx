@@ -1,8 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import ReviewSort from './ReviewSort';
-import { IconStar, IconLike, IconLoad } from '@/components/icons/Icons';
+import { IconLoad } from '@/components/icons/Icons';
 import AddProductReview from './AddProductReview';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
@@ -10,7 +9,6 @@ import { getReviews } from '@/api/review';
 import LoadingScreen from '@/components/shared/loaders/LoadingScreen';
 import LottiePopup from '@/components/shared/popups/LottiePopup';
 import ErrorLottie from '@/components/lotties/error.json';
-import { formatDate } from '@/utils/dateFormatting';
 import { formatNumber } from '@/helpers/number_helpers';
 import Review from './Review';
 import { useAuthContext } from '@/contexts/AuthContext';
@@ -45,6 +43,9 @@ interface ProductReviewsProps {
 const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
   const { userData } = useAuthContext();
   const [activePage, setActivePage] = useState(1);
+  const [sortingOption, setSortingOption] = useState<
+    ((reviews: Review[]) => Review[]) | null
+  >(null);
   const itemsPerPage = 3;
 
   const {
@@ -97,12 +98,15 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
               ? `All Comments (${formatNumber(reviewsData?.reviews.length)})`
               : 'All Comments'}
           </h1>
-          <ReviewSort />
+          <ReviewSort onSort={(func: any) => setSortingOption(() => func)} />
         </div>
         {fetchedReviews &&
           (reviewsData?.reviews.length > 0 ? (
             <ul className="flex flex-col gap-y-20">
-              {(reviewsData?.reviews as Review[]).map((review, index) => (
+              {(sortingOption
+                ? (sortingOption(reviewsData?.reviews) as Review[])
+                : (reviewsData?.reviews as Review[])
+              ).map((review, index) => (
                 <Review
                   review={review}
                   key={index}

@@ -72,3 +72,20 @@ export const getReviews = async ({
     throw errorHandler(error);
   }
 };
+
+export const removeRating: MutationFunction<
+  any,
+  { reviewId: string; feedback: string }
+> = async ({ reviewId }) => {
+  try {
+    const res = await axiosInstance.delete('/reviews/remove-feedback', {
+      params: {
+        reviewId,
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    throw errorHandler(error);
+  }
+};

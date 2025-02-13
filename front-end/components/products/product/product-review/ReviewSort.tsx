@@ -1,27 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { Review } from './ProductReviews';
 
-const ReviewSort: React.FC = () => {
+interface ReviewSortOptions {
+  onSort: any;
+}
+
+const ReviewSort: React.FC<ReviewSortOptions> = ({ onSort }) => {
   const sortingOptions = [
     {
       label: 'Newest',
-      value: 'newest',
+      value: (reviews: Review[] = []) =>
+        reviews.sort(
+          (a, b) =>
+            new Date(b.userDetails.reviewedAt).getTime() -
+            new Date(a.userDetails.reviewedAt).getTime()
+        ),
     },
     {
       label: 'Oldest',
-      value: 'oldest',
+      value: (reviews: Review[] = []) =>
+        reviews.sort(
+          (a, b) =>
+            new Date(a.userDetails.reviewedAt).getTime() -
+            new Date(b.userDetails.reviewedAt).getTime()
+        ),
     },
     {
       label: 'Most Helpful',
-      value: 'most-helpful',
+      value: (reviews: Review[] = []) =>
+        reviews.sort((a, b) => b.likes - a.likes),
     },
   ];
 
   const [activeSortingOption, setActiveSortingOption] = useState<any>(
     sortingOptions[0]
   );
+
+  useEffect(() => {
+    onSort(activeSortingOption.value);
+  }, [activeSortingOption]);
 
   return (
     <div className="flex items-center gap-3 text-primary-black">

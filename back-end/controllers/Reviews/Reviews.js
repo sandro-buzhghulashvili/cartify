@@ -186,3 +186,50 @@ export const getReviews = async (req, res) => {
     });
   }
 };
+
+export const removeFeeback = async (req, res) => {
+  try {
+    const { reviewId } = req.query;
+
+    if (!reviewId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Review data is not correctly provided',
+      });
+    }
+
+    const reviewFeedback = await ReviewFeedback.findOneAndDelete({
+      reviewId,
+      userId: req.user.userId,
+    });
+
+    if (!reviewFeedback) {
+      return res.status(404).json({
+        success: false,
+        message: 'Feedback not found or already removed',
+      });
+    }
+
+    const removedFeedback = reviewFeedback.feedback;
+
+    const updateFields = {};
+    if (removedFeedback === 'like') updateFields.likes = -1;
+    if (removedFeedback === 'dislike') updateFields.dislikes = -1;
+
+    await Review.findByIdAndUpdate(
+      reviewId,
+      { $inc: updateFields },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Successfully removed your feedback',
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: 'Could not remove feedback', success: false });
+  }
+};
