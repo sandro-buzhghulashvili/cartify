@@ -165,7 +165,7 @@ const ProductList: React.FC<ProductListProps> = ({
                 <IconStar className="size-5 fill-primary-yellow" />
                 <span className="text-sm font-normal">
                   {typeof product.rating === 'number'
-                    ? product.rating
+                    ? product.rating.toFixed(1)
                     : product.rating.average.toFixed(1)}
                 </span>
               </div>

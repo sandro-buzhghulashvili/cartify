@@ -44,7 +44,7 @@ const Review: React.FC<ReviewProps> = ({ review, productId, activePage }) => {
               <span key={index}>
                 <IconStar
                   className={`${
-                    index < review.rating.average - 1
+                    index <= review.rating.average - 1
                       ? 'fill-primary-yellow stroke-primary-yellow'
                       : 'fill-white stroke-primary-gray'
                   }`}

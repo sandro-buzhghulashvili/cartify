@@ -1,7 +1,7 @@
 'use client';
 
 import { ProductType } from '@/components/wizards/company-add-product/MainTypes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 const Select = dynamic(() => import('react-select'), { ssr: false });
@@ -10,12 +10,14 @@ interface ProductTypesProps {
   types: ProductType[];
   colors: string[];
   quantitiy: number;
+  onUpdateType: (newType: ProductType) => void;
 }
 
 const ProductTypes: React.FC<ProductTypesProps> = ({
   types,
   colors,
   quantitiy,
+  onUpdateType,
 }) => {
   const [amount, setAmount] = useState(1);
   const typeOptions = types
@@ -37,6 +39,10 @@ const ProductTypes: React.FC<ProductTypesProps> = ({
       }
     }
   };
+
+  useEffect(() => {
+    onUpdateType(activeType);
+  }, [activeType]);
 
   return (
     <div className="flex items-center gap-10 py-5">

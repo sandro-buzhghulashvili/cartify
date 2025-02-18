@@ -128,6 +128,25 @@ export const addReview = async (req, res) => {
 
     await newReview.save();
 
+    if (productExists.rating === 0) {
+      await productExists.updateOne({
+        rating: {
+          total: 1,
+          average: req.body.rating,
+        },
+      });
+    } else {
+      await productExists.updateOne({
+        $set: {
+          'rating.total': productExists.rating.total + 1,
+          'rating.average':
+            (productExists.rating.total * productExists.rating.average +
+              req.body.rating) /
+            (productExists.rating.total + 1),
+        },
+      });
+    }
+
     res
       .status(200)
       .json({ message: 'Review added successfully', success: true, newReview });

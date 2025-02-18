@@ -12,9 +12,13 @@ import { useMutation, useQueryClient } from 'react-query';
 
 interface AddProductReviewProps {
   productId: string;
+  revalidateProduct: () => void;
 }
 
-const AddProductReview: React.FC<AddProductReviewProps> = ({ productId }) => {
+const AddProductReview: React.FC<AddProductReviewProps> = ({
+  productId,
+  revalidateProduct,
+}) => {
   const { userData } = useAuthContext();
   const flashMessageContext = useFlashMessagesContext();
 
@@ -29,6 +33,9 @@ const AddProductReview: React.FC<AddProductReviewProps> = ({ productId }) => {
     isSuccess: reviewSuccess,
   } = useMutation({
     mutationFn: addReview,
+    onSuccess: () => {
+      revalidateProduct();
+    },
   });
 
   const {

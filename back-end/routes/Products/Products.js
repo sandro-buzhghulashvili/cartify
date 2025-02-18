@@ -1,4 +1,4 @@
-import { json, Router } from 'express';
+import { Router } from 'express';
 import {
   deleteProduct,
   getCategories,
@@ -13,7 +13,9 @@ const router = Router();
 
 router.get('/product-types', getProductTypes);
 router.get('/company-products', authenticateToken, getCompanyProducts);
+
 router.get('/get-product/:productId', getProduct);
+
 router.get('/get-categories', getCategories);
 router.put(
   '/update-product',

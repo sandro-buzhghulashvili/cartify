@@ -1,3 +1,4 @@
+import { RatingStats } from '../Product';
 import ProductReviews from './ProductReviews';
 import ProductReviewsStatistics from './ProductReviewsStatistics';
 import ProductSpecifications from './ProductSpecifications';
@@ -16,6 +17,9 @@ interface ProductReviewProps {
   sku: string;
   productCode: string;
   ean: string;
+  ratingStats: RatingStats;
+  revalidateProduct: () => void;
+  productName: string;
 }
 
 const ProductReview: React.FC<ProductReviewProps> = ({
@@ -26,10 +30,13 @@ const ProductReview: React.FC<ProductReviewProps> = ({
   sku,
   productCode,
   ean,
+  ratingStats,
+  revalidateProduct,
+  productName,
 }) => {
   return (
     <div className="px-10 py-16">
-      <ReviewPanel rating={rating} productId={productId} />
+      <ReviewPanel rating={ratingStats} productId={productId} />
       {/* // description */}
       <div className="py-10 w-4/5">
         <p className="text-sm text-teritary-gray font-normal">{description}</p>
@@ -40,10 +47,18 @@ const ProductReview: React.FC<ProductReviewProps> = ({
         productCode={productCode}
         ean={ean}
       />
-      {/* // general review statistics */}
-      <ProductReviewsStatistics />
-      {/* all comments and reviews */}
-      <ProductReviews productId={productId} />
+      <section id="reviews">
+        {/* // general review statistics */}
+        <ProductReviewsStatistics
+          stats={ratingStats}
+          productName={productName}
+        />
+        {/* all comments and reviews */}
+        <ProductReviews
+          productId={productId}
+          revalidateProduct={revalidateProduct}
+        />
+      </section>
     </div>
   );
 };

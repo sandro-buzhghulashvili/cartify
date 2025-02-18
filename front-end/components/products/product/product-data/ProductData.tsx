@@ -3,8 +3,12 @@ import { ProductType } from '@/components/wizards/company-add-product/MainTypes'
 import { formatNumber } from '@/helpers/number_helpers';
 import ProductDescription from './ProductDescription';
 import { DiscountObject } from '@/components/dashboard/company/update_product/Discount';
-import ProductTypes from './ProductTypes';
-import ProductPricePanel from './ProductPricePanel';
+
+import dynamic from 'next/dynamic';
+
+const ProductActions = dynamic(() => import('./ProductActions'), {
+  ssr: false,
+});
 
 interface ProductDataProps {
   title: string;
@@ -60,8 +64,13 @@ const ProductData: React.FC<ProductDataProps> = ({
         {/* description */}
         <ProductDescription description={description} />
       </div>
-      <ProductTypes types={types} colors={colors} quantitiy={stock} />
-      <ProductPricePanel price={price} discount={discount} />
+      <ProductActions
+        types={types}
+        colors={colors}
+        stock={stock}
+        price={price}
+        discount={discount}
+      />
     </div>
   );
 };

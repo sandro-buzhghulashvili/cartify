@@ -38,9 +38,13 @@ export interface Review {
 
 interface ProductReviewsProps {
   productId: string;
+  revalidateProduct: () => void;
 }
 
-const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
+const ProductReviews: React.FC<ProductReviewsProps> = ({
+  productId,
+  revalidateProduct,
+}) => {
   const { userData } = useAuthContext();
   const [activePage, setActivePage] = useState(1);
   const [sortingOption, setSortingOption] = useState<
@@ -133,7 +137,10 @@ const ProductReviews: React.FC<ProductReviewsProps> = ({ productId }) => {
           </div>
         )}
       </section>
-      <AddProductReview productId={productId} />
+      <AddProductReview
+        productId={productId}
+        revalidateProduct={revalidateProduct}
+      />
     </div>
   );
 };
