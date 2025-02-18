@@ -114,7 +114,7 @@ const SearchedProducts: React.FC<SearchedProductsProps> = ({
         {(filteredProducts as Product[]).map((product) => (
           <li key={product._id}>
             <Link
-              href="/products"
+              href={`/products/${product._id}`}
               className="flex justify-between cursor-pointer items-center  bg-gray-100 py-2 px-3 rounded-lg"
               onClick={onClose}
             >

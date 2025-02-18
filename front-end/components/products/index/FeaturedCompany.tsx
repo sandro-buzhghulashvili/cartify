@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { FeaturedCompany as FeaturedCompanyType } from './ProductsList';
-import { IconCart, IconFeatured, IconStar } from '../icons/Icons';
+import { IconCart, IconFeatured, IconStar } from '../../icons/Icons';
 import { formatNumber } from '@/helpers/number_helpers';
 
 interface FeaturedCompanyProps {
@@ -41,13 +41,13 @@ const FeaturedCompany: React.FC<FeaturedCompanyProps> = ({
 
       <div className="flex items-center gap-5">
         <section className="text-center">
-          <p className="font-medium text-sm">{formatNumber(company.sells)}</p>
+          <p className="font-medium text-sm">{formatNumber(company?.sells)}</p>
           <p className="text-primary-gray font-normal text-sm">Product sold</p>
         </section>
         <section className="text-center">
           <span className="font-medium text-sm flex items-center justify-center gap-1">
             <IconStar className="size-4 fill-primary-yellow" />
-            {company.averageRating.toFixed(1)}
+            {company?.averageRating?.toFixed(1)}
           </span>
           <p className="text-primary-gray font-normal text-sm">Store rating</p>
         </section>

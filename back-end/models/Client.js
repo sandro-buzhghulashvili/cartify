@@ -29,6 +29,11 @@ const clientSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    profileLogo: {
+      type: String,
+      default:
+        'https://res.cloudinary.com/dizr7utqu/image/upload/v1738436704/profile_default_gdxe8d.svg',
+    },
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,
     verificationToken: String,

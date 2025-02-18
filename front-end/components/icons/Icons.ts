@@ -53,3 +53,7 @@ export { IconProducts } from './IconProducts';
 export { IconStore } from './IconStore';
 export { IconDollar } from './IconDollar';
 export { IconFeatured } from './IconFeatured';
+export { IconReport } from './IconReport';
+export { IconCheckbox } from './IconCheckbox';
+export { IconLike } from './IconLike';
+export { IconLoad } from './IconLoad';

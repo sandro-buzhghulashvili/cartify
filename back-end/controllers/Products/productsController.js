@@ -1,5 +1,6 @@
 import ProductTypes from '../../models/ProductTypes.js';
 import Product from '../../models/Product.js';
+import Review from '../../models/Review.js';
 import { validateProduct } from '../Wizards/validation.js';
 
 export const getProductTypes = async (req, res) => {
@@ -164,5 +165,72 @@ export const getCategories = async (req, res) => {
     res
       .status(500)
       .json({ message: error.message || 'Could not fetch categories' });
+  }
+};
+
+export const getProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    if (
+      !productId ||
+      typeof productId !== 'string' ||
+      productId.trim().length === 0
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid product id' });
+    }
+
+    const product = await Product.findById(productId);
+    const reviews = await Review.find({
+      productId: productId,
+    });
+
+    const reviewsHashSet = {
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+    };
+
+    reviews.forEach((review) => {
+      const rating = review.rating.average;
+
+      if (rating in reviewsHashSet) {
+        reviewsHashSet[rating] += 1;
+      }
+    });
+
+    const average =
+      reviews.reduce((acc, review) => acc + review.rating.average, 0) /
+      reviews.length;
+
+    const relatedProducts = await Product.find({
+      product_type: product.product_type,
+      _id: { $ne: product._id },
+      status: 'active',
+    })
+      .sort({ sells: -1, views: -1 })
+      .limit(10)
+      .lean();
+
+    res.status(200).json({
+      success: true,
+      message: 'Successfully fetched product',
+      product,
+      ratings: {
+        stats: JSON.stringify(reviewsHashSet),
+        average: average ? average.toFixed(1) : 0,
+      },
+      relatedProducts,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Could not fetch product with given id',
+    });
   }
 };

@@ -1,20 +1,16 @@
 import { cookies } from 'next/headers';
 import axios from 'axios';
+import { errorHandler } from '@/utils/errorHandler';
 
-const cookiesStore = cookies();
-
-export const getAllProducts = async (filters: { [key: string]: string }) => {
+export const getProduct = async (productId: string) => {
   try {
-    const res = await axios.get('http://localhost:5000/products/get-products', {
-      params: filters,
-      headers: {
-        Authorization: cookiesStore.get('token')?.value,
-      },
-    });
+    const res = await axios.get(
+      `http://localhost:5000/products/get-product/${productId}`
+    );
 
     return res.data;
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    throw new Error(error);
+    throw errorHandler(error);
   }
 };

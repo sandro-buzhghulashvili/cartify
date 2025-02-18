@@ -52,8 +52,13 @@ const ProductsFilter: React.FC<ProductsFilterProps> = ({
       validFilters as Record<string, string>
     ).toString();
 
+    if (searchTerm && searchTerm.trim().length > 0) {
+      router.push(`/products?${queryString}&searchTerm=${searchTerm}`);
+    } else {
+      router.push(`/products?${queryString}`);
+    }
+
     onPageChange(1);
-    router.push(`/products?${queryString}&searchTerm=${searchTerm}`);
   };
 
   if (fetchingCategories) {

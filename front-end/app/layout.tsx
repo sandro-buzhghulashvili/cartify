@@ -5,6 +5,7 @@ import MainLayout from '@/components/layout/MainLayout';
 import QueryProvider from '@/providers/queryProvider';
 import { AuthContextProvider } from '@/contexts/AuthContext';
 import { WizardsContextProvider } from '@/contexts/WizardsContext';
+import { FlashMessagesProvider } from '@/contexts/FlashMessagesContext';
 
 const rubik = Rubik({ subsets: ['latin'] });
 
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body className={rubik.className}>
         <QueryProvider>
           <WizardsContextProvider>
-            <AuthContextProvider>{children}</AuthContextProvider>
+            <FlashMessagesProvider>
+              <AuthContextProvider>{children}</AuthContextProvider>
+            </FlashMessagesProvider>
           </WizardsContextProvider>
         </QueryProvider>
       </body>

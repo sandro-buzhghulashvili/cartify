@@ -21,13 +21,16 @@ interface ProductListProps {
 }
 
 import Image from 'next/image';
-import { IconStore } from '../icons/IconStore';
-import { IconStar } from '../icons/IconStar';
-import { IconHeart } from '../icons/IconHeart';
-import { IconFeatured } from '../icons/IconFeatured';
+import {
+  IconStore,
+  IconStar,
+  IconHeart,
+  IconFeatured,
+  IconCart,
+} from '@/components/icons/Icons';
 import { formatNumber } from '@/helpers/number_helpers';
-import { IconCart } from '../icons/IconCart';
 import FeaturedCompany from './FeaturedCompany';
+import Link from 'next/link';
 
 const ProductList: React.FC<ProductListProps> = ({
   products: productsData,
@@ -84,9 +87,10 @@ const ProductList: React.FC<ProductListProps> = ({
           <FeaturedCompany company={featuredCompany} layoutMode={layoutMode} />
         )}
         {products.map((product, index) => (
-          <li
+          <Link
+            href={`/products/${product._id}`}
             key={product._id}
-            className={`relative rounded-md flex p-5 ${
+            className={`relative group peer rounded-md flex p-5 ${
               layoutMode === 'grid' ? 'w-[30%]' : 'w-[50%]'
             } text-primary-black flex-col items-center justify-around gap-3 h-[340px] overflow-y-auto`}
             style={{
@@ -101,8 +105,14 @@ const ProductList: React.FC<ProductListProps> = ({
             }}
           >
             {/* add to favorites button */}
-            <button className="absolute top-2 right-2 p-3 rounded-full bg-white shadow-md group">
-              <IconHeart className="size-5 fill-[#C4CDD5] group-hover:fill-primary-red duration-300" />
+            <button
+              className="absolute z-[5] top-2 right-2 p-3 rounded-full bg-white shadow-md group/button "
+              onClick={(e) => {
+                e.preventDefault(); // Ensure this is correctly stopping propagation
+                // Add your favorite functionality here
+              }}
+            >
+              <IconHeart className="size-5 fill-[#C4CDD5] group-hover/button:fill-primary-red duration-300" />
             </button>
             <div className="py-5">
               <Image
@@ -141,7 +151,9 @@ const ProductList: React.FC<ProductListProps> = ({
                 </span>
               )}
             </div>
-            <h1 className="font-medium text-lg w-full">{product.title}</h1>
+            <h1 className="font-medium text-lg w-full group-hover:text-primary-purple duration-300">
+              {product.title}
+            </h1>
             <section className="flex items-center justify-between w-full">
               <div className="flex items-center gap-1">
                 <IconStore className="size-5 fill-primary-gray" />
@@ -153,12 +165,12 @@ const ProductList: React.FC<ProductListProps> = ({
                 <IconStar className="size-5 fill-primary-yellow" />
                 <span className="text-sm font-normal">
                   {typeof product.rating === 'number'
-                    ? product.rating
+                    ? product.rating.toFixed(1)
                     : product.rating.average.toFixed(1)}
                 </span>
               </div>
             </section>
-          </li>
+          </Link>
         ))}
       </ul>
       {/* pagination buttons */}

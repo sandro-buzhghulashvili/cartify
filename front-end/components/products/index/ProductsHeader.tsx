@@ -6,7 +6,7 @@ import {
   IconHome,
   IconProducts,
   IconStore,
-} from '../icons/Icons';
+} from '../../icons/Icons';
 
 interface ProductHeaderProps {
   searchTerm?: string;

@@ -3,6 +3,7 @@ import {
   deleteProduct,
   getCategories,
   getCompanyProducts,
+  getProduct,
   getProductTypes,
   updateProduct,
 } from '../../controllers/Products/productsController.js';
@@ -12,6 +13,9 @@ const router = Router();
 
 router.get('/product-types', getProductTypes);
 router.get('/company-products', authenticateToken, getCompanyProducts);
+
+router.get('/get-product/:productId', getProduct);
+
 router.get('/get-categories', getCategories);
 router.put(
   '/update-product',

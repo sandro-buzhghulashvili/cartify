@@ -10,6 +10,7 @@ import companyRouter from './routes/Company/Company.js';
 import productsRouter from './routes/Products/Products.js';
 import itemsRouter from './routes/Items/Items.js';
 import searchesRouter from './routes/Searches/Searches.js';
+import reviewRouter from './routes/Reviews/Reviews.js';
 import cors from 'cors';
 import { connectDB } from './db/connectDB.js';
 
@@ -35,6 +36,7 @@ app.use('/company', companyRouter);
 app.use('/products', productsRouter);
 app.use('/items', itemsRouter);
 app.use('/searches', searchesRouter);
+app.use('/reviews', reviewRouter);
 
 app.listen(5000, () => {
   connectDB();
