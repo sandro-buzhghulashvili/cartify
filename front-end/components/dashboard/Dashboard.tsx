@@ -1,6 +1,6 @@
 'use client';
 
-import Cookies from 'js-cookie';
+import LoadingScreen from '../shared/loaders/LoadingScreen';
 import CompanyDashboard from './company/index/CompanyDashboard';
 import { useAuthContext } from '@/contexts/AuthContext';
 
@@ -10,7 +10,11 @@ const Dashboard: React.FC = () => {
 
   // loading state
   if (!userData) {
-    return <p>Loading ...</p>;
+    return (
+      <div className="py-20 flex justify-center items-center">
+        <LoadingScreen className="size-[200px]" />
+      </div>
+    );
   }
 
   return (

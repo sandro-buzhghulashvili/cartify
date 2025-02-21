@@ -138,8 +138,10 @@ const SearchedProducts: React.FC<SearchedProductsProps> = ({
                     new Date().getTime() ? (
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-bold text-primary-purple">
-                        {product.price *
-                          ((100 - Number(product.discount.percentage)) / 100)}
+                        {(
+                          product.price *
+                          ((100 - Number(product.discount.percentage)) / 100)
+                        ).toFixed(2)}
                         $
                       </p>
                       <p className="text-xs font-medium secondary-primary-gray line-through">

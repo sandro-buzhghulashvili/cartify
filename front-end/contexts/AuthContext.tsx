@@ -44,9 +44,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     mutationFn: logoutFn,
     onSuccess: () => {
       setLoading(true);
-      router.push('/');
       revalidateLandingPage();
       revalidateDashboard();
+      router.push('/dashboard');
       setUserData(null);
     },
   });
@@ -60,6 +60,8 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
       Cookies.set('token', data.token, { expires: 7 });
     }
 
+    console.log('User data : ', data);
+
     if (data.user) {
       const userProps = [
         'email',
@@ -69,6 +71,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
         'companyName',
         'userRole',
         '_id',
+        'profileLogo',
       ];
 
       userProps.forEach((prop) => {
@@ -76,6 +79,13 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
           Cookies.set(prop, data.user[prop], { expires: 7 });
         }
       });
+
+      // individual check for company profile logo
+      if (data.user?.companyDetails?.logo) {
+        Cookies.set('profileLogo', data.user.companyDetails.logo, {
+          expires: 7,
+        });
+      }
 
       Cookies.set('newlyRegistered', `${data.newlyRegistered || false}`);
 

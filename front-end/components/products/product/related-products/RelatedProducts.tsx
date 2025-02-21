@@ -45,7 +45,19 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
                 </h1>
                 <div className="flex items-center w-full justify-between">
                   <p className="text-sm font-medium text-primary-indigo">
-                    ${product.price.toFixed(2)}
+                    {typeof product.discount !== 'number' ? (
+                      <>
+                        {(
+                          product.price *
+                          ((100 - Number(product.discount.percentage)) / 100)
+                        ).toFixed(2)}
+                        <span className="relative text-[10px] font-medium left-1 bottom-1 text-primary-black line-through">
+                          {product.price.toFixed(2)}
+                        </span>
+                      </>
+                    ) : (
+                      product.price.toFixed(2)
+                    )}
                   </p>
                   <div className="flex items-center gap-2">
                     {Array.from({ length: 5 }).map((_, index) => (

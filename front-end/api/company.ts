@@ -4,7 +4,7 @@ import { MutationFunction } from 'react-query';
 
 export const getCompanyDetails = async () => {
   try {
-    const res = await axiosInstance.get('company/company-details');
+    const res = await axiosInstance.get('/company/company-details');
 
     return res.data;
   } catch (error: any) {

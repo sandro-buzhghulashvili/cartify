@@ -5,14 +5,13 @@ import Image from 'next/image';
 
 const Notifications: React.FC = () => {
   const { userData } = useAuthContext();
-  const { userDetails } = useDashboardContext();
 
   if (!userData) return;
   return (
     <div className="relative px-20">
       <Image
         priority={true}
-        src={userDetails?.logo || '/profile_default.svg'}
+        src={userData?.profileLogo || '/profile_default.svg'}
         width={100}
         height={100}
         alt="company default logo"

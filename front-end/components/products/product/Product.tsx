@@ -26,18 +26,7 @@ const Product: React.FC<ProductProps> = ({
     <div className="py-20">
       <div className="flex justify-around px-10">
         <ProductImages images={product.images} />
-        <ProductData
-          title={product.title}
-          rating={product.rating}
-          sells={product.sells}
-          views={product.views}
-          description={product.description}
-          types={product.types}
-          colors={product.colors}
-          stock={product.stock}
-          price={product.price}
-          discount={product.discount}
-        />
+        <ProductData product={product} />
       </div>
       <ProductReview
         description={product.description}

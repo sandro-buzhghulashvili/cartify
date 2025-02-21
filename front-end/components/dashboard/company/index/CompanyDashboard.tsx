@@ -7,40 +7,48 @@ import { getCompanyDetails } from '@/api/company';
 import { useEffect } from 'react';
 import { useDashboardContext } from '@/contexts/DashboardContext';
 import Cookies from 'js-cookie';
+import LoadingScreen from '@/components/shared/loaders/LoadingScreen';
+import LottiePopup from '@/components/shared/popups/LottiePopup';
+import ErrorLottie from '@/components/lotties/error.json';
 
 const CompanyDashboard: React.FC = () => {
-  const { onSetUserDetails } = useDashboardContext();
   const {
     data: companyData,
-    isLoading,
-    isError,
-    error,
+    isLoading: loadingCompanyData,
+    isError: couldNotFetchCompanyData,
+    error: companyDataError,
   } = useQuery({
     queryFn: getCompanyDetails,
   });
 
-  useEffect(() => {
-    if (companyData?.companyDetails) {
-      onSetUserDetails(companyData.companyDetails);
-      Cookies.set('profile_img', companyData.companyDetails.logo, {
-        expires: 7,
-      });
-    }
-  }, [companyData]);
+  if (loadingCompanyData) {
+    return (
+      <div className="w-full py-10 flex justify-center h-[60vh] items-center">
+        <LoadingScreen className="size-[100px]" />
+      </div>
+    );
+  }
+
+  if (couldNotFetchCompanyData) {
+    return (
+      <div className="w-full py-10 flex justify-center h-[60vh] items-center">
+        <LottiePopup
+          className="flex flex-col items-center"
+          lottieData={ErrorLottie}
+          text={
+            (companyDataError as Error).message ||
+            'Could not fetch company details.'
+          }
+        />
+      </div>
+    );
+  }
 
   return (
-    <>
-      {isLoading ? (
-        <p>Loading ...</p> // Here we will have loading screen + we will have error screen
-      ) : (
-        <>
-          <div className="flex w-full justify-between">
-            <Notifications />
-            <Data companyDetails={companyData.companyDetails} />
-          </div>
-        </>
-      )}
-    </>
+    <div className="flex w-full justify-between">
+      <Notifications />
+      <Data companyDetails={companyData.companyDetails} />
+    </div>
   );
 };
 

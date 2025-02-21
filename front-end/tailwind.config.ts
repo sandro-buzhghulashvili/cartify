@@ -100,6 +100,37 @@ const config: Config = {
             transform: 'translateY(-100%)',
           },
         },
+        momentalPulse: {
+          '0%': {
+            transform: 'scale(1)',
+          },
+          '50%': {
+            transform: 'scale(1.3)',
+          },
+          '100%': {
+            transform: 'scale(1)',
+          },
+        },
+        slideUp: {
+          '0%': {
+            transform: 'translateY(100%)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+        },
+        slideDown: {
+          '0%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+          '100%': {
+            transform: 'translateY(100%)',
+            opacity: '0',
+          },
+        },
       },
       animation: {
         wiggle: 'wiggle 0.5s ease-in-out',
@@ -107,6 +138,9 @@ const config: Config = {
         modalOut: 'modalOut 0.6s ease',
         dropDown: 'dropDown 0.5s ease',
         closeDropDown: 'closeDropDown 0.5s ease',
+        momentalPulse: 'momentalPulse 0.5s ease',
+        slideUp: 'slideUp 0.5s ease',
+        slideDown: 'slideDown 0.5s ease',
       },
     },
   },

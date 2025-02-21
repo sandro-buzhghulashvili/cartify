@@ -11,6 +11,7 @@ interface ProductTypesProps {
   colors: string[];
   quantitiy: number;
   onUpdateType: (newType: ProductType) => void;
+  onUpdateQuantity: (newQuantity: number) => void;
 }
 
 const ProductTypes: React.FC<ProductTypesProps> = ({
@@ -18,6 +19,7 @@ const ProductTypes: React.FC<ProductTypesProps> = ({
   colors,
   quantitiy,
   onUpdateType,
+  onUpdateQuantity,
 }) => {
   const [amount, setAmount] = useState(1);
   const typeOptions = types
@@ -41,8 +43,12 @@ const ProductTypes: React.FC<ProductTypesProps> = ({
   };
 
   useEffect(() => {
-    onUpdateType(activeType);
+    onUpdateType(activeType.value);
   }, [activeType]);
+
+  useEffect(() => {
+    onUpdateQuantity(amount);
+  }, [amount]);
 
   return (
     <div className="flex items-center gap-10 py-5">

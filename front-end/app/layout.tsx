@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { Rubik } from 'next/font/google';
 import './globals.css';
-import MainLayout from '@/components/layout/MainLayout';
 import QueryProvider from '@/providers/queryProvider';
 import { AuthContextProvider } from '@/contexts/AuthContext';
 import { WizardsContextProvider } from '@/contexts/WizardsContext';
 import { FlashMessagesProvider } from '@/contexts/FlashMessagesContext';
+import { CartContextProvider } from '@/contexts/CartContext';
 
 const rubik = Rubik({ subsets: ['latin'] });
 
@@ -25,7 +25,9 @@ export default function RootLayout({
         <QueryProvider>
           <WizardsContextProvider>
             <FlashMessagesProvider>
-              <AuthContextProvider>{children}</AuthContextProvider>
+              <AuthContextProvider>
+                <CartContextProvider>{children}</CartContextProvider>
+              </AuthContextProvider>
             </FlashMessagesProvider>
           </WizardsContextProvider>
         </QueryProvider>

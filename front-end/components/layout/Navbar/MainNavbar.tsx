@@ -3,14 +3,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  IconCart,
   IconHeart,
   IconLoupe,
   IconSelectArrows,
   IconUser,
 } from '../../icons/Icons';
 import { useMotionValueEvent, useScroll } from 'framer-motion';
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import UserTab from './UserTab';
 import useOutsideClick from '@/hooks/useOutsideClick';
@@ -19,6 +18,7 @@ import SearchPanel from '@/components/search/SearchPanel';
 import { useMutation } from 'react-query';
 import { addSearch } from '@/api/searches';
 import { useRouter } from 'next/navigation';
+import NavCart from '@/components/cart/nav-popup/NavCart';
 
 const MainNavbar: React.FC = () => {
   const { mutate: mutateAddSearch } = useMutation({
@@ -193,12 +193,7 @@ const MainNavbar: React.FC = () => {
       {/* right section */}
       <section className="flex items-center gap-8">
         {/* cart */}
-        <button className="relative">
-          <IconCart />
-          <span className="absolute -top-4 text-[12px] font-medium -right-4 flex justify-center items-center rounded-full size-[19px] bg-primary-red text-white">
-            3
-          </span>
-        </button>
+        <NavCart />
         {/* favorites */}
         <button>
           <IconHeart />
